@@ -1,0 +1,143 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|d:\\tai_lieu_bi_mat\\web_doc_truyen_co_ban\\web_doc_truyen_co_ban\\models\\errorlogadminviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|solutionrelative:web_doc_truyen_co_ban\\models\\errorlogadminviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|d:\\tai_lieu_bi_mat\\web_doc_truyen_co_ban\\web_doc_truyen_co_ban\\areas\\admin\\views\\errorlog\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|solutionrelative:web_doc_truyen_co_ban\\areas\\admin\\views\\errorlog\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|d:\\tai_lieu_bi_mat\\web_doc_truyen_co_ban\\web_doc_truyen_co_ban\\areas\\admin\\controllers\\errorlogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|solutionrelative:web_doc_truyen_co_ban\\areas\\admin\\controllers\\errorlogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|d:\\tai_lieu_bi_mat\\web_doc_truyen_co_ban\\web_doc_truyen_co_ban\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|solutionrelative:web_doc_truyen_co_ban\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|d:\\tai_lieu_bi_mat\\web_doc_truyen_co_ban\\web_doc_truyen_co_ban\\services\\erroradminviewservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|solutionrelative:web_doc_truyen_co_ban\\services\\erroradminviewservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|d:\\tai_lieu_bi_mat\\web_doc_truyen_co_ban\\web_doc_truyen_co_ban\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|solutionrelative:web_doc_truyen_co_ban\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|d:\\tai_lieu_bi_mat\\web_doc_truyen_co_ban\\web_doc_truyen_co_ban\\areas\\admin\\views\\readhistory\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F80C09C5-7DAC-82B9-C841-845A6E73301A}|web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban.csproj|solutionrelative:web_doc_truyen_co_ban\\areas\\admin\\views\\readhistory\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ErrorLogAdminViewModel.cs",
+              "DocumentMoniker": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Models\\ErrorLogAdminViewModel.cs",
+              "RelativeDocumentMoniker": "web_doc_truyen_Co_ban\\Models\\ErrorLogAdminViewModel.cs",
+              "ToolTip": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Models\\ErrorLogAdminViewModel.cs",
+              "RelativeToolTip": "web_doc_truyen_Co_ban\\Models\\ErrorLogAdminViewModel.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAUwC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T12:41:45.889Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ErrorAdminViewService.cs",
+              "DocumentMoniker": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Services\\ErrorAdminViewService.cs",
+              "RelativeDocumentMoniker": "web_doc_truyen_Co_ban\\Services\\ErrorAdminViewService.cs",
+              "ToolTip": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Services\\ErrorAdminViewService.cs",
+              "RelativeToolTip": "web_doc_truyen_Co_ban\\Services\\ErrorAdminViewService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T12:04:27.402Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "web_doc_truyen_Co_ban\\Controllers\\AccountController.cs",
+              "ToolTip": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "web_doc_truyen_Co_ban\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAQwCUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T12:03:04.496Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\ReadHistory\\Index.cshtml",
+              "RelativeDocumentMoniker": "web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\ReadHistory\\Index.cshtml",
+              "ToolTip": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\ReadHistory\\Index.cshtml",
+              "RelativeToolTip": "web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\ReadHistory\\Index.cshtml",
+              "ViewState": "AgIAAHcDAAAAAAAAAAAAAAQAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-18T10:33:35.355Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_AdminLayout.cshtml",
+              "DocumentMoniker": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeDocumentMoniker": "web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "ToolTip": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeToolTip": "web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHEBAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-18T10:26:31.537Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\ErrorLog\\Index.cshtml",
+              "RelativeDocumentMoniker": "web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\ErrorLog\\Index.cshtml",
+              "ToolTip": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\ErrorLog\\Index.cshtml",
+              "RelativeToolTip": "web_doc_truyen_Co_ban\\Areas\\Admin\\Views\\ErrorLog\\Index.cshtml",
+              "ViewState": "AgIAAP8CAAAAAAAAAAAgwCEDAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-18T10:14:12.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ErrorLogController.cs",
+              "DocumentMoniker": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Areas\\Admin\\Controllers\\ErrorLogController.cs",
+              "RelativeDocumentMoniker": "web_doc_truyen_Co_ban\\Areas\\Admin\\Controllers\\ErrorLogController.cs",
+              "ToolTip": "D:\\tai_lieu_bi_mat\\web_doc_truyen_Co_ban\\web_doc_truyen_Co_ban\\Areas\\Admin\\Controllers\\ErrorLogController.cs",
+              "RelativeToolTip": "web_doc_truyen_Co_ban\\Areas\\Admin\\Controllers\\ErrorLogController.cs",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAswJgAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T10:06:30.206Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

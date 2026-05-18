@@ -1,0 +1,618 @@
+﻿@* @model web_doc_truyen_Co_ban.Models.ChapterModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Thêm Chương Mới";
+    ViewData["ActiveMenu"] = "Chapter";
+}
+
+<div class="container-fluid px-4">
+
+    <h2 class="mt-4">Thêm Chương Mới</h2>
+
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item">
+            <a asp-area="Admin" asp-controller="Chapter" asp-action="Index">
+                Danh sách chương
+            </a>
+        </li>
+        <li class="breadcrumb-item active">Thêm Chương Mới</li>
+    </ol>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+            {
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            }
+
+            <form asp-area="Admin"
+                  asp-controller="Chapter"
+                  asp-action="Edit"
+                  method="post"
+                  id="chapterForm">
+
+                @Html.AntiForgeryToken()
+
+                <!-- Story -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="StoryId" class="form-label fw-semibold">
+                            Thuộc Truyện <span class="text-danger">*</span>
+                        </label>
+                        <select asp-for="StoryId"
+                                asp-items="@((SelectList)ViewBag.Stories)"
+                                class="form-select">
+                            <option value="">----- Chọn Truyện -----</option>
+                        </select>
+                        <span asp-validation-for="StoryId" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <!-- Chapter Number + Status -->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label asp-for="ChapterNumber" class="form-label fw-semibold">
+                            Số Chương <span class="text-danger">*</span>
+                        </label>
+                        <input asp-for="ChapterNumber" class="form-control"
+                               type="number" step="0.5" min="0" placeholder="VD: 1, 1.5, 2..." />
+                        <span asp-validation-for="ChapterNumber" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Status" class="form-label fw-semibold">Trạng Thái</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="0">🖊️ Bản nháp</option>
+                            <option value="1">✅ Đã đăng</option>
+                            <option value="2">⭐ VIP</option>
+                            <option value="3">🗑️ Đã xóa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <label asp-for="Title" class="form-label fw-semibold">Tiêu Đề Chương</label>
+                        <input asp-for="Title" class="form-control"
+                               maxlength="500" placeholder="Nhập tiêu đề chương..." />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Nội Dung <span class="text-danger">*</span>
+                        <small class="ms-2 text-muted">
+                            Số từ: <span id="wordCountDisplay" class="fw-bold text-primary">0</span>
+                        </small>
+                    </label>
+
+                    <textarea asp-for="Content" id="contentEditor"></textarea>
+                    <input asp-for="WordCount" type="hidden" id="wordCountInput" />
+                    <span asp-validation-for="Content" class="text-danger small"></span>
+                </div>
+
+                <!-- Lock -->
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" asp-for="IsLocked"
+                               type="checkbox" id="isLockedToggle" />
+                        <label class="form-check-label" for="isLockedToggle">
+                            🔒 Khoá chương VIP
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Unlock Price -->
+                <div id="lockPriceGroup" class="mb-3" style="display:none; max-width:300px;">
+                    <label asp-for="UnlockPrice" class="form-label fw-semibold">Giá Mở Khoá (xu)</label>
+                    <input asp-for="UnlockPrice" id="unlockPriceInput" class="form-control"
+                           type="number" min="0" placeholder="Nhập số xu..." />
+                    <span asp-validation-for="UnlockPrice" class="text-danger small"></span>
+                </div>
+
+                <!-- Published -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label asp-for="PublishedAt" class="form-label fw-semibold">📅 Ngày Đăng</label>
+                        <input asp-for="PublishedAt" class="form-control" type="datetime-local" />
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Lưu Chương
+                    </button>
+                    <a asp-area="Admin" asp-controller="Chapter" asp-action="Index"
+                           class="btn btn-secondary">
+                        <i class="fas fa-times me-1"></i> Hủy
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js"></script>
+    <script>
+        const csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        tinymce.init({
+        selector: '#contentEditor',
+        height: 600,
+        menubar: false,
+        branding: false,
+        resize: true,
+        plugins: [
+        'advlist', 'autolink', 'lists', 'link', 'image',
+        'charmap', 'searchreplace', 'visualblocks', 'code',
+        'fullscreen', 'table', 'wordcount', 'emoticons'
+        ],
+        toolbar:
+        'undo redo | bold italic underline | forecolor | ' +
+        'alignleft aligncenter alignright | ' +
+        'bullist numlist | image uploadimg | emoticons | fullscreen',
+
+        // ── Ảnh: bật tab chỉnh width/height ──────────────────
+        paste_data_images: true,
+        automatic_uploads: false,   // không auto upload, chỉ dùng base64
+        image_title: false,
+        image_advtab: true,         // ← bật tab "Advanced" để chỉnh size
+        image_dimensions: true,     // ← hiện ô Width / Height trong dialog
+        file_picker_types: 'image',
+        file_picker_callback: function (callback, value, meta) {
+        if (meta.filetype !== 'image') return;
+        const inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = 'image/png,image/jpeg,image/gif,image/webp';
+        inp.onchange = function () {
+        const file = inp.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) {
+        alert('Ảnh quá lớn! Vui lòng chọn ảnh nhỏ hơn 5 MB.'); return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => callback(e.target.result, { title: file.name });
+        reader.readAsDataURL(file);
+        };
+        inp.click();
+        },
+
+        content_style: `
+        body {
+        font-family: Georgia, serif;
+        font-size: 15px; line-height: 1.9;
+        color: #1e1208; padding: 10px 16px;
+        }
+        p { margin: 0 0 0.9em; }
+        img { max-width: 100%; height: auto; }
+        `,
+
+        setup: function (editor) {
+        // Nút upload ảnh trực tiếp (base64, chọn nhiều file)
+        editor.ui.registry.addButton('uploadimg', {
+        icon: 'gallery',
+        tooltip: 'Tải ảnh từ máy lên',
+        onAction: function () {
+        const inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = 'image/png,image/jpeg,image/gif,image/webp';
+        inp.multiple = true;
+        inp.onchange = function () {
+        Array.from(inp.files).forEach(file => {
+        if (file.size > 5 * 1024 * 1024) {
+        alert(file.name + ' quá lớn (> 5 MB), bỏ qua.'); return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => {
+        // Chèn ảnh rồi mở dialog để chỉnh width/height
+        editor.insertContent(
+        `<img src="${e.target.result}" alt="${file.name}" style="max-width:100%;" />`
+        );
+        };
+        reader.readAsDataURL(file);
+        });
+        };
+        inp.click();
+        }
+        });
+
+        // Word count
+        const wcDisplay = document.getElementById('wordCountDisplay');
+        const wcInput   = document.getElementById('wordCountInput');
+        function updateWc() {
+        const wc = editor.plugins.wordcount;
+        if (!wc || !wcDisplay) return;
+        const count = wc.body.getWordCount();
+        wcDisplay.textContent = count.toLocaleString('vi-VN');
+        if (wcInput) wcInput.value = count;
+        }
+        editor.on('init', updateWc);
+        editor.on('input keyup change', updateWc);
+        }
+        });
+
+        // Sync TinyMCE → textarea trước khi submit
+        document.getElementById('chapterForm').addEventListener('submit', function () {
+        tinymce.triggerSave();
+        });
+
+        // Lock toggle
+        const toggle         = document.getElementById('isLockedToggle');
+        const lockPriceGroup = document.getElementById('lockPriceGroup');
+        const unlockPrice    = document.getElementById('unlockPriceInput');
+
+        function syncLockPrice() {
+        const locked = toggle.checked;
+        lockPriceGroup.style.display = locked ? 'block' : 'none';
+        unlockPrice.required = locked;
+        if (!locked) unlockPrice.value = 0;
+        }
+        toggle.addEventListener('change', syncLockPrice);
+        syncLockPrice();
+    </script>
+} *@
+@model web_doc_truyen_Co_ban.Models.ChapterModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Sửa Chương Mới";
+    ViewData["ActiveMenu"] = "Chapter";
+}
+
+<div class="container-fluid px-4">
+
+    <h2 class="mt-4">Thêm Chương Mới</h2>
+
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item">
+            <a asp-area="Admin" asp-controller="Chapter" asp-action="Index">
+                Danh sách chương
+            </a>
+        </li>
+        <li class="breadcrumb-item active">Thêm Chương Mới</li>
+    </ol>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+            {
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            }
+
+            <form asp-area="Admin"
+                  asp-controller="Chapter"
+                  asp-action="Edit"
+                  method="post"
+                  id="chapterForm">
+
+                @Html.AntiForgeryToken()
+
+                <!-- Story -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="StoryId" class="form-label fw-semibold">
+                            Thuộc Truyện <span class="text-danger">*</span>
+                        </label>
+                        <select asp-for="StoryId"
+                                asp-items="@((SelectList)ViewBag.Stories)"
+                                class="form-select"
+                                id="storySelect">
+                            <option value="">----- Chọn Truyện -----</option>
+                        </select>
+                        <span asp-validation-for="StoryId" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="VolumeTitle" class="form-label fw-semibold">
+                            Quyển (Volume)
+                        </label>
+                        <input asp-for="VolumeTitle"
+                               id="VolumeTitle"
+                               class="form-control"
+                               list="volumeList"
+                               placeholder="VD: Quyển 1 - Khởi Đầu (để trống nếu không có)" />
+                        <datalist id="volumeList"></datalist>
+                        <span asp-validation-for="VolumeTitle" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <!-- Chapter Number + Status -->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label asp-for="ChapterNumber" class="form-label fw-semibold">
+                            Số Chương <span class="text-danger">*</span>
+                        </label>
+                        <input asp-for="ChapterNumber" class="form-control"
+                               type="number" step="0.5" min="0" placeholder="VD: 1, 1.5, 2..." />
+                        <span asp-validation-for="ChapterNumber" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Status" class="form-label fw-semibold">Trạng Thái</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="0">🖊️ Bản nháp</option>
+                            <option value="1">✅ Đã đăng</option>
+                            <option value="2">⭐ VIP</option>
+                            <option value="3">🗑️ Đã xóa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <label asp-for="Title" class="form-label fw-semibold">Tiêu Đề Chương</label>
+                        <input asp-for="Title" class="form-control"
+                               maxlength="500" placeholder="Nhập tiêu đề chương..." />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Nội Dung <span class="text-danger">*</span>
+                        <small class="ms-2 text-muted">
+                            Số từ: <span id="wordCountDisplay" class="fw-bold text-primary">0</span>
+                        </small>
+                    </label>
+
+                    <textarea asp-for="Content" id="contentEditor"></textarea>
+                    <input asp-for="WordCount" type="hidden" id="wordCountInput" />
+                    <span asp-validation-for="Content" class="text-danger small"></span>
+                </div>
+
+                <!-- Lock -->
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" asp-for="IsLocked"
+                               type="checkbox" id="isLockedToggle" />
+                        <label class="form-check-label" for="isLockedToggle">
+                            🔒 Khoá chương VIP
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Unlock Price -->
+                <div id="lockPriceGroup" class="mb-3" style="display:none; max-width:300px;">
+                    <label asp-for="UnlockPrice" class="form-label fw-semibold">Giá Mở Khoá (xu)</label>
+                    <input asp-for="UnlockPrice" id="unlockPriceInput" class="form-control"
+                           type="number" min="0" placeholder="Nhập số xu..." />
+                    <span asp-validation-for="UnlockPrice" class="text-danger small"></span>
+                </div>
+
+                <!-- Published -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label asp-for="PublishedAt" class="form-label fw-semibold">📅 Ngày Đăng</label>
+                        <input asp-for="PublishedAt" class="form-control" type="datetime-local" />
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Lưu Chương
+                    </button>
+                    <a asp-area="Admin" asp-controller="Chapter" asp-action="Index"
+                           class="btn btn-secondary">
+                        <i class="fas fa-times me-1"></i> Hủy
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js"></script>
+    <script>
+        const csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        tinymce.init({
+        selector: '#contentEditor',
+        height: 600,
+        menubar: false,
+        branding: false,
+        resize: true,
+        plugins: [
+        'advlist', 'autolink', 'lists', 'link', 'image',
+        'charmap', 'searchreplace', 'visualblocks', 'code',
+        'fullscreen', 'table', 'wordcount', 'emoticons',
+        'media'          // ← thêm plugin media (YouTube / Vimeo / link video)
+        ],
+        toolbar:
+        'undo redo | bold italic underline | forecolor | ' +
+        'alignleft aligncenter alignright | ' +
+        'bullist numlist | image uploadimg | media uploadvideo | emoticons | fullscreen',
+        //                                   ^^^^^^^^^^^^^^^^^^^
+        //  media   = dialog chèn YouTube/Vimeo qua link
+        //  uploadvideo = nút custom upload video từ máy
+
+        // ── Cấu hình plugin media ─────────────────────────────
+        media_live_embeds: true,   // xem trước video ngay trong editor
+        media_alt_source: false,   // ẩn ô "Alternate source" cho gọn
+        media_poster: false,       // ẩn ô "Poster" cho gọn
+
+        // ── Ảnh: bật tab chỉnh width/height ──────────────────
+        paste_data_images: true,
+        automatic_uploads: false,
+        image_title: false,
+        image_advtab: true,
+        image_dimensions: true,
+        file_picker_types: 'image',
+        file_picker_callback: function (callback, value, meta) {
+        if (meta.filetype !== 'image') return;
+        const inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = 'image/png,image/jpeg,image/gif,image/webp';
+        inp.onchange = function () {
+        const file = inp.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) {
+        alert('Ảnh quá lớn! Vui lòng chọn ảnh nhỏ hơn 5 MB.'); return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => callback(e.target.result, { title: file.name });
+        reader.readAsDataURL(file);
+        };
+        inp.click();
+        },
+
+        content_style: `
+        body {
+        font-family: Georgia, serif;
+        font-size: 15px; line-height: 1.9;
+        color: #1e1208; padding: 10px 16px;
+        }
+        p { margin: 0 0 0.9em; }
+        img { max-width: 100%; height: auto; }
+        video { max-width: 100%; height: auto; }
+        `,
+
+        setup: function (editor) {
+
+        // ── Nút upload ảnh từ máy (nhiều file, base64) ────
+        editor.ui.registry.addButton('uploadimg', {
+        icon: 'gallery',
+        tooltip: 'Tải ảnh từ máy lên',
+        onAction: function () {
+        const inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = 'image/png,image/jpeg,image/gif,image/webp';
+        inp.multiple = true;
+        inp.onchange = function () {
+        Array.from(inp.files).forEach(file => {
+        if (file.size > 5 * 1024 * 1024) {
+        alert(file.name + ' quá lớn (> 5 MB), bỏ qua.'); return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => {
+        editor.insertContent(
+        `<img src="${e.target.result}" alt="${file.name}" style="max-width:100%;" />`
+        );
+        };
+        reader.readAsDataURL(file);
+        });
+        };
+        inp.click();
+        }
+        });
+
+        // ── Nút upload video từ máy (blob URL) ───────────
+        editor.ui.registry.addButton('uploadvideo', {
+        icon: 'embed',
+        tooltip: 'Tải video từ máy lên (mp4, webm, ogg)',
+        onAction: function () {
+        const inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = 'video/mp4,video/webm,video/ogg';
+        inp.multiple = true;
+        inp.onchange = function () {
+        Array.from(inp.files).forEach(file => {
+        if (file.size > 200 * 1024 * 1024) {
+        alert(file.name + ' quá lớn (> 100 MB), bỏ qua.'); return;
+        }
+        // Dùng blob URL – video phát ngay trong editor.
+        // LƯU Ý: blob URL chỉ tồn tại trong tab hiện tại.
+        // Nếu cần lưu lâu dài, hãy upload lên server và
+        // thay blob URL bằng đường dẫn server trả về.
+        const blobUrl = URL.createObjectURL(file);
+        editor.insertContent(
+        `<video controls style="max-width:100%; height:auto;">` +
+        `<source src="${blobUrl}" type="${file.type}">` +
+        `Trình duyệt không hỗ trợ thẻ video.` +
+        `</video>`
+        );
+        });
+        };
+        inp.click();
+        }
+        });
+
+        // ── Word count ────────────────────────────────────
+        const wcDisplay = document.getElementById('wordCountDisplay');
+        const wcInput   = document.getElementById('wordCountInput');
+        function updateWc() {
+        const wc = editor.plugins.wordcount;
+        if (!wc || !wcDisplay) return;
+        const count = wc.body.getWordCount();
+        wcDisplay.textContent = count.toLocaleString('vi-VN');
+        if (wcInput) wcInput.value = count;
+        }
+        editor.on('init', updateWc);
+        editor.on('input keyup change', updateWc);
+        }
+        });
+
+        // Sync TinyMCE → textarea trước khi submit
+        document.getElementById('chapterForm').addEventListener('submit', function () {
+        tinymce.triggerSave();
+        });
+
+        // Lock toggle
+        const toggle         = document.getElementById('isLockedToggle');
+        const lockPriceGroup = document.getElementById('lockPriceGroup');
+        const unlockPrice    = document.getElementById('unlockPriceInput');
+
+        function syncLockPrice() {
+        const locked = toggle.checked;
+        lockPriceGroup.style.display = locked ? 'block' : 'none';
+        unlockPrice.required = locked;
+        if (!locked) unlockPrice.value = 0;
+        }
+        toggle.addEventListener('change', syncLockPrice);
+        syncLockPrice();
+
+    </script>
+    <script>
+        document.getElementById('StoryId').addEventListener('change', function () {
+        loadVolumes(this.value);
+        });
+
+        window.addEventListener('DOMContentLoaded', function () {
+        const storyId = document.getElementById('StoryId').value;
+        if (storyId) loadVolumes(storyId);
+        });
+
+        function loadVolumes(storyId) {
+        if (!storyId) return;
+        fetch(`/Admin/Chapter/GetVolumes?storyId=${storyId}`)
+        .then(r => r.json())
+        .then(volumes => {
+        const datalist = document.getElementById('volumeList');
+        datalist.innerHTML = '';
+        volumes.forEach(v => {
+        const option = document.createElement('option');
+        option.value = v;
+        datalist.appendChild(option);
+        });
+        });
+        }
+    </script>
+    <script>
+        new TomSelect('#storySelect', {
+        placeholder: 'Gõ để tìm truyện...',
+        searchField: ['text'],   // tìm theo tên hiển thị
+        maxOptions: 50,          // chỉ hiện tối đa 50 kết quả
+        create: false
+        });
+    </script>
+}

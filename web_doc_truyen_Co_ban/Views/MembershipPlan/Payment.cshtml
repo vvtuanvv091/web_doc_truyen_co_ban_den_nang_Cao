@@ -1,0 +1,544 @@
+﻿@model web_doc_truyen_Co_ban.Models.QrPaymentViewModel
+@{
+    ViewData["Title"] = "Thanh toán đơn hàng";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ── Base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --ink:      #1a1714;
+    --ink-mid:  #5a5550;
+    --ink-lt:   #9a9490;
+    --paper:    #faf8f5;
+    --white:    #ffffff;
+    --line:     #e8e4de;
+    --accent:   #7DBFAA;
+    --accent-dk:#4a9a84;
+    --warn:     #b07a10;
+    --danger:   #c0392b;
+    --radius:   20px;
+}
+
+body { background: var(--paper) !important; font-family: 'DM Sans', sans-serif; color: var(--ink); }
+
+/* ── Page wrapper ─────────────────────────────────────── */
+.pay-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem 1.25rem 5rem;
+}
+
+.pay-shell {
+    width: 100%;
+    max-width: 920px;
+}
+
+/* ── Back link ────────────────────────────────────────── */
+.pay-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-mid);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    margin-bottom: 1.6rem;
+    transition: color 0.15s;
+}
+.pay-back:hover { color: var(--ink); }
+.pay-back .arrow { font-size: 16px; line-height: 1; }
+
+/* ── Card ─────────────────────────────────────────────── */
+.pay-card {
+    background: var(--white);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    animation: fadeUp 0.35s ease both;
+}
+
+@@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Left panel ───────────────────────────────────────── */
+.pay-left {
+    padding: 2.4rem 2.2rem;
+    border-right: 1.5px solid var(--line);
+    display: flex;
+    flex-direction: column;
+}
+
+.pay-eyebrow {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-lt);
+    margin-bottom: 0.5rem;
+}
+
+.pay-plan-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+    line-height: 1.2;
+}
+
+.pay-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 1.8rem;
+}
+
+.pay-price-num {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.pay-price-unit { font-size: 14px; color: var(--ink-mid); }
+
+/* Divider */
+.pay-divider {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 0 0 1.6rem;
+}
+
+.pay-section-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-lt);
+    margin-bottom: 1rem;
+}
+
+/* Transfer rows */
+.pay-field {
+    margin-bottom: 1rem;
+}
+
+.pay-field-label {
+    font-size: 11.5px;
+    color: var(--ink-lt);
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.pay-field-value {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 9px 12px;
+}
+
+.pay-field-text {
+    font-family: 'Courier New', monospace;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+    word-break: break-all;
+}
+
+.pay-field-text.highlight { color: var(--accent-dk); }
+
+.copy-btn {
+    flex-shrink: 0;
+    background: var(--white);
+    border: 1px solid var(--line);
+    color: var(--ink-mid);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 11px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+    font-family: 'DM Sans', sans-serif;
+}
+.copy-btn:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.copy-btn.copied { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Warning notice */
+.pay-notice {
+    margin-top: auto;
+    background: #fff8e6;
+    border: 1px solid #f0d590;
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 12.5px;
+    color: #7a5c10;
+    line-height: 1.55;
+}
+
+.pay-notice strong { font-weight: 700; }
+
+/* ── Right panel ──────────────────────────────────────── */
+.pay-right {
+    padding: 2.4rem 2.2rem;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.4rem;
+    text-align: center;
+}
+
+/* Countdown pill */
+.pay-countdown-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--white);
+    border: 1.5px solid var(--line);
+    border-radius: 99px;
+    padding: 8px 18px;
+    font-size: 13px;
+    color: var(--ink-mid);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.pay-countdown-pill .label { font-weight: 500; }
+.pay-countdown-pill #countdown {
+    font-family: 'Courier New', monospace;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--danger);
+    min-width: 42px;
+}
+
+.pulse-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+}
+@@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%       { transform: scale(1.5); opacity: 0.5; }
+}
+
+/* QR frame */
+.pay-qr-frame {
+    position: relative;
+    background: var(--white);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    display: inline-flex;
+}
+
+.pay-qr-frame img {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
+    transition: opacity 0.3s;
+}
+
+.qr-corner {
+    position: absolute;
+    width: 18px; height: 18px;
+    border-color: var(--accent);
+    border-style: solid;
+}
+.qr-corner.tl { top: 6px; left: 6px; border-width: 2.5px 0 0 2.5px; border-radius: 4px 0 0 0; }
+.qr-corner.tr { top: 6px; right: 6px; border-width: 2.5px 2.5px 0 0; border-radius: 0 4px 0 0; }
+.qr-corner.bl { bottom: 6px; left: 6px; border-width: 0 0 2.5px 2.5px; border-radius: 0 0 0 4px; }
+.qr-corner.br { bottom: 6px; right: 6px; border-width: 0 2.5px 2.5px 0; border-radius: 0 0 4px 0; }
+
+/* Expired overlay */
+.pay-expired-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(250,248,245,0.92);
+    border-radius: calc(var(--radius) - 2px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+.pay-expired-overlay.visible { opacity: 1; pointer-events: auto; }
+.pay-expired-overlay .x-icon { font-size: 2.8rem; line-height: 1; }
+.pay-expired-overlay p { font-weight: 700; color: var(--danger); font-size: 13.5px; }
+
+/* Status box */
+.pay-status {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 12px;
+    padding: 11px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    transition: background 0.25s, color 0.25s;
+}
+
+.pay-status.waiting {
+    background: #eaf4ff;
+    color: #1a5fa8;
+    border: 1px solid #b8d9f7;
+}
+.pay-status.success {
+    background: #e9f7ef;
+    color: #1e7a4a;
+    border: 1px solid #b2ddc5;
+}
+.pay-status.expired {
+    background: #fdecea;
+    color: var(--danger);
+    border: 1px solid #f5bbb8;
+}
+
+.spin {
+    width: 14px; height: 14px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+@@keyframes spin { to { transform: rotate(360deg); } }
+
+.pay-order-ref {
+    font-size: 12px;
+    color: var(--ink-lt);
+}
+.pay-order-ref span {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: var(--ink-mid);
+    background: #f0ede8;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@@media (max-width: 640px) {
+    .pay-card { grid-template-columns: 1fr; }
+    .pay-left { border-right: none; border-bottom: 1.5px solid var(--line); }
+    .pay-qr-frame img { width: 180px; height: 180px; }
+}
+</style>
+
+<div class="pay-page">
+    <div class="pay-shell">
+
+        <a asp-action="Index" asp-controller="MembershipPlan" class="pay-back">
+            <span class="arrow">←</span> Quay lại các gói
+        </a>
+
+        <div class="pay-card">
+            <div class="pay-left">
+                <div class="pay-eyebrow">Đơn hàng #@Model.Order.OrderCode</div>
+                <div class="pay-plan-name">@Model.Plan.Name</div>
+
+                <div class="pay-price">
+                    <span class="pay-price-num">@Model.Plan.Price.ToString("N0")</span>
+                    <span class="pay-price-unit">đ</span>
+                </div>
+
+                <hr class="pay-divider">
+
+                <div class="pay-section-label">Chuyển khoản thủ công</div>
+
+                <div class="pay-field">
+                    <div class="pay-field-label">Ngân hàng</div>
+                    <div class="pay-field-value">
+                        <span class="pay-field-text">MB Bank — Quân Đội</span>
+                    </div>
+                </div>
+
+                <div class="pay-field">
+                    <div class="pay-field-label">Số tài khoản</div>
+                    <div class="pay-field-value">
+                        <span class="pay-field-text" id="accNumber">0984391940</span>
+                        <button class="copy-btn" onclick="copyText('accNumber', this)">Copy</button>
+                    </div>
+                </div>
+
+                <div class="pay-field">
+                    <div class="pay-field-label">Nội dung chuyển khoản</div>
+                    <div class="pay-field-value">
+                        <span class="pay-field-text highlight" id="orderContent">HOIVIEN @Model.Order.OrderCode</span>
+                        <button class="copy-btn" onclick="copyText('orderContent', this)">Copy</button>
+                    </div>
+                </div>
+
+                <div class="pay-notice">
+                    ⚠️ Nhập <strong>chính xác nội dung</strong> chuyển khoản để hệ thống tự động kích hoạt gói sau khi thanh toán.
+                </div>
+            </div>
+            <div class="pay-right">
+
+                <div class="pay-countdown-pill">
+                    <span class="pulse-dot" id="pulseDot"></span>
+                    <span class="label">Hết hạn sau</span>
+                    <span id="countdown">--:--</span>
+                </div>
+
+                <div class="pay-qr-frame" id="qrFrame">
+                    <span class="qr-corner tl"></span>
+                    <span class="qr-corner tr"></span>
+                    <span class="qr-corner bl"></span>
+                    <span class="qr-corner br"></span>
+
+                    <img src="@Model.QrImageUrl"style="width:380px;height:430px;"
+                         alt="QR thanh toán"
+                         id="qrImage" />
+
+                    <div class="pay-expired-overlay" id="expiredOverlay">
+                        <span class="x-icon">✕</span>
+                        <p>Mã QR đã hết hạn</p>
+                    </div>
+                </div>
+
+                <div class="pay-status waiting" id="statusBox">
+                    <span class="spin" id="spinIcon"></span>
+                    <span id="statusText">Đang chờ quét mã...</span>
+                </div>
+
+                <div class="pay-order-ref">Mã đơn: <span>@Model.Order.OrderCode</span></div>
+                <form asp-action="CancelPending" asp-controller="MembershipPlan" method="post" style="margin-top:1rem;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="orderCode" value="@Model.Order.OrderCode" />
+                    <button type="submit"
+                            onclick="return confirm('Huỷ đơn hàng này?')"
+                            style="width:100%;padding:10px 0;border-radius:99px;border:1.5px solid var(--line);background:transparent;color:var(--ink-mid);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;"
+                            onmouseover="this.style.background='#fdecea';this.style.color='var(--danger)';this.style.borderColor='#f5bbb8';"
+                            onmouseout="this.style.background='transparent';this.style.color='var(--ink-mid)';this.style.borderColor='var(--line)';">
+                        Huỷ đơn hàng
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    const orderCode    = "@Model.Order.OrderCode";
+    let totalSeconds   = @Model.CountdownSeconds;
+    let pollInterval;
+
+    // ── Copy ────────────────────────────────────────────────
+    function copyText(id, btn) {
+        const text = document.getElementById(id).innerText.trim();
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = "✓ Đã copy";
+            btn.classList.add("copied");
+            setTimeout(() => {
+                btn.textContent = "Copy";
+                btn.classList.remove("copied");
+            }, 2200);
+        }).catch(console.error);
+    }
+
+    // ── Countdown ───────────────────────────────────────────
+    function updateCountdown() {
+        if (totalSeconds <= 0) {
+            document.getElementById("countdown").textContent = "00:00";
+            markExpired();
+            clearInterval(pollInterval);
+            return;
+        }
+        const m = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+        const s = (totalSeconds % 60).toString().padStart(2, "0");
+        document.getElementById("countdown").textContent = `${m}:${s}`;
+
+        // Turn countdown red when under 2 min
+        if (totalSeconds <= 120) {
+            document.getElementById("countdown").style.color = "var(--danger)";
+        }
+
+        totalSeconds--;
+    }
+
+    function markExpired() {
+        document.getElementById("expiredOverlay").classList.add("visible");
+        document.getElementById("qrImage").style.opacity = "0.25";
+        document.getElementById("pulseDot").style.animationPlayState = "paused";
+        document.getElementById("pulseDot").style.background = "#ccc";
+
+        const box  = document.getElementById("statusBox");
+        const spin = document.getElementById("spinIcon");
+        box.className   = "pay-status expired";
+        spin.style.display = "none";
+        document.getElementById("statusText").textContent = "Đơn hàng đã hết hạn. Vui lòng đặt lại.";
+    }
+
+    function markSuccess() {
+        clearInterval(pollInterval);
+        document.getElementById("qrImage").style.opacity = "0.3";
+        document.getElementById("pulseDot").style.background = "var(--accent)";
+
+        const box  = document.getElementById("statusBox");
+        const spin = document.getElementById("spinIcon");
+        box.className   = "pay-status success";
+        spin.style.display = "none";
+        document.getElementById("statusText").textContent = "✅ Thanh toán thành công! Đang chuyển hướng...";
+
+        setTimeout(() => window.location.href = `/MembershipPlan/Success?orderCode=${orderCode}`, 1800);
+    }
+
+    // ── Polling ─────────────────────────────────────────────
+    // Tìm đoạn JS polling trong Payment.cshtml, sửa lại như này:
+    async function checkPayment() {
+        const res = await fetch(`/MembershipPlan/CheckStatus?orderCode=@Model.Order.OrderCode`);
+        const data = await res.json();
+    
+        if (data.isPaid) {
+            // Tự động chuyển sang Success không cần reload
+            window.location.href = `/MembershipPlan/Success?orderCode=@Model.Order.OrderCode`;
+            return;
+        }
+        if (data.status === "Expired" || data.status === "Cancelled") {
+            window.location.href = `/MembershipPlan/Index`;
+            return;
+        }
+        // Tiếp tục poll
+        setTimeout(checkPayment, 5000);
+    }
+
+    // Bắt đầu poll ngay khi load trang
+    checkPayment();
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+    pollInterval = setInterval(checkPayment, 4000);
+</script>
+}
