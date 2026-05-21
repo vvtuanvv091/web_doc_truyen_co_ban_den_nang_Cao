@@ -1,0 +1,355 @@
+﻿@model web_doc_truyen_Co_ban.Models.StoryCommentModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Chi Tiết Bình Luận";
+    ViewData["ActiveMenu"] = "StoryComment";
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+
+@section Styles {
+<style>
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+    .page-title{font-size:1.25rem;font-weight:800;color:#1e293b;margin:0}
+    .breadcrumb{font-size:.82rem;margin-bottom:20px}
+    .card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:20px}
+    .card-header{padding:14px 20px;border-bottom:1px solid #e2e8f0;font-weight:700;font-size:.9rem;color:#1e293b;border-radius:12px 12px 0 0;background:#f8fafc;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .card-header-left{display:flex;align-items:center;gap:8px}
+    .card-body{padding:24px}
+
+    /* Meta rows */
+    .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .meta-item label{font-size:.76rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;display:block}
+    .meta-item p{font-size:.88rem;color:#1e293b;margin:0;font-weight:600}
+
+    /* Status badges */
+    .badge{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:20px;white-space:nowrap}
+    .badge-visible{background:#dcfce7;color:#16a34a}
+    .badge-hidden{background:#fef9c3;color:#92400e}
+    .badge-deleted{background:#fee2e2;color:#dc2626}
+
+    /* Comment content box */
+    .comment-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;font-size:.9rem;color:#374151;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+
+    /* Reply cards */
+    .reply-item{border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:10px;background:#fff;transition:box-shadow .15s}
+    .reply-item:hover{box-shadow:0 2px 8px rgba(0,0,0,.07)}
+    .reply-item.is-hidden{opacity:.5;background:#f9fafb}
+    .reply-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+    .reply-user{font-size:.82rem;font-weight:700;color:#1e293b}
+    .reply-time{font-size:.78rem;color:#94a3b8}
+    .reply-content{font-size:.85rem;color:#374151;line-height:1.6}
+    .reply-actions{display:flex;align-items:center;gap:8px;margin-top:10px}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;border-radius:8px;font-weight:700;font-size:.82rem;cursor:pointer;border:none;text-decoration:none;transition:all .15s}
+    .btn-primary{background:#2563eb;color:#fff} .btn-primary:hover{background:#1d4ed8;color:#fff}
+    .btn-secondary{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0} .btn-secondary:hover{background:#e2e8f0;color:#1e293b}
+    .btn-warning{background:#fef9c3;color:#92400e;border:1px solid #fde68a} .btn-warning:hover{background:#fde68a}
+    .btn-success{background:#dcfce7;color:#15803d;border:1px solid #bbf7d0} .btn-success:hover{background:#bbf7d0}
+    .btn-danger{background:#fee2e2;color:#dc2626;border:1px solid #fecaca} .btn-danger:hover{background:#fecaca}
+    .btn-sm{padding:5px 12px;font-size:.78rem}
+
+    /* Like chip */
+    .like-chip{display:inline-flex;align-items:center;gap:5px;background:#fef2f2;color:#ef4444;border-radius:20px;padding:3px 10px;font-size:.78rem;font-weight:700}
+
+    /* Empty state */
+    .empty-replies{text-align:center;padding:28px;color:#94a3b8;font-size:.85rem}
+    .empty-replies i{font-size:2rem;display:block;margin-bottom:8px}
+
+    /* Spinner */
+    .spinner{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle}
+    @@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <h1 class="page-title">
+        <i class="bi bi-chat-left-text me-2"></i>Chi Tiết Bình Luận
+    </h1>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <!-- Nút ẩn/hiện bình luận chính -->
+        @if (Model.Status != 2)
+        {
+            <form asp-action="ToggleStatus" asp-route-id="@Model.Id" method="post" style="display:inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="returnUrl" value="@Url.Action("Detail", new { id = Model.Id })" />
+                <button type="submit" class="btn @(Model.Status == 0 ? "btn-warning" : "btn-success")"
+                        id="mainToggleBtn">
+                    @if (Model.Status == 0)
+                    {
+                        <i class="bi bi-eye-slash"></i> <span>Ẩn bình luận</span>
+                    }
+                    else
+                    {
+                        <i class="bi bi-eye"></i> <span>Hiện bình luận</span>
+                    }
+                </button>
+            </form>
+        }
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> Chỉnh sửa
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+</div>
+
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Danh sách Bình Luận</a></li>
+        <li class="breadcrumb-item active">Chi tiết</li>
+    </ol>
+</nav>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success d-flex align-items-center gap-2 mb-3" style="border-radius:8px;font-size:.84rem">
+        <i class="bi bi-check-circle-fill text-success"></i> @TempData["Success"]
+    </div>
+}
+
+<div style="display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start">
+
+    <!-- Cột trái: nội dung + replies -->
+    <div>
+
+        <!-- Nội dung bình luận -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <i class="bi bi-chat-quote"></i> Nội Dung Bình Luận
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                    @{
+                        var badgeCls = Model.Status == 0 ? "badge-visible" : (Model.Status == 1 ? "badge-hidden" : "badge-deleted");
+                        var badgeText = Model.Status == 0 ? "Hiển thị" : (Model.Status == 1 ? "Đã ẩn" : "Đã xóa");
+                        var badgeIcon = Model.Status == 0 ? "bi-eye" : (Model.Status == 1 ? "bi-eye-slash" : "bi-trash");
+                    }
+                    <span class="badge @badgeCls" id="mainStatusBadge">
+                        <i class="bi @badgeIcon"></i> @badgeText
+                    </span>
+                    <span class="like-chip"><i class="bi bi-heart-fill"></i> @Model.LikeCount</span>
+                </div>
+            </div>
+            <div class="card-body">
+                @if (Model.ParentId.HasValue && Model.Parent != null)
+                {
+                    <div style="background:#eff6ff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:16px;font-size:.83rem;color:#1d4ed8">
+                        <i class="bi bi-reply-all me-1"></i>
+                        <strong>Đây là trả lời cho:</strong> @Model.Parent.Content.Substring(0, Math.Min(80, Model.Parent.Content.Length))@(Model.Parent.Content.Length > 80 ? "…" : "")
+                    </div>
+                }
+                <div class="comment-box">@Model.Content</div>
+            </div>
+        </div>
+
+        <!-- Danh sách replies -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <i class="bi bi-chat-right-dots"></i>
+                    Trả Lời
+                    @{
+                        var visibleReplies = Model.Replies?.Where(r => r.Status != 2).ToList() ?? new();
+                    }
+                    <span style="background:#e2e8f0;color:#475569;border-radius:20px;padding:2px 9px;font-size:.78rem;font-weight:700">
+                        @visibleReplies.Count
+                    </span>
+                </div>
+            </div>
+            <div class="card-body" style="padding:16px">
+                @if (!visibleReplies.Any())
+                {
+                    <div class="empty-replies">
+                        <i class="bi bi-chat-right"></i>
+                        Chưa có trả lời nào.
+                    </div>
+                }
+                else
+                {
+                    <div id="repliesContainer">
+                        @foreach (var reply in visibleReplies.OrderBy(r => r.CreatedAt))
+                        {
+                            <div class="reply-item @(reply.Status == 1 ? "is-hidden" : "")" id="reply-@reply.Id" data-status="@reply.Status">
+                                <div class="reply-meta">
+                                    <i class="bi bi-person-circle" style="color:#94a3b8"></i>
+                                    <span class="reply-user">@reply.User?.Username</span>
+                                    <span class="reply-time">@reply.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                                    @{
+                                        var rBadge = reply.Status == 0 ? "badge-visible" : "badge-hidden";
+                                        var rText  = reply.Status == 0 ? "Hiển thị" : "Đã ẩn";
+                                        var rIcon  = reply.Status == 0 ? "bi-eye" : "bi-eye-slash";
+                                    }
+                                    <span class="badge @rBadge reply-badge-@reply.Id"><i class="bi @rIcon"></i> @rText</span>
+                                    <span class="like-chip"><i class="bi bi-heart-fill"></i> @reply.LikeCount</span>
+                                </div>
+                                <div class="reply-content">@reply.Content</div>
+                                <div class="reply-actions">
+                                    <!-- Toggle ẩn/hiện reply qua AJAX -->
+                                    <button type="button"
+                                            class="btn btn-sm @(reply.Status == 0 ? "btn-warning" : "btn-success") toggle-reply-btn"
+                                            data-id="@reply.Id"
+                                            data-status="@reply.Status"
+                                            title="@(reply.Status == 0 ? "Ẩn" : "Hiện")">
+                                        <i class="bi @(reply.Status == 0 ? "bi-eye-slash" : "bi-eye")"></i>
+                                        <span>@(reply.Status == 0 ? "Ẩn" : "Hiện")</span>
+                                    </button>
+                                    <a asp-action="Edit" asp-route-id="@reply.Id" class="btn btn-sm btn-secondary">
+                                        <i class="bi bi-pencil"></i> Sửa
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Cột phải: thông tin meta -->
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-left"><i class="bi bi-info-circle"></i> Thông Tin</div>
+            </div>
+            <div class="card-body">
+                <div class="meta-grid">
+
+                    <div class="meta-item" style="grid-column:1/-1">
+                        <label>Truyện</label>
+                        <p>
+                            <i class="bi bi-book me-1" style="color:#2563eb"></i>
+                            @Model.Story?.Title
+                        </p>
+                    </div>
+
+                    <div class="meta-item" style="grid-column:1/-1">
+                        <label>Người dùng</label>
+                        <p><i class="bi bi-person me-1" style="color:#2563eb"></i>@Model.User?.Username</p>
+                    </div>
+
+                    <div class="meta-item">
+                        <label>Lượt thích</label>
+                        <p>❤️ @Model.LikeCount</p>
+                    </div>
+
+                    <div class="meta-item">
+                        <label>Số replies</label>
+                        <p>💬 @visibleReplies.Count</p>
+                    </div>
+
+                    <div class="meta-item" style="grid-column:1/-1">
+                        <label>Ngày tạo</label>
+                        <p>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")</p>
+                    </div>
+
+                    <div class="meta-item" style="grid-column:1/-1">
+                        <label>Cập nhật lần cuối</label>
+                        <p>@Model.UpdatedAt.ToString("dd/MM/yyyy HH:mm:ss")</p>
+                    </div>
+
+                    @if (Model.ParentId.HasValue)
+                    {
+                        <div class="meta-item" style="grid-column:1/-1">
+                            <label>Loại</label>
+                            <p style="color:#7c3aed"><i class="bi bi-reply-all me-1"></i>Trả lời (reply)</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="meta-item" style="grid-column:1/-1">
+                            <label>Loại</label>
+                            <p style="color:#2563eb"><i class="bi bi-chat-left me-1"></i>Bình luận gốc</p>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-left"><i class="bi bi-lightning"></i> Thao Tác Nhanh</div>
+            </div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:8px">
+                <a asp-area="Admin" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary" style="justify-content:center">
+                    <i class="bi bi-pencil-square"></i> Chỉnh sửa nội dung
+                </a>
+                @if (Model.Status != 2)
+                {
+                    <form asp-area="Admin"ction="ToggleStatus" asp-route-id="@Model.Id" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="returnUrl" value="@Url.Action("Detail", new { id = Model.Id })" />
+                        <button type="submit" class="btn @(Model.Status == 0 ? "btn-warning" : "btn-success")" style="width:100%;justify-content:center">
+                            @if (Model.Status == 0) { <text><i class="bi bi-eye-slash"></i> Ẩn bình luận này</text> }
+                            else { <text><i class="bi bi-eye"></i> Hiện bình luận này</text> }
+                        </button>
+                    </form>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger" style="justify-content:center">
+                        <i class="bi bi-trash"></i> Xóa bình luận
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        // ── AJAX Toggle ẩn/hiện cho từng reply ────────────────────
+        document.querySelectorAll('.toggle-reply-btn').forEach(btn => {
+            btn.addEventListener('click', async function () {
+                const id     = this.dataset.id;
+                const item   = document.getElementById('reply-' + id);
+                const badge  = item.querySelector('.reply-badge-' + id);
+
+                // Loading state
+                const origHTML = this.innerHTML;
+                this.disabled  = true;
+                this.innerHTML = '<span class="spinner"></span>';
+
+                try {
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+                    const res   = await fetch('/Admin/StoryComment/ToggleStatus', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'RequestVerificationToken': token
+                        },
+                        body: `id=${id}`
+                    });
+
+                    const data = await res.json();
+                    if (!data.success) { this.innerHTML = origHTML; this.disabled = false; return; }
+
+                    const isHidden = data.newStatus === 1;
+
+                    // Cập nhật badge
+                    badge.className = `badge ${isHidden ? 'badge-hidden' : 'badge-visible'} reply-badge-${id}`;
+                    badge.innerHTML = `<i class="bi ${isHidden ? 'bi-eye-slash' : 'bi-eye'}"></i> ${isHidden ? 'Đã ẩn' : 'Hiển thị'}`;
+
+                    // Cập nhật card opacity
+                    item.classList.toggle('is-hidden', isHidden);
+                    item.dataset.status = data.newStatus;
+
+                    // Cập nhật nút
+                    this.className = `btn btn-sm ${isHidden ? 'btn-success' : 'btn-warning'} toggle-reply-btn`;
+                    this.dataset.status = data.newStatus;
+                    this.innerHTML = `<i class="bi ${isHidden ? 'bi-eye' : 'bi-eye-slash'}"></i> <span>${isHidden ? 'Hiện' : 'Ẩn'}</span>`;
+                } catch {
+                    this.innerHTML = origHTML;
+                } finally {
+                    this.disabled = false;
+                }
+            });
+        });
+    </script>
+}

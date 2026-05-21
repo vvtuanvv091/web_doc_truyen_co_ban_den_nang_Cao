@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+    </li>
+    <li class="nav-item">
+        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            @Html.AntiForgeryToken()
+            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="#" onclick="openAuth('register');return false;">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="#" onclick="openAuth('login');return false;">Login</a>
+    </li>
+}
+</ul>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const form = document.getElementById('logoutForm');
+        if (!form) return;
+        form.addEventListener('submit', function(e){
+            if (window.matchMedia && window.matchMedia('(max-width:768px)').matches) {
+                // on small screens, perform logout via fetch then show login sheet
+                e.preventDefault();
+                const fd = new FormData(form);
+                fetch(form.action, { method: 'POST', body: fd, credentials: 'same-origin' })
+                    .then(resp => {
+                        if (resp.ok) {
+                            // open login sheet if available, otherwise redirect to login page
+                            if (typeof openAuth === 'function') openAuth('login');
+                            else window.location.href = '/Identity/Account/Login';
+                        } else {
+                            window.location.href = form.action;
+                        }
+                    }).catch(() => { window.location.href = form.action; });
+            }
+        });
+    });
+</script>

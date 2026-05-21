@@ -1,0 +1,210 @@
+﻿@model IEnumerable<web_doc_truyen_Co_ban.Models.StoryModel>
+@{
+    ViewData["Title"] = "Danh Sách Truyện";
+    var currentStatus = ViewBag.CurrentStatus as byte?;
+    var currentPage = (int)ViewBag.CurrentPage;
+    var totalPages = (int)ViewBag.TotalPages;
+    var totalItems = (int)ViewBag.TotalItems;
+
+    string StatusLabel(byte s) => s switch
+    {
+        0 => "Bản Nháp",
+        1 => "Đang Ra",
+        2 => "Hoàn Thành",
+        3 => "Tạm Dừng",
+        4 => "Drop",
+        _ => "Tất Cả"
+    };
+    string StatusColor(byte s) => s switch
+    {
+        0 => "secondary",
+        1 => "success",
+        2 => "primary",
+        3 => "warning",
+        4 => "danger",
+        _ => "dark"
+    };
+}
+
+<div class="container-fluid px-lg-5 px-3">
+    <h3 class="mb-4 fw-bold">📚 Danh Sách Truyện</h3>
+    <ul class="nav nav-tabs mb-4">
+
+        <li class="nav-item">
+
+            <a class="nav-link @(currentStatus == null ? "active fw-bold" : "")"
+                   asp-action="StatusStory" asp-controller="Story">
+
+                Tất Cả
+
+                <span class="badge bg-dark ms-1">@ViewBag.Count_All</span>
+
+            </a>
+
+        </li>
+
+        @foreach (var (label, count, val, color) in new (string, int, byte, string)[] {
+
+        ("Bản Nháp",   (int)ViewBag.Count_Draft,  0, "secondary"),
+
+        ("Đang Ra",    (int)ViewBag.Count_Ongoing, 1, "success"),
+
+        ("Hoàn Thành", (int)ViewBag.Count_Done,    2, "primary"),
+
+        ("Tạm Dừng",   (int)ViewBag.Count_Pause,   3, "warning"),
+
+        ("Drop",       (int)ViewBag.Count_Drop,     4, "danger"),
+
+    })
+
+        {
+
+            <li class="nav-item">
+
+                <a class="nav-link @(currentStatus == val ? "active fw-bold" : "")"
+                       asp-action="StatusStory" asp-controller="Story"
+                       asp-route-status="@val">
+
+                    @label
+
+                    <span class="badge bg-@color ms-1">@count</span>
+
+                </a>
+
+            </li>
+
+        }
+
+    </ul>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">
+            @if (currentStatus.HasValue)
+            {
+                <span>Lọc: <span class="badge bg-@StatusColor(currentStatus.Value)">@StatusLabel(currentStatus.Value)</span></span>
+            }
+            — Tổng <strong>@totalItems</strong> truyện
+        </span>
+    </div>
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Không có truyện nào trong trạng thái này.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width:60px">#</th>
+                        <th>Tên Truyện</th>
+                        <th>Thể Loại</th>
+                        <th>Tags</th>
+                        <th class="text-center">Chương</th>
+                        <th class="text-center">Lượt Xem</th>
+                        <th class="text-center">Đánh Giá</th>
+                        <th class="text-center">Trạng Thái</th>
+                        <th class="text-center">Cập Nhật</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int stt = (currentPage - 1) * 20 + 1;
+                    }
+                    @foreach (var story in Model)
+                    {
+                        <tr>
+                            <td class="text-muted">@stt</td>
+                            <td>
+                                <a asp-action="Detail" asp-controller="Story" asp-route-id="@story.Id"
+                                       class="fw-bold text-decoration-none text-dark">
+                                    @if (story.IsFeatured)
+                                    {
+                                        <span class="badge bg-warning text-dark me-1">⭐ Hot</span>
+                                    }
+                                    @if (story.IsVip)
+                                    {
+                                        <span class="badge bg-purple me-1" style="background:#6f42c1">VIP</span>
+                                    }
+                                    @if (story.Is18Plus)
+                                    {
+                                        <span class="badge bg-danger me-1">18+</span>
+                                    }
+                                    @story.Title
+                                </a>
+                                @if (!string.IsNullOrEmpty(story.OriginalAuthor))
+                                {
+                                    <br /><small class="text-muted">Tác giả: @story.OriginalAuthor</small>
+                                }
+                            </td>
+                            <td>
+                                @if (story.Category != null)
+                                {
+                                    <span class="badge bg-info text-dark">@story.Category.Name</span>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var tag in story.Tags.Take(3))
+                                {
+                                    <span class="badge bg-light text-dark border me-1">@tag.Name</span>
+                                }
+                            </td>
+                            <td class="text-center">@story.TotalChapters</td>
+                            <td class="text-center">@story.TotalViews.ToString("N0")</td>
+                            <td class="text-center">
+                                @if (story.RatingCount > 0)
+                                {
+                                    <span>⭐ @story.RatingAvg <small class="text-muted">(@story.RatingCount)</small></span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">—</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-@StatusColor(story.Status)">
+                                    @StatusLabel(story.Status)
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <small class="text-muted">
+                                    @story.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy")
+                                </small>
+                            </td>
+                        </tr>
+                        stt++;
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (totalPages > 1)
+        {
+            <nav class="mt-3">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+                        <a class="page-link"
+                               asp-action="StatusStory" asp-controller="Story" asp-route-status="@currentStatus" asp-route-page="@(currentPage - 1)">
+                            «
+                        </a>
+                    </li>
+
+                    @for (int i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")">
+                            <a class="page-link"
+                                   href="@Url.Action("DanhSachTruyen", "Story", new { status = currentStatus, page = i })">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+                    <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                        <a class="page-link"
+                               asp-action="StatusStory" asp-controller="Story" asp-route-status="@currentStatus" asp-route-page="@(currentPage + 1)">
+                            »
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+</div>

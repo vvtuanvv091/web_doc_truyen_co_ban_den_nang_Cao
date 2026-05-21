@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - web_doc_truyen_Co_ban</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/web_doc_truyen_Co_ban.styles.css" asp-append-version="true" />
+    <style>
+        /* Mobile / touch-friendly tweaks */
+        @@media (max-width: 768px) {
+            .navbar .nav-link { padding: .75rem 1rem; font-size: 1rem; }
+            .mobile-bottom-nav { display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 1100; gap: 8px; }
+            .mobile-bottom-nav .btn { flex: 1; padding: 12px 10px; border-radius: 10px; font-weight:600; }
+            /* enlarge tappable pagination / list items */
+            .touch-target { padding: 10px; touch-action: manipulation; }
+        }
+
+        /* Offcanvas subtle fade+slide override to be smoother on mobile */
+        .offcanvas-backdrop.show { opacity: .55 !important; transition: opacity .28s ease; }
+        .offcanvas.offcanvas-start { transform: translateX(-12px); transition: transform .32s cubic-bezier(.2,.8,.2,1), opacity .28s ease; }
+        .offcanvas.show.offcanvas-start { transform: translateX(0); }
+        /* Auth bottom sheet */
+        .auth-sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 1300; display: flex; justify-content: center; pointer-events: none; }
+        .auth-sheet .sheet-inner { width: 100%; max-width: 680px; background: var(--card); border-radius: 12px 12px 0 0; box-shadow: 0 -6px 30px rgba(0,0,0,.12); transform: translateY(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1), opacity .28s ease; opacity: 0; max-height: 86vh; overflow: auto; }
+        .auth-sheet.open .sheet-inner { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        .auth-header { display:flex; align-items:center; gap:8px; padding:12px 16px; border-bottom:1px solid var(--border); }
+        .auth-body { padding:12px 16px; }
+        .auth-tabs { display:flex; gap:8px; }
+        .auth-tabs button { flex:1; padding:8px 12px; border-radius:8px; border:1px solid var(--border); background:transparent; }
+
+        /* Mobile top taskbar search */
+        .mobile-topbar { position: fixed; left: 12px; right: 12px; top: 12px; z-index: 1150; display: none; }
+        .mobile-topbar .search-box { width: 100%; padding:8px 12px; border-radius: 999px; border: 1px solid var(--border); background:#fff; box-shadow: var(--shadow); }
+        @@media (max-width: 768px) { .mobile-topbar { display: block; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">web_doc_truyen_Co_ban</a>
+                <!-- Use offcanvas on mobile for a touch-friendly nav -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileNav" aria-controls="mobileNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+
+        <!-- Offcanvas mobile nav -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileNav" aria-labelledby="mobileNavLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="mobileNavLabel">Menu</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item touch-target"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="nav-item touch-target"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                    <!-- duplicate login partial for mobile context -->
+                    <li class="nav-item touch-target">@await Html.PartialAsync("_LoginPartial")</li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!-- Mobile topbar search -->
+    <div class="mobile-topbar">
+        <input class="search-box" id="mobileSearch" placeholder="Search stories, authors..." />
+    </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - web_doc_truyen_Co_ban - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Auth bottom sheet -->
+    <div class="auth-sheet" id="authSheet" aria-hidden="true">
+        <div class="sheet-inner">
+            <div class="auth-header">
+                <strong id="authTitle">Login</strong>
+                <div class="auth-tabs" style="margin-left:8px">
+                    <button id="tabLogin" onclick="openAuth('login')">Login</button>
+                    <button id="tabRegister" onclick="openAuth('register')">Register</button>
+                </div>
+                <button class="btn-close" style="margin-left:auto" onclick="closeAuth()"></button>
+            </div>
+            <div class="auth-body" id="authBody"></div>
+        </div>
+    </div>
+    <script>
+        function openAuth(mode){
+            const sheet = document.getElementById('authSheet');
+            const title = document.getElementById('authTitle');
+            const body = document.getElementById('authBody');
+            title.textContent = mode === 'register' ? 'Register' : 'Login';
+            sheet.classList.add('open');
+            sheet.setAttribute('aria-hidden','false');
+            // load server-rendered identity page fragment via fetch
+            const url = mode === 'register' ? '/Identity/Account/Register' : '/Identity/Account/Login';
+            fetch(url).then(r => r.text()).then(html => {
+                // Try to extract the main form if possible, fallback to whole page
+                body.innerHTML = html;
+                // find form and intercept submit to allow progressive enhancement
+                const form = body.querySelector('form');
+                if (form) form.onsubmit = function(){ return true; };
+            }).catch(()=>{ body.innerHTML = '<p>Unable to load. Please use the normal page.</p>'; });
+        }
+        function closeAuth(){ const sheet = document.getElementById('authSheet'); sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); }
+        // quick search handler for mobile topbar
+        document.addEventListener('DOMContentLoaded', function(){
+            const ms = document.getElementById('mobileSearch');
+            if (!ms) return;
+            let t;
+            ms.addEventListener('input', function(){ clearTimeout(t); t = setTimeout(()=>{ const q = ms.value.trim(); if(q) window.location.href = '/?q='+encodeURIComponent(q); }, 450); });
+        });
+    </script>
+    <script>
+        // Simple swipe-to-close for offcanvas on mobile
+        (function(){
+            const off = document.getElementById('mobileNav');
+            if (!off) return;
+            let xStart = null;
+            off.addEventListener('touchstart', function(e){ xStart = e.touches[0].clientX; }, {passive:true});
+            off.addEventListener('touchmove', function(e){ if (!xStart) return; const x = e.touches[0].clientX; const dx = x - xStart; if (dx > 60) { // swipe right to close
+                    const bs = bootstrap.Offcanvas.getInstance(off);
+                    if (bs) bs.hide();
+                    xStart = null;
+                } }, {passive:true});
+
+            // enlarge clickable areas for common controls
+            document.addEventListener('DOMContentLoaded', function(){
+                document.querySelectorAll('.nav-link, .btn').forEach(el => el.classList.add('touch-target'));
+            });
+        })();
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
