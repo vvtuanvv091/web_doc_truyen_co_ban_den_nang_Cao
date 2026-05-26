@@ -1,0 +1,474 @@
+﻿@{
+    ViewData["Title"] = "Thể Loại";
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+
+}
+@model IEnumerable<StoryModel>
+@* 
+<div class="container mt-4">
+    <div class="row">
+        
+        <!-- Cột nội dung chính -->
+        <div class="col-md-9">
+            <h3>Danh Mục Truyện</h3>
+            <!-- nội dung category ở đây -->
+        </div>
+
+        <!-- Cột sidebar -->
+        <div class="col-md-3">
+            <partial name="~/Views/Shared/_SlidebarPartial.cshtml" />
+             //@await Html.PartialAsync("_SlidebarPartial");  
+        </div>
+
+    </div>
+</div> *@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Electro - Electronics Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+     <link href="~/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+
+
+    @* <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet"> *@
+
+    <!-- Template Stylesheet -->
+    <link href="~/css/style_2.css" rel="stylesheet"> 
+</head>
+<style>
+/* ══ 1. Biến gốc (Light) ══ */
+:root {
+  --dm-bg      : #faf8f5;
+  --dm-surface : #ffffff;
+  --dm-border  : #e2e6f0;
+  --dm-text    : #1a1c2e;
+  --dm-muted   : #6b7080;
+  --dm-input-bg: #f8f8fc;
+  --dm-badge-bg: #f0f0f5;
+}
+
+/* ══ 2. Dark override ══ */
+body.dark-mode {
+  --dm-bg      : #25293B;
+  --dm-surface : #181c27;
+  --dm-border  : #2a2f4a;
+  --dm-text    : #e8eaf6;
+  --dm-muted   : #8b90aa;
+  --dm-input-bg: #1e2235;
+  --dm-badge-bg: #252840;
+  --dm-icon-input-bg: #1e2235;
+}
+
+/* ══ 3. Base ══ */
+body {
+  background : var(--dm-bg) !important;
+  color      : var(--dm-text) !important;
+  transition : background .3s, color .3s;
+}
+
+/* ══ 4. Fix Bootstrap classes cứng ══ */
+body.dark-mode .text-dark   { color: var(--dm-text)  !important; }
+body.dark-mode .text-muted  { color: var(--dm-muted) !important; }
+body.dark-mode .bg-light    { background: var(--dm-surface) !important; }
+body.dark-mode .bg-white    { background: var(--dm-surface) !important; }
+body.dark-mode .border      { border-color: var(--dm-border) !important; }
+body.dark-mode .border-secondary { border-color: var(--dm-border) !important; }
+body.dark-mode .badge.bg-light {
+  background: var(--dm-badge-bg) !important;
+  color: var(--dm-muted) !important;
+}
+
+/* ══ 5. Card truyện (Category page) ══ */
+body.dark-mode .product-item-inner {
+  background  : var(--dm-surface) !important;
+  border-color: var(--dm-border)  !important;
+}
+body.dark-mode .product-item-inner .text-dark,
+body.dark-mode .product-item-inner h6,
+body.dark-mode .product-item-inner a.text-dark {
+  color: var(--dm-text) !important;
+}
+body.dark-mode .product-item-add {
+  background  : var(--dm-surface) !important;
+  border-color: var(--dm-border)  !important;
+}
+
+/* ══ 6. Input / Select ══ */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background  : var(--dm-input-bg) !important;
+  color       : var(--dm-text)     !important;
+  border-color: var(--dm-border)   !important;
+}
+body.dark-mode .input-group-text p-3 b{
+     background  : var(--dm-surface) !important;
+  border-color: var(--dm-border)  !important;
+}
+body.dark-mode input::placeholder { color: var(--dm-muted) !important; }
+body.dark-mode button.input-group-text.p-3.border-0 {
+  background  : var(--dm-input-bg) !important;
+  color       : var(--dm-text)     !important;
+  border-color: var(--dm-border)   !important;
+}
+/* ══ 7. Navbar (layout) ══ */
+body.dark-mode .navbar,
+body.dark-mode nav {
+  background  : var(--dm-surface) !important;
+  border-color: var(--dm-border)  !important;
+}
+body.dark-mode .navbar a,
+body.dark-mode nav a { color: var(--dm-text) !important; }
+
+/* ══ 8. Sidebar filter (Category page) ══ */
+body.dark-mode .shop-sidebar,
+body.dark-mode [class*="sidebar"],
+body.dark-mode .filter-box,
+body.dark-mode .sdb-box {
+  background  : var(--dm-surface) !important;
+  border-color: var(--dm-border)  !important;
+  color       : var(--dm-text)    !important;
+}
+
+/* ══ 9. Home page cards ══ */
+body.dark-mode .hcard,
+body.dark-mode .story-card,
+body.dark-mode .rank-row,
+body.dark-mode .filter-bar,
+body.dark-mode .sdb-box {
+  background  : var(--dm-surface) !important;
+  border-color: var(--dm-border)  !important;
+}
+body.dark-mode .hcard-title,
+body.dark-mode .card-title,
+body.dark-mode .rtitle,
+body.dark-mode .sec-title,
+body.dark-mode .sdb-hd { color: var(--dm-text) !important; }
+
+/* ══ 10. Dropdown search results ══ */
+body.dark-mode #search-results {
+  background  : var(--dm-surface) !important;
+  border-color: var(--dm-border)  !important;
+  color       : var(--dm-text)    !important;
+}
+</style>
+<body>
+
+    @* <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> *@
+
+    <!-- Products Offer End -->
+    <!-- Shop Page Start -->
+    <div class="container-fluid shop py-2">
+        <div class="container-fluid px-lg-5 px-3 py-5">
+            <div class="row g-4 align-items-start">
+                @* _SlidebarPartial.cshtml *@
+  
+                    @await Html.PartialAsync("_SlidebarPartial")
+                <div class="col-lg-9 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="rounded mb-4 position-relative">
+                        <img src="~/assets/img/arthur.png"
+                             class="img-fluid w-100"
+                             style="
+                        height:280px;
+                        object-fit:cover;
+                        border-radius:20px;
+                        " />
+                        <div class="position-absolute rounded d-flex flex-column align-items-center justify-content-center text-center" style="width: 100%; height: 250px; top: 0; left: 0;);">
+                            <h4 class="display-5 text-primary"></h4>
+                            <h3 class="display-4 text-white mb-4"></h3>
+                            <a href="#" class="btn btn-primary rounded-pill">Đọc Ngay Bây Giờ</a>
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-xl-7">
+                            <div class="input-group w-100 mx-auto d-flex">
+                                <input type="search" id="searchInput" class="form-control p-3" placeholder="Tìm Tên Truyên" aria-describedby="search-icon-1" value="@ViewBag.Keyword">
+                                <button type="button"
+                                        class="input-group-text p-3 border-0"
+                                        onclick="searchStory()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                        <div class="col-xl-3 text-end">
+                            <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between">
+                                <label for="electronics">Lọc:</label>
+                                <select id="sort" name="sort" class="border-0 form-select-sm bg-light me-3">
+                                    <option value="default">Mặc định</option>
+                                    <option value="none">Không sắp xếp</option>
+                                    <option value="popular">Phổ biến nhất</option>
+                                    <option value="new">Mới cập nhật</option>
+                                    <option value="rating">Đánh giá cao</option>
+                                    <option value="chap_asc">Số chương: thấp → cao</option>
+                                    <option value="chap_desc">Số chương: cao → thấp</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-2">
+                            <ul class="nav nav-pills d-inline-flex text-center py-2 px-2 rounded bg-light mb-4">
+                                <li class="nav-item me-4">
+                                    <a class="bg-light" data-bs-toggle="pill" href="#tab-5">
+                                        <i class="fas fa-th fa-3x text-primary"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="bg-light" data-bs-toggle="pill" href="#tab-6">
+                                        <i class="fas fa-bars fa-3x text-primary"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div id="tab-5" class="tab-pane fade show p-0 active">
+                            <div class="row g-4 product">
+                                <div class="row g-4 product">
+                                    @{
+                                        int delay = 1;
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="col-lg-3 col-md-4 col-sm-6">
+                                            <div class="product-item rounded wow fadeInUp" data-wow-delay="0.@(delay)s">
+                                                <div class="product-item-inner border rounded">
+                                                    <div class="product-item-inner-item">
+                                                        <img src="@GetImage(item.CoverImageUrl)"
+                                                             class="img-fluid w-100 rounded-top"
+                                                             style="height: 260px; object-fit: cover;"
+                                                             alt="@item.Title" />
+                                                        @if (item.IsFeatured)
+                                                        {
+                                                            <div class="product-new" style="background: #dc3545;">🔥 HOT</div>
+                                                        }
+                                                        else if (item.IsVip)
+                                                        {
+                                                            <div class="product-new" style="background: #ffc107; color:#333;">⭐ VIP</div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="product-new">Mới</div>
+                                                        }
+                                                        @if (item.Is18Plus)
+                                                        {
+                                                            <span class="badge bg-dark position-absolute bottom-0 end-0 m-2">18+</span>
+                                                        }
+                                                        <div class="product-details">
+                                                            <a asp-action="Detail" asp-controller="Story" asp-route-Id="@item.Id" title="Xem truyện">
+                                                                <i class="fa fa-eye fa-1x"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center rounded-bottom p-3">
+                                                        <a href="#" class="d-block mb-1 text-muted small">
+                                                            <i class="fa fa-tag me-1"></i>@(item.Category?.Name ?? "Chưa phân loại")
+                                                        </a>
+                                                        <a href="/truyen/@item.Slug"
+                                                               class="d-block h6 fw-bold text-dark text-truncate"
+                                                               title="@item.Title">
+                                                            @item.Title
+                                                        </a>
+                                                        <small class="text-muted">
+                                                            <i class="fa fa-user me-1"></i>
+                                                            @(string.IsNullOrEmpty(item.OriginalAuthor) ? "Đang cập nhật" : item.OriginalAuthor)
+                                                        </small>
+                                                        @if (item.Tags != null && item.Tags.Any())
+                                                        {
+                                                            <div class="d-flex flex-wrap justify-content-center gap-1 mt-2">
+                                                                @foreach (var tag in item.Tags.Take(3))
+                                                                {
+                                                                    <span class="badge bg-light text-secondary border" style="font-size:10px;">@tag.Name</span>
+                                                                }
+                                                            </div>
+                                                        }
+                                                        <div class="mt-2 small text-muted">
+                                                            @{
+                                                                var chapterCount = item.Chapters?.Count ?? 0;
+                                                            }
+                                                            <i class="fa fa-list"></i> @chapterCount chương
+                                                            &nbsp;·&nbsp;
+                                                            <i class="fa fa-eye"></i> @item.TotalViews
+                                                            &nbsp;·&nbsp;
+                                                            <i class="fa fa-heart"></i> @item.TotalFollows
+                                                        </div>
+                                                        @if (item.RatingCount > 0)
+                                                        {
+                                                            <div class="mt-1 small">
+                                                                <i class="fa fa-star text-warning"></i>
+                                                                @item.RatingAvg.ToString("0.0")
+                                                                <span class="text-muted">(@item.RatingCount đánh giá)</span>
+                                                            </div>
+                                                        }
+                                                        @if (item.LastChapterAt.HasValue)
+                                                        {
+                                                            <div class="mt-1 small text-muted">
+                                                                <i class="fa fa-clock"></i> @item.LastChapterAt.Value.ToString("dd/MM/yyyy")
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="product-item-add border border-top-0 rounded-bottom text-center p-3 pt-0">
+                                                    <a asp-action="Detail" asp-controller="Story" asp-route-Id="@item.Id"
+                                                           class="btn btn-primary border-secondary rounded-pill py-2 px-4 mb-3">
+                                                        <i class="fa fa-book-open me-2"></i> Đọc Ngay
+                                                    </a>
+
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span class="small fw-bold @GetStatusColor(item.Status)">
+                                                            @GetStatusText(item.Status)
+                                                        </span>
+                                                        <div class="d-flex">
+                                                            <a asp-action="Detail" asp-controller="Story" asp-route-Id="@item.Id"
+                                                                   class="text-primary d-flex align-items-center justify-content-center me-2"
+                                                                   title="Xem chi tiết">
+                                                                <span class="rounded-circle btn-sm-square border">
+                                                                    <i class="fa fa-eye"></i>
+                                                                </span>
+                                                            </a>
+                                                            <form asp-controller="Follow" asp-action="AddFollow" asp-route-storyId="@item.Id" method="post">
+                                                                <button type="submit" class="text-primary d-flex align-items-center justify-content-center border-0 bg-transparent" title="Yêu thích">
+                                                                    <span class="rounded-circle btn-sm-square border">
+                                                                        <i class="fas fa-heart"></i>
+                                                                    </span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        delay = (delay % 5) + 1;
+                                    }
+                                </div>
+                                @{
+                                    var queryParams = Context.Request.Query
+                                        .Where(q => q.Key != "page")
+                                        .Select(q => $"{Uri.EscapeDataString(q.Key)}={Uri.EscapeDataString(q.Value)}")
+                                        .ToList();
+                                    string baseQuery = queryParams.Any() ? string.Join("&", queryParams) + "&" : "";
+                                }
+
+                                <div class="pagination d-flex justify-content-center mt-5">
+
+                                    <!-- Prev -->
+                                    <a class="rounded @(currentPage == 1 ? "disabled" : "")"
+                                           href="?@(baseQuery)page=@(currentPage - 1)">
+                                        &laquo;
+                                    </a>
+
+                                    <!-- Pages -->
+                                    @for (int i = 1; i <= totalPages; i++)
+                                    {
+                                        <a class="rounded @(i == currentPage ? "active" : "")"
+                                               href="?@(baseQuery)page=@i">
+                                            @i
+                                        </a>
+                                    }
+
+                                    <!-- Next -->
+                                    <a class="rounded @(currentPage == totalPages ? "disabled" : "")"
+                                           href="?@(baseQuery)page=@(currentPage + 1)">
+                                        &raquo;
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+    <!-- Back to Top -->
+    @* <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a> *@
+
+        
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/wow/wow.min.js"></script>
+    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    
+    <!-- Template Javascript -->
+    <script src="~/js/main.js"></script>
+    @functions {
+    public string GetImage(string? url)
+    {
+        if (string.IsNullOrEmpty(url)) return Url.Content("~/img/cat1.jpg");
+        if (url.StartsWith("http")) return url;
+        if (url.StartsWith("/")) return url;  // ✅ path tuyệt đối → giữ nguyên
+        return Url.Content("~/img/" + url);         // chỉ ghép nếu là tên file thuần
+    }
+
+        public string GetStatusText(byte status) => status switch
+        {
+            0 => "Bản nháp",
+            1 => "Đang ra",
+            2 => "Hoàn thành",
+            3 => "Tạm dừng",
+            4 => "Drop",
+            _ => "Không xác định"
+        };
+
+        public string GetStatusColor(byte status) => status switch
+        {
+            2 => "text-success",
+            3 => "text-warning",
+            4 => "text-danger",
+            _ => "text-primary"
+        };
+    }
+<script>
+    function searchStory() {
+
+    let keyword = document.getElementById("searchInput").value.trim();
+
+    if (keyword !== "") {
+
+    window.location.href =
+    "/Category/Index?keyword=" + encodeURIComponent(keyword);
+
+    }
+    }
+
+    // Enter để search
+    document.getElementById("searchInput")
+    .addEventListener("keydown", function (e) {
+
+    if (e.key === "Enter") {
+    searchStory();
+    }
+
+    });
+</script>
+
+</body>
+
+</html>

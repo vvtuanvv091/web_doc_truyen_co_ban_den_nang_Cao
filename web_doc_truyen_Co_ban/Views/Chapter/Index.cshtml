@@ -1,0 +1,1032 @@
+﻿@using System.Security.Claims
+@model web_doc_truyen_Co_ban.Models.ChapterModel
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta http-equiv="X-UA-Compatible"
+          content="IE=edge" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"]</title>
+
+    <!-- Quill CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+          rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+          <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    :root {
+        
+        --text: #2c1a0e;
+        --accent: #c0712a;
+        --accent-light: #e8a85a;
+        --card: #fff8f0;
+        --border: #e8d5b7;
+        --btn-prev: #b0c4a0;
+        --btn-next: #4a7c59;
+        --btn-menu: #4a7c59;
+                    --ink: #1a1714;
+            --ink-mid: #5a5550;
+            --ink-lt: #9a9490;
+            --paper: #faf8f5;
+            --line: #e8e4de;
+            --radius: 18px;
+    }
+    body {
+        background: ;
+    }
+    body {
+        background: var(--paper) !important;
+        color: var(--text);
+        font-family: 'Times New Roman', serif;
+    }
+
+    .chapter-wrapper {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+    }
+
+    /* ── Header ── */
+    .chapter-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .story-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+    }
+
+    .story-title:hover { text-decoration: underline; color: var(--accent); }
+
+    .chapter-subtitle {
+        margin-top: 0.35rem;
+        font-size: 0.95rem;
+        color: var(--muted);
+        font-style: italic;
+    }
+    /* Modal danh sách chương */
+    #chapterListModal .modal-chapter-link {
+        font-family: 'Segoe UI', 'Be Vietnam Pro', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        color: #334155;
+        line-height: 1.5;
+        padding: 10px 16px;
+        border-radius: 8px;
+        display: block;
+        text-decoration: none;
+        transition: background .15s;
+    }
+
+    #chapterListModal .modal-chapter-link:hover {
+        background: #f1f5f9;
+        color: #525fe1;
+    }
+
+    #chapterListModal .modal-chapter-link.active {
+        background: #fff3e6;
+        color: #e07b00;
+        font-weight: 600;
+    }
+    .ornament {
+        display: block;
+        text-align: center;
+        font-size: 1.4rem;
+        color: var(--border);
+        margin: 0.75rem 0;
+        letter-spacing: 0.5em;
+    }
+
+    /* ── Nav buttons ── */
+    .chapter-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+    }
+
+    .btn-nav {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.5rem 1.2rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: opacity .18s, transform .12s;
+        font-family: inherit;
+    }
+
+    .btn-nav:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-nav:active { transform: translateY(0); }
+
+    .btn-prev {
+        background: var(--btn-next);
+        color: #fff;
+    }
+
+    .btn-next {
+        background: var(--btn-next);
+        color: #fff;
+    }
+
+    .btn-menu {
+        background: var(--btn-menu);
+        color: #fff;
+        padding: 0.5rem 0.85rem;
+    }
+
+    .btn-disabled {
+        background: #d0c8bc !important;
+        opacity: 0.6;
+        cursor: default;
+        pointer-events: none;
+    }
+
+    .btn-ebook {
+        background: var(--btn-next);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.45rem 1.1rem;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-family: inherit;
+        transition: opacity .18s;
+    }
+
+    .btn-ebook:hover { opacity: 0.85; }
+
+    /* ── Content ── */
+    .chapter-content {
+        font-size: 1.08rem;
+        line-height: 1.95;
+        color: var(--text);
+        margin: 2.5rem 0;
+    }
+
+    .chapter-content p {
+        margin-bottom: 1.1em;
+        text-indent: 0;
+    }
+
+    .chapter-content p:empty { display: none; }
+
+    /* ── Meta bar ── */
+    .chapter-meta {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-bottom: 1rem;
+    }
+
+    .chapter-meta span { display: flex; align-items: center; gap: 0.3rem; }
+
+    /* ── Keyboard hint ── */
+    .keyboard-hint {
+        text-align: center;
+        font-size: 0.8rem;
+        color: var(--muted);
+        border: 1px dashed var(--border);
+        border-radius: 6px;
+        padding: 0.45rem 1rem;
+        display: inline-block;
+        margin: 0.75rem auto;
+    }
+
+    /* ── Action buttons ── */
+    .action-bar {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-action {
+        padding: 0.45rem 1.3rem;
+        border-radius: 20px;
+        border: none;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
+        transition: opacity .18s;
+    }
+
+    .btn-report { background: #f0a030; color: #fff; }
+    .btn-comment { background: #c0712a; color: #fff; }
+    .btn-action:hover { opacity: 0.85; }
+
+    /* ── Comment section ── */
+    .comment-section {
+        margin-top: 3rem;
+        border-top: 1px solid var(--border);
+        padding-top: 1.5rem;
+    }
+
+    .comment-section h3 {
+        font-size: 1rem;
+        color: var(--accent);
+        margin-bottom: 1rem;
+    }
+
+    .comment-item {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .comment-author {
+        font-weight: 700;
+        color: var(--accent);
+        font-size: 0.82rem;
+        margin-bottom: 0.25rem;
+    }
+
+    /* ── Modal danh sách chương ── */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-overlay.open {
+        display: flex;
+    }
+
+    .modal-box {
+        background: #fff;
+        border-radius: 10px;
+        width: min(560px, 92vw);
+        max-height: 75vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid var(--border);
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--accent);
+        flex-shrink: 0;
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.3rem;
+        cursor: pointer;
+        color: var(--muted);
+        line-height: 1;
+        padding: 0 0.25rem;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal-list {
+        overflow-y: auto;
+        padding: 0.5rem 0;
+        flex: 1;
+    }
+
+    .modal-chapter-link {
+        display: block;
+        padding: 0.6rem 1.25rem;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.93rem;
+        border-left: 3px solid transparent;
+        transition: background .14s;
+    }
+
+    .modal-chapter-link:hover {
+        background: var(--bg);
+        border-left-color: var(--accent-light);
+        color: var(--text);
+        text-decoration: none;
+    }
+
+    .modal-chapter-link.active {
+        color: var(--accent);
+        font-weight: 700;
+        border-left-color: var(--accent);
+        background: #fff5ea;
+    }
+    .chapter-content {
+        font-size: 22px;
+        line-height: 1.9;
+        font-family: "Merriweather", "Times New Roman", serif;
+    }
+
+    .chapter-content p {
+        margin-bottom: 18px;
+    }
+    .comment-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    }
+
+    .comment-author {
+        font-weight: 700;
+        color: var(--accent);
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .comment-time {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.25rem;
+    }
+
+    .reply-item {
+        background: #fff;
+        border-left: 3px solid var(--accent-light);
+        border-radius: 6px;
+        padding: 0.5rem 0.75rem;
+        margin-top: 0.5rem;
+        margin-left: 1.5rem;
+        font-size: 0.85rem;
+    }
+    .cmt-avatar { border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .cmt-avatar-letter {
+        border-radius: 50%;
+        background: var(--accent, #3b82f6);
+        color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+    }
+    .cmt-item { padding: 12px 0; border-bottom: 1px solid var(--border, #e2e8f0); }
+    .cmt-reply { padding: 8px 0 0 12px; border-left: 2px solid var(--border, #e2e8f0); margin-top: 8px; }
+    .cmt-name { font-weight: 600; font-size: 0.88rem; color: var(--accent, #3b82f6); }
+    .cmt-time { font-size: 0.78rem; color: var(--muted, #94a3b8); }
+    .cmt-text { font-size: 0.88rem; line-height: 1.6; margin-top: 2px; }
+    .btn-cmt-sm {
+        background: none; border: none; padding: 0;
+        font-size: 0.8rem; color: var(--muted, #94a3b8);
+        cursor: pointer; transition: color .15s;
+    }
+    .btn-cmt-sm:hover { color: var(--accent, #3b82f6); }
+    .btn-cmt-sm:disabled { opacity: .5; cursor: not-allowed; }
+    .cmt-menu-wrap { position: relative; display: inline-block; }
+    .cmt-menu-item {
+        display: block; width: 100%; padding: 8px 16px;
+        background: none; border: none; text-align: left;
+        font-size: 13px; cursor: pointer; color: #334155;
+    }
+    .cmt-menu-item:hover { background: #f1f5f9; }
+</style>
+
+<div class="chapter-wrapper">
+
+    <!-- Header -->
+    <div class="chapter-header">
+        <a class="story-title" asp-controller="Story" asp-action="Detail" asp-route-id="@Model.StoryId">
+            @Model.Story?.Title
+        </a>
+        <p class="chapter-subtitle">
+            Volumn @Model.VolumeTitle
+        </p>
+        <p class="chapter-subtitle">
+            Chương @Model.ChapterNumber@(string.IsNullOrWhiteSpace(Model.Title) ? "" : $": {Model.Title}")
+        </p>
+        <span class="ornament">~ ~ ~</span>
+
+        <!-- Nav top -->
+        <div class="chapter-nav">
+            @{
+                var prevChapter = ViewBag.PrevChapter_Id as Guid?;
+                var nextChapter = ViewBag.NextChapter_Id as Guid?;
+            }
+
+            @if (prevChapter.HasValue)
+            {
+                <a class="btn-nav btn-prev"
+                   asp-controller="Chapter" asp-action="Index" asp-route-id="@prevChapter">
+                    ❮ Chương trước
+                </a>
+            }
+            else
+            {
+                <span class="btn-nav btn-prev btn-disabled">❮ Chương trước</span>
+            }
+            <button class="btn-nav btn-menu" onclick="openChapterModal()" title="Danh sách chương">☰</button>
+
+            @if (nextChapter.HasValue)
+            {
+                <a class="btn-nav btn-next"
+                   asp-controller="Chapter" asp-action="Index" asp-route-id="@nextChapter">
+                    Chương tiếp ❯
+                </a>
+            }
+            else
+            {
+                <span class="btn-nav btn-next btn-disabled">Chương tiếp ❯</span>
+            }
+        </div>
+
+        <div>
+            <button class="btn-ebook" id="btn-bm" onclick="saveBookmark()">
+                🔖 Bookmark chương này
+            </button>
+            @Html.AntiForgeryToken()
+        </div>
+
+        <span class="ornament" style="font-size:1rem;">❧ ✦ ❧</span>
+    </div>
+
+    <!-- Meta -->
+    <div class="chapter-meta">
+        <span>👁 @Model.ViewCount.ToString("N0") lượt xem</span>
+        <span>📝 @Model.WordCount.ToString("N0") từ</span>
+        @if (Model.PublishedAt.HasValue)
+        {
+            <span>📅 @Model.PublishedAt.Value.ToString("dd/MM/yyyy")</span>
+        }
+    </div>
+
+    <!-- Content -->
+    <div class="chapter-content" id="chapterContent">
+        @if (string.IsNullOrWhiteSpace(Model.Content))
+        {
+            <p style="color: var(--muted); font-style: italic; text-align:center;">
+                Chương này chưa có nội dung.
+            </p>
+        }
+        else
+        {
+            @Html.Raw(Model.Content)
+        }
+    </div>
+
+    <!-- Nav bottom -->
+    <div class="chapter-nav">
+        @if (prevChapter.HasValue)
+        {
+            <a class="btn-nav btn-prev"
+               asp-controller="Chapter" asp-action="Index" asp-route-id="@prevChapter">
+                ❮ Chương trước
+            </a>
+        }
+        else
+        {
+            <span class="btn-nav btn-prev btn-disabled">❮ Chương trước</span>
+        }
+        <button class="btn-nav btn-menu" onclick="openChapterModal()" title="Danh sách chương">☰</button>
+
+        @if (nextChapter.HasValue)
+        {
+            <a class="btn-nav btn-next"
+               asp-controller="Chapter" asp-action="Index" asp-route-id="@nextChapter">
+                Chương tiếp ❯
+            </a>
+        }
+        else
+        {
+            <span class="btn-nav btn-next btn-disabled">Chương tiếp ❯</span>
+        }
+    </div>
+
+    <div style="text-align:center;">
+        <span class="keyboard-hint">
+            Bạn có thể dùng phím mũi tên ← → hoặc WASD để lùi/sang chương.
+        </span>
+    </div>
+
+
+    <!-- Comments -->
+     <!-- Action bar -->
+<!-- Action bar -->
+    <div class="action-bar">
+        @* <button class="btn-action btn-report" onclick="alert('Cảm ơn bạn đã báo lỗi!')">Báo lỗi</button> *@
+        <button class="btn-action btn-report" onclick="openBaoCao('chapter', '@Model.Id', '@Model.Title')">
+               <i class="bi bi-flag"></i> Báo cáo truyện
+        </button>
+        <button class="btn-action btn-comment"
+                onclick="document.getElementById('commentSection').scrollIntoView({behavior:'smooth'})">
+            Bình luận <span id="commentCountBtn">(0)</span>
+        </button>
+    </div>
+    
+    <!-- Comment Section -->
+    @* <div class="comment-section" id="commentSection">
+        <h3>💬 Bình luận (<span id="total-count">0</span>)</h3>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="mb-3">
+                <textarea id="commentInput" class="form-control" rows="3"
+                          placeholder="Viết bình luận..."
+                          style="border-color:var(--border);border-radius:8px;font-family:inherit"></textarea>
+                <button onclick="postComment()" class="btn-action btn-comment mt-2">
+                    Gửi bình luận
+                </button>
+            </div>
+        }
+        else
+        {
+            <p style="font-size:0.9rem;color:var(--muted)">
+                <a href="/Account/Login" style="color:var(--accent)">Đăng nhập</a> để bình luận.
+            </p>
+        }
+
+        <div id="comment-list"></div>
+
+        <div class="text-center mt-3" id="load-more-wrapper" style="display:none">
+            <button class="btn-action btn-comment" id="btn-load-more">
+                Xem thêm bình luận ↓
+            </button>
+        </div>
+
+        <div class="text-center mt-2" id="all-loaded"
+             style="display:none;font-size:0.85rem;color:var(--muted)">
+            ✓ Đã hiển thị tất cả bình luận
+        </div>
+    </div> *@
+
+
+    <!-- Comment Section -->
+    <div class="comment-section" id="commentSection">
+        <h3>💬 Bình luận
+            <span style="background:#6c63ff;color:#fff;border-radius:20px;
+                         padding:2px 10px;font-size:13px;margin-left:6px;"
+                  id="total-count">0</span>
+        </h3>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="mb-3">
+                <textarea id="commentInput" class="form-control" rows="3"
+                          placeholder="Viết bình luận..."
+                          style="border-color:var(--border);border-radius:8px;font-family:inherit"></textarea>
+                <button onclick="postComment()" class="btn-action btn-comment mt-2">
+                    <i class="fa fa-paper-plane"></i> Gửi bình luận
+                </button>
+            </div>
+        }
+        else
+        {
+            <p style="font-size:0.9rem;color:var(--muted)">
+                <a href="/Account/Login" style="color:var(--accent)">Đăng nhập</a> để bình luận.
+            </p>
+        }
+
+        <div id="comment-list"></div>
+
+        <div class="text-center mt-3" id="load-more-wrapper" style="display:none">
+            <button class="btn-action btn-comment" id="btn-load-more" onclick="loadMore()">
+                Xem thêm bình luận ↓
+            </button>
+        </div>
+
+        <div class="text-center mt-2" id="all-loaded"
+             style="display:none;font-size:0.85rem;color:var(--muted)">
+            ✓ Đã hiển thị tất cả bình luận
+        </div>
+    </div>
+
+    <!-- Hidden inputs để JS lấy giá trị -->
+    <input type="hidden" id="currentChapterId" value="@Model.Id" />
+    <input type="hidden" id="currentUserId"
+           value="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value" />
+    <input type="hidden" id="isAuthenticated" value="@User.Identity.IsAuthenticated.ToString().ToLower()" />
+    @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+    <input type="hidden" id="aftToken"
+           value="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
+
+
+
+
+
+
+</div>
+
+<!-- ═══════════════════════════════════════
+     MODAL DANH SÁCH CHƯƠNG
+     ═══════════════════════════════════════ -->
+<div class="modal-overlay" id="chapterListModal" onclick="if(event.target===this)closeChapterModal()">
+    <div class="modal-box">
+        <div class="modal-header">
+            📖 Danh sách chương
+            <button class="modal-close" onclick="closeChapterModal()">✕</button>
+        </div>
+        <div class="modal-list" id="chapterModalList">
+            @if (ViewBag.AllChapters != null)
+            {
+                foreach (var ch in (IEnumerable<dynamic>)ViewBag.AllChapters)
+                {
+                    bool isActive = ch.Id == Model.Id;
+                    double num = (double)ch.ChapterNumber;
+                    string numStr = num == Math.Floor(num) 
+                        ? ((int)num).ToString()        // 3.00 → "3"
+                        : num.ToString("0.##");        // 3.50 → "3.5"
+
+                    string label = $"Chương {numStr}" +
+                                   (string.IsNullOrWhiteSpace((string)ch.Title) ? "" : $": {ch.Title}");
+                    <a class="modal-chapter-link @(isActive ? "active" : "")"
+                       id="chlink-@ch.Id"
+                       asp-controller="Chapter" asp-action="Index" asp-route-id="@ch.Id">
+                        @label
+                    </a>
+                }
+            }
+            else
+            {
+                <p style="padding:1rem;color:var(--muted);font-style:italic;">
+                    Không có dữ liệu chương. Vui lòng kiểm tra ViewBag.AllChapters trong Controller.
+                </p>
+            }
+        </div>
+    </div>
+</div>
+@await Html.PartialAsync("_PopupReport")
+@section Scripts {
+<script>
+
+    function openChapterModal() {
+        document.getElementById('chapterListModal').classList.add('open');
+        setTimeout(function () {
+            var active = document.querySelector('.modal-chapter-link.active');
+            if (active) active.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }, 60);
+    }
+
+    function closeChapterModal() {
+        document.getElementById('chapterListModal').classList.remove('open');
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeChapterModal();
+    });
+
+    function downloadText() {
+        const title = "@(Model.Story?.Title ?? "Truyen") - Chuong @Model.ChapterNumber";  // ✅ bỏ comment
+        const content = document.getElementById('chapterContent').innerText;
+        const blob = new Blob(
+            ['\uFEFF' + title + '\n\n' + content],
+            { type: 'text/plain;charset=utf-8' }
+        );
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = title.replace(/[^a-zA-Z0-9]/g, '_') + '.txt';
+        a.click();
+    }
+    
+</script>
+
+<script>
+    const chapterId   = document.getElementById('currentChapterId').value;
+    const currentUid  = document.getElementById('currentUserId').value;
+    const isAuth      = document.getElementById('isAuthenticated').value === 'true';
+    const aftToken    = document.getElementById('aftToken').value;
+
+    let page = 1;
+    const pageSize = 10;
+    let totalLoaded = 0;
+
+    // ── Đóng menu khi click ra ngoài ────────────────────────
+    document.addEventListener('click', e => {
+        if (!e.target.closest('.cmt-menu-wrap')) {
+            document.querySelectorAll('.cmt-dropdown').forEach(m => m.style.display = 'none');
+        }
+    });
+
+    // ── Toggle menu 3 chấm ──────────────────────────────────
+    function toggleCmtMenu(id) {
+        const menu = document.getElementById('menu-' + id);
+        const isVisible = menu.style.display === 'block';
+        document.querySelectorAll('.cmt-dropdown').forEach(m => m.style.display = 'none');
+        menu.style.display = isVisible ? 'none' : 'block';
+    }
+
+    // ── Render 1 comment (hoặc reply) ───────────────────────
+    function renderComment(cmt, isReply = false) {
+        const isOwner = currentUid && cmt.userId === currentUid;
+        const avatar = cmt.avatarUrl
+            ? `<img src="${cmt.avatarUrl}"
+                    style="width:${isReply?32:42}px;height:${isReply?32:42}px;border-radius:50%;
+                           object-fit:cover;flex-shrink:0;" />`
+            : `<div style="width:${isReply?32:42}px;height:${isReply?32:42}px;border-radius:50%;
+                           background:linear-gradient(135deg,#6c63ff,#a78bfa);
+                           display:flex;align-items:center;justify-content:center;
+                           color:#fff;font-weight:700;font-size:${isReply?13:16}px;flex-shrink:0;">
+                   ${(cmt.displayName||'?')[0].toUpperCase()}
+               </div>`;
+
+        const menuItems = isAuth ? `
+            <div class="cmt-menu-wrap">
+                <button onclick="toggleCmtMenu('${cmt.id}')"
+                        style="background:none;border:none;cursor:pointer;
+                               color:#94a3b8;padding:4px 8px;border-radius:6px;
+                               font-size:16px;line-height:1;">···</button>
+                <div id="menu-${cmt.id}" class="cmt-dropdown"
+                     style="display:none;position:absolute;right:0;top:100%;
+                            background:#fff;border:1px solid #e2e8f0;
+                            border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.1);
+                            z-index:99;min-width:150px;overflow:hidden;">
+                    ${!isReply ? `
+                    <button onclick="openReply('${cmt.id}','${escHtml(cmt.displayName)}')"
+                            class="cmt-menu-item">
+                        <i class="fa fa-reply"></i> Trả lời
+                    </button>` : ''}
+                    ${isOwner ? `
+                    <button onclick="openEdit('${cmt.id}', \`${escJs(cmt.content)}\`)"
+                            class="cmt-menu-item">
+                        <i class="fa fa-pencil"></i> Chỉnh sửa
+                    </button>
+                    <button onclick="xoaBinhLuan('${cmt.id}')"
+                            class="cmt-menu-item" style="color:#e74c3c;">
+                        <i class="fa fa-trash"></i> Xóa
+                    </button>` : ''}
+                    <button onclick="openBaoCao('comment','${cmt.id}','Bình luận của ${escHtml(cmt.displayName)}')"
+                            class="cmt-menu-item" style="color:#e74c3c;">
+                        <i class="fa fa-flag"></i> Báo cáo
+                    </button>
+                </div>
+            </div>` : '';
+
+        const likeBtn = isAuth
+            ? `<button onclick="likeCmt('${cmt.id}')"
+                       style="border:1px solid #fecdd3;background:#fff5f5;
+                              color:#e74c3c;font-size:12px;padding:4px 12px;
+                              border-radius:20px;cursor:pointer;
+                              display:inline-flex;align-items:center;gap:4px;">
+                   <i class="fa fa-heart"></i>
+                   <span id="like-count-${cmt.id}">${cmt.likeCount}</span>
+               </button>`
+            : `<span style="border:1px solid #fecdd3;background:#fff5f5;
+                            color:#e74c3c;font-size:12px;padding:4px 12px;
+                            border-radius:20px;display:inline-flex;align-items:center;gap:4px;">
+                   <i class="fa fa-heart"></i> ${cmt.likeCount}
+               </span>`;
+
+        const editForm = `
+            <div id="edit-${cmt.id}" style="display:none;margin-bottom:10px;">
+                <textarea id="edit-text-${cmt.id}" rows="2"
+                          style="width:100%;padding:8px 12px;border:1px solid #e2e8f0;
+                                 border-radius:8px;font-size:14px;resize:vertical;
+                                 font-family:inherit;box-sizing:border-box;"></textarea>
+                <div style="display:flex;gap:8px;margin-top:6px;justify-content:flex-end;">
+                    <button onclick="cancelEdit('${cmt.id}')"
+                            style="padding:6px 14px;border:1px solid #ddd;border-radius:8px;
+                                   background:none;cursor:pointer;font-size:13px;color:#666;">Hủy</button>
+                    <button onclick="luuSua('${cmt.id}')"
+                            style="padding:6px 14px;border:none;border-radius:8px;
+                                   background:#525fe1;color:#fff;cursor:pointer;font-size:13px;">Lưu</button>
+                </div>
+            </div>`;
+
+        const replyForm = !isReply ? `
+            <div id="reply-${cmt.id}" style="display:none;margin:8px 0 10px;">
+                <div style="font-size:12px;color:#94a3b8;margin-bottom:4px;">
+                    Đang trả lời <strong id="reply-name-${cmt.id}"></strong>
+                </div>
+                <textarea id="reply-text-${cmt.id}" rows="2" placeholder="Viết trả lời..."
+                          style="width:100%;padding:8px 12px;border:1px solid #e2e8f0;
+                                 border-radius:8px;font-size:14px;resize:vertical;
+                                 font-family:inherit;box-sizing:border-box;"></textarea>
+                <div style="display:flex;gap:8px;margin-top:6px;justify-content:flex-end;">
+                    <button onclick="cancelReply('${cmt.id}')"
+                            style="padding:6px 14px;border:1px solid #ddd;border-radius:8px;
+                                   background:none;cursor:pointer;font-size:13px;color:#666;">Hủy</button>
+                    <button onclick="guiReply('${cmt.id}')"
+                            style="padding:6px 14px;border:none;border-radius:8px;
+                                   background:#525fe1;color:#fff;cursor:pointer;font-size:13px;">Gửi</button>
+                </div>
+            </div>` : '';
+
+        const repliesContainer = !isReply
+            ? `<div id="replies-${cmt.id}" style="margin-top:10px;"></div>` : '';
+
+        const wrapStyle = isReply
+            ? `display:flex;gap:10px;padding:10px 0;padding-left:16px;border-left:3px solid #e2e8f0;`
+            : `display:flex;gap:12px;padding:16px 0;border-bottom:1px solid #f1f5f9;`;
+
+        return `
+            <div style="${wrapStyle}" id="cmt-${cmt.id}">
+                ${avatar}
+                <div style="flex:1;min-width:0;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;
+                                gap:8px;flex-wrap:wrap;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="font-weight:700;font-size:${isReply?13:14}px;color:#1e293b;">
+                                ${escHtml(cmt.displayName || 'Ẩn danh')}
+                            </span>
+                            <span style="font-size:11px;color:#94a3b8;">${cmt.createdAt}</span>
+                        </div>
+                        ${menuItems}
+                    </div>
+                    <p id="content-${cmt.id}"
+                       style="margin:${isReply?'4px 0 0':'6px 0 10px'};font-size:14px;
+                              color:#334155;line-height:1.6;word-break:break-word;">
+                        ${escHtml(cmt.content)}
+                    </p>
+                    ${editForm}
+                    ${replyForm}
+                    ${likeBtn}
+                    ${repliesContainer}
+                </div>
+            </div>`;
+    }
+
+    // ── Load comments ────────────────────────────────────────
+    async function loadComments(reset = false) {
+        if (reset) { page = 1; totalLoaded = 0; document.getElementById('comment-list').innerHTML = ''; }
+
+        const res = await fetch(`/ChapterComment/GetList?chapterId=${chapterId}&page=${page}&pageSize=${pageSize}`);
+        const data = await res.json();
+
+        document.getElementById('total-count').textContent = data.total;
+        totalLoaded += data.comments.length;
+
+        const list = document.getElementById('comment-list');
+        data.comments.forEach(cmt => {
+            list.insertAdjacentHTML('beforeend', renderComment(cmt));
+            if (cmt.replies?.length) {
+                const repliesEl = document.getElementById('replies-' + cmt.id);
+                cmt.replies.forEach(r => repliesEl.insertAdjacentHTML('beforeend', renderComment(r, true)));
+            }
+        });
+
+        const hasMore = totalLoaded < data.total;
+        document.getElementById('load-more-wrapper').style.display = hasMore ? 'block' : 'none';
+        document.getElementById('all-loaded').style.display = !hasMore && totalLoaded > 0 ? 'block' : 'none';
+        page++;
+    }
+
+    function loadMore() { loadComments(); }
+
+    // ── Gửi comment mới ─────────────────────────────────────
+    async function postComment() {
+        const content = document.getElementById('commentInput').value.trim();
+        if (!content) return;
+
+        await fetch('/ChapterComment/Add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ chapterId, content, __RequestVerificationToken: aftToken })
+        });
+
+        document.getElementById('commentInput').value = '';
+        loadComments(true);
+    }
+
+    // ── Like ─────────────────────────────────────────────────
+    async function likeCmt(commentId) {
+        await fetch('/ChapterComment/Like', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ commentId, chapterId, __RequestVerificationToken: aftToken })
+        });
+        // Cập nhật số like không cần reload
+        const res = await fetch(`/ChapterComment/GetLikeCount?commentId=${commentId}`);
+        const data = await res.json();
+        const el = document.getElementById('like-count-' + commentId);
+        if (el) el.textContent = data.count;
+    }
+
+    // ── Reply ────────────────────────────────────────────────
+    function openReply(id, name) {
+        document.getElementById('reply-' + id).style.display = 'block';
+        document.getElementById('reply-name-' + id).textContent = name;
+        toggleCmtMenu(id);
+    }
+    function cancelReply(id) { document.getElementById('reply-' + id).style.display = 'none'; }
+
+    async function guiReply(parentId) {
+        const content = document.getElementById('reply-text-' + parentId).value.trim();
+        if (!content) return;
+
+        await fetch('/ChapterComment/Add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ chapterId, content, parentId, __RequestVerificationToken: aftToken })
+        });
+
+        cancelReply(parentId);
+        loadComments(true);
+    }
+
+    // ── Edit ─────────────────────────────────────────────────
+    function openEdit(id, content) {
+        document.getElementById('content-' + id).style.display = 'none';
+        document.getElementById('edit-' + id).style.display = 'block';
+        document.getElementById('edit-text-' + id).value = content;
+        toggleCmtMenu(id);
+    }
+    function cancelEdit(id) {
+        document.getElementById('edit-' + id).style.display = 'none';
+        document.getElementById('content-' + id).style.display = 'block';
+    }
+    async function luuSua(id) {
+        const content = document.getElementById('edit-text-' + id).value.trim();
+        if (!content) return;
+
+        await fetch('/ChapterComment/Edit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ id, chapterId, content, __RequestVerificationToken: aftToken })
+        });
+
+        document.getElementById('content-' + id).textContent = content;
+        cancelEdit(id);
+    }
+
+    // ── Xóa ─────────────────────────────────────────────────
+    async function xoaBinhLuan(id) {
+        if (!confirm('Xóa bình luận này?')) return;
+
+        await fetch('/ChapterComment/Delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ id, chapterId, __RequestVerificationToken: aftToken })
+        });
+
+        document.getElementById('cmt-' + id)?.remove();
+        const count = document.getElementById('total-count');
+        count.textContent = Math.max(0, parseInt(count.textContent) - 1);
+    }
+
+    // ── Escape helpers ───────────────────────────────────────
+    function escHtml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function escJs(s) { return String(s).replace(/\\/g,'\\\\').replace(/`/g,'\\`'); }
+
+    // ── Init ─────────────────────────────────────────────────
+    loadComments();
+</script>
+<script>
+    async function saveBookmark() {
+    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value ?? "";
+    
+    const res = await fetch('/Bookmark/CreateBookMark', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'RequestVerificationToken': token
+        },
+        body: new URLSearchParams({
+            storieid: '@Model.StoryId',  
+            chapterid: '@Model.Id'         
+        })
+    });
+
+    const data = await res.json();
+    
+    if (data.success) {
+        alert('✅ ' + data.message);
+    } else {
+        alert('⚠️ ' + data.message);
+    }
+}
+</script>
+
+
+}

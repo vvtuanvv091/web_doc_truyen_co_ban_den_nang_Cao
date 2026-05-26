@@ -1,0 +1,231 @@
+﻿@model IEnumerable<web_doc_truyen_Co_ban.Models.RatingModel>
+@{
+    ViewData["Title"] = "Đánh giá của tôi";
+    var topStories = ViewBag.TopStories as IEnumerable<web_doc_truyen_Co_ban.Models.StoryModel> ?? new List<web_doc_truyen_Co_ban.Models.StoryModel>();
+    var allRatings = ViewBag.AllRatings as IEnumerable<web_doc_truyen_Co_ban.Models.RatingModel> ?? new List<web_doc_truyen_Co_ban.Models.RatingModel>();
+}
+@functions {
+    public string GetImage(string? url)
+    {
+        if (string.IsNullOrEmpty(url)) return Url.Content("~/img/cat1.jpg");
+        if (url.StartsWith("http")) return url;
+        if (url.StartsWith("/")) return url;
+        return Url.Content("~/img/" + url);
+    }
+}
+
+<style>
+    /* ── Truncate helper ── */
+    .cell-title {
+        max-width: 0;          /* forces the cell to honour table-layout:fixed */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* My-ratings table: give the title column most of the space */
+    #tbl-my-ratings {
+        table-layout: fixed;
+        width: 100%;
+    }
+    #tbl-my-ratings col.col-title   { width: 45%; }
+    #tbl-my-ratings col.col-genre   { width: 13%; }
+    #tbl-my-ratings col.col-score   { width: 18%; }
+    #tbl-my-ratings col.col-date    { width: 16%; }
+    #tbl-my-ratings col.col-action  { width: 8%;  }
+
+    /* Community-ratings table */
+    #tbl-all-ratings {
+        table-layout: fixed;
+        width: 100%;
+    }
+    #tbl-all-ratings col.col-title  { width: 38%; }
+    #tbl-all-ratings col.col-user   { width: 20%; }
+    #tbl-all-ratings col.col-score  { width: 22%; }
+    #tbl-all-ratings col.col-date   { width: 20%; }
+
+    /* Top-stories sidebar */
+    .top-story-title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: .85rem;
+        font-weight: 600;
+        display: block;
+        /* let flex container control width */
+        min-width: 0;
+    }
+    .top-story-info {
+        flex: 1 1 0;
+        min-width: 0;          /* critical: allows flex child to shrink below content size */
+    }
+</style>
+
+<div class="container-fluid px-lg-5 px-3 py-4">
+    <div class="row g-4">
+        <!-- ════════════════════════ LEFT COLUMN ════════════════════════ -->
+        <div class="col-lg-8">
+
+            <!-- My ratings -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white fw-bold">
+                    <i class="fa fa-star text-warning me-2"></i>Đánh giá của tôi
+                    <span class="badge bg-warning text-dark ms-1">@Model.Count()</span>
+                </div>
+                <div class="card-body p-0">
+                    @if (!Model.Any())
+                    {
+                        <p class="text-muted text-center py-4">Bạn chưa đánh giá truyện nào.</p>
+                    }
+                    else
+                    {
+                        <table id="tbl-my-ratings" class="table table-hover mb-0">
+                            <colgroup>
+                                <col class="col-title" />
+                                <col class="col-genre" />
+                                <col class="col-score" />
+                                <col class="col-date" />
+                                <col class="col-action" />
+                            </colgroup>
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Truyện</th>
+                                    <th>Thể loại</th>
+                                    <th>Điểm</th>
+                                    <th>Ngày</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var r in Model)
+                                {
+                                    <tr>
+                                        <td class="cell-title">
+                                            <a href="/Story/Detail/@r.StoryId"
+                                               class="fw-semibold text-dark text-decoration-none"
+                                               title="@r.Story?.Title">
+                                                @r.Story?.Title
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border">
+                                                @(r.Story?.Category?.Name ?? "—")
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star" style="color:@(i <= r.Score ? "#ffa500" : "#ddd"); font-size:.8rem;"></i>
+                                            }
+                                            <strong class="ms-1">@r.Score</strong>
+                                        </td>
+                                        <td class="text-muted small">
+                                            @r.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy")
+                                        </td>
+                                        <td>
+                                            <form method="post" action="/Rating/RemoveRating"
+                                                  onsubmit="return confirm('Xóa đánh giá này?')">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="storyId" value="@r.StoryId" />
+                                                <button type="submit" class="btn btn-link btn-sm text-danger p-0">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+
+            <!-- Community ratings -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white fw-bold">
+                    <i class="fa fa-list me-2"></i>Đánh giá gần đây của mọi người
+                </div>
+                <div class="card-body p-0">
+                    <table id="tbl-all-ratings" class="table table-hover mb-0">
+                        <colgroup>
+                            <col class="col-title" />
+                            <col class="col-user" />
+                            <col class="col-score" />
+                            <col class="col-date" />
+                        </colgroup>
+                        <thead class="table-light">
+                            <tr>
+                                <th>Truyện</th>
+                                <th>Người dùng</th>
+                                <th>Điểm</th>
+                                <th>Ngày</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var r in allRatings)
+                            {
+                                <tr>
+                                    <td class="cell-title">
+                                        <a href="/Story/Detail/@r.StoryId"
+                                           class="text-dark text-decoration-none"
+                                           title="@r.Story?.Title">
+                                            @r.Story?.Title
+                                        </a>
+                                    </td>
+                                    <td class="text-muted small">@(r.User?.Username ?? "Ẩn danh")</td>
+                                    <td>
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="fa fa-star" style="color:@(i <= r.Score ? "#ffa500" : "#ddd"); font-size:.8rem;"></i>
+                                        }
+                                    </td>
+                                    <td class="text-muted small">
+                                        @r.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ════════════════════════ RIGHT COLUMN ════════════════════════ -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header fw-bold">
+                    <i class="fa fa-trophy text-warning me-2"></i>Top truyện được đánh giá cao
+                </div>
+                <div class="card-body p-2">
+                    @for (int i = 0; i < topStories.Count(); i++)
+                    {
+                        var s = topStories.ElementAt(i);
+                        <div class="d-flex align-items-center gap-2 py-2 border-bottom" style="min-width:0;">
+                            <span class="fw-bold text-muted flex-shrink-0" style="min-width:20px;">@(i + 1)</span>
+                            @if (!string.IsNullOrEmpty(s.CoverImageUrl))
+                            {
+                                <img src="@GetImage(s.CoverImageUrl)"
+                                     class="flex-shrink-0"
+                                     style="width:36px;height:50px;object-fit:cover;border-radius:4px;" />
+                            }
+                            <!-- info block: takes remaining space, clips overflow -->
+                            <div class="top-story-info">
+                                <a href="/Story/Detail/@s.Id"
+                                   class="top-story-title text-dark text-decoration-none"
+                                   title="@s.Title">
+                                    @s.Title
+                                </a>
+                                <small class="text-muted d-block">@s.RatingCount đánh giá</small>
+                            </div>
+                            <span class="text-warning fw-bold flex-shrink-0" style="font-size:.85rem;">
+                                <i class="fa fa-star fa-xs"></i> @s.RatingAvg.ToString("0.0")
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,681 @@
+﻿@model web_doc_truyen_Co_ban.Models.DashBoardModel
+
+@{
+    ViewData["Title"] = "Dashboard Tổng Quan";
+    
+}
+
+<div class="container-fluid py-4 bg-light">
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card h-100 border-0 shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="text-muted small fw-bold text-uppercase">Tổng User</div>
+                        <h3 class="fw-bold my-1">@Model.TongUser.ToString("#,##0")</h3>
+                        <span class="text-success small fw-bold">↑ +2% tháng trước</span>
+                    </div>
+                    <div class="bg-primary bg-opacity-10 p-2 rounded-3 text-primary">
+                        <i class="bi bi-people-fill fs-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card h-100 border-0 shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="text-muted small fw-bold text-uppercase">Tổng Xu Nạp</div>
+                        <h3 class="fw-bold my-1">@Model.TongDonate.ToString("#,##0")</h3>
+                        <span class="text-success small fw-bold">↑ +8% tháng trước</span>
+                    </div>
+                    <div class="bg-warning bg-opacity-10 p-2 rounded-3 text-warning">
+                        <i class="bi bi-coin fs-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card h-100 border-0 shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="text-muted small fw-bold text-uppercase">Theo Dõi</div>
+                        <h3 class="fw-bold my-1">@Model.TongTheoDoi.ToString("#,##0")</h3>
+                        <span class="text-secondary small fw-bold">→ 0% tháng trước</span>
+                    </div>
+                    <div class="bg-danger bg-opacity-10 p-2 rounded-3 text-danger">
+                        <i class="bi bi-heart-fill fs-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card h-100 border-0 shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="text-muted small fw-bold text-uppercase">Bookmark</div>
+                        <h3 class="fw-bold my-1">@Model.TongBookmark.ToString("#,##0")</h3>
+                        <span class="text-success small fw-bold">↑ +4% tháng trước</span>
+                    </div>
+                    <div class="bg-info bg-opacity-10 p-2 rounded-3 text-info">
+                        <i class="bi bi-bookmark-fill fs-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm d-flex flex-row align-items-center p-3">
+                <div class="bg-primary bg-opacity-10 p-3 rounded-3 me-3"><i class="bi bi-book fs-4"></i></div>
+                <div>
+                    
+                    <h6 class="fw-bold mb-0">@Model.TongTruyen Truyện</h6>
+                    <small class="text-muted">@Model.TongChuong.ToString("#,##0") chương đã đăng</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm d-flex flex-row align-items-center p-3">
+                <div class="bg-success bg-opacity-10 p-3 rounded-3 me-3"><i class="bi bi-chat-dots fs-4"></i></div>
+                <div>
+                    <h6 class="fw-bold mb-0">@Model.TongBinhLuan.ToString("#,##0") Bình luận</h6>
+                    <small class="text-muted">@Model.TongDanhGia lượt đánh giá mời nhất</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm d-flex flex-row align-items-center p-3">
+                <div class="bg-dark bg-opacity-10 p-3 rounded-3 me-3"><i class="bi bi-star-fill fs-4"></i></div>
+                <div>
+                    <h6 class="fw-bold mb-0">@Model.TongDanhGia.ToString("#,##0") Đánh giá</h6>
+                    <small class="text-muted">Từ @Model.TongUser.ToString("#,##0") người đọc</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm d-flex flex-row align-items-center p-3">
+                <div class="bg-primary bg-opacity-10 p-3 rounded-3 me-3"><i class="bi bi-heart-pulse fs-4"></i></div>
+                <div>
+                    <h6 class="fw-bold mb-0">@Model.TongTheoDoi.ToString("#,##0") Theo dõi</h6>
+                    <small class="text-muted">@Model.TongBookmark.ToString("#,##0") bookmark</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold text-dark mb-4">Lượt xem & xu nạp theo tuần</h5>
+                <div style="height: 280px; position: relative;">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold text-dark mb-4">Trạng thái truyện</h5>
+                <div style="height: 220px; position: relative;" class="d-flex justify-content-center">
+                    <canvas id="statusDonutChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div> *@
+
+    @* <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold text-dark mb-4">Lượt xem & xu nạp theo tuần</h5>
+                <div style="height: 280px; position: relative;">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold text-dark mb-4">Trạng thái truyện</h5>
+                <div style="height: 280px; position: relative;" class="d-flex justify-content-center align-items-center">
+                    <div id="donutLoading" class="position-absolute spinner-border text-primary d-none" role="status"></div>
+                    <canvas id="statusDonutChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div> *@
+    <div class="row g-3 mb-4">
+
+        <!-- WEEKLY CHART -->
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold text-dark mb-4">
+                    Lượt xem & xu nạp theo tuần
+                </h5>
+
+                <div style="height:280px; position:relative;">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- DONUT CHART -->
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+
+                <h5 class="fw-bold text-dark mb-4">
+                    Trạng thái truyện
+                </h5>
+
+                <div class="d-flex justify-content-center align-items-center position-relative"
+                     style="height:280px;">
+
+                    <div id="donutLoading"
+                         class="spinner-border text-primary d-none position-absolute"
+                         role="status">
+                    </div>
+
+                    <canvas id="statusDonutChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold text-dark mb-3">Top 5 truyện lượt xem cao nhất</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 50px;">#</th>
+                                <th>Tên truyện</th>
+                                <th>Trạng thái</th>
+                                <th class="text-end">Lượt xem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rankView = 1;
+                            }
+                            @foreach (var item in Model.TopTruyen)
+                            {
+                                string badgeClass = item.Status switch
+                                {
+                                    "Hoàn Thành" => "bg-success bg-opacity-10 text-success",
+                                    "Đang Ra" => "bg-warning bg-opacity-10 text-warning",
+                                    "Tạm Dừng" => "bg-danger bg-opacity-10 text-danger",
+                                    _ => "bg-secondary bg-opacity-10 text-secondary"
+                                };
+                                <tr>
+                                    <td><span class="badge bg-light text-dark border rounded-circle py-2 px-2">@rankView</span></td>
+                                    <td class="fw-bold text-dark">@item.Title</td>
+                                    <td><span class="badge @badgeClass fw-semibold px-2 py-1">@item.Status</span></td>
+                                    <td class="text-end fw-bold">@item.TotalViews.ToString("#,##0")</td>
+                                </tr>
+                                rankView++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold text-dark mb-3">Giao dịch gần đây</h5>
+                <div class="d-flex flex-column gap-3">
+                    @foreach (var tx in Model.RecentTransactions)
+                    {
+                        bool isPlus = tx.Type == "Nạp Xu" || tx.Type == "Hoàn Xu HV";
+                        string amountClass = isPlus ? "text-primary" : "text-danger";
+                        string sign = isPlus ? "+" : "-";
+
+                        <div class="d-flex justify-content-between align-items-center pb-2 border-bottom last-border-0">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-light p-2 rounded-circle me-2 text-secondary" style="width: 10px; height: 10px; display: inline-flex; justify-content: center; align-items: center; font-size: 6px;">●</div>
+                                <div>
+                                    <div class="fw-bold small text-dark">@tx.Username</div>
+                                    <small class="text-muted d-block" style="font-size: 11px;">@tx.Type • @tx.CreatedAt.ToString("HH:mm")</small>
+                                </div>
+                            </div>
+                            <span class="fw-bold @amountClass text-nowrap">@sign@tx.Amount.ToString("#,##0") xu</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold text-dark mb-3">Phân bố đánh giá (Rating distribution)</h5>
+                <div class="d-flex flex-column gap-3 my-auto">
+                    @foreach (var dist in Model.RatingDistribution)
+                    {
+                        string progressColor = dist.Star switch
+                        {
+                            5 => "bg-warning",
+                            4 => "bg-success",
+                            3 => "bg-primary",
+                            2 => "bg-info",
+                            _ => "bg-danger"
+                        };
+                        <div class="d-flex align-items-center">
+                            <span style="width: 20px;" class="fw-bold small">@dist.Star</span>
+                            <div class="progress flex-grow-1 mx-3" style="height: 6px;">
+                                <div class="progress-bar @progressColor" role="progressbar" style="width: @dist.Percent%"></div>
+                            </div>
+                            <span style="width: 40px;" class="text-muted small text-end">@dist.Percent%</span>
+                        </div>
+                    }
+                </div>
+                <div class="mt-4 pt-3 border-top d-flex justify-content-around text-center">
+                    <div>
+                        <div class="text-muted small">Điểm trung bình</div>
+                        <h4 class="fw-bold text-warning mb-0">4.5</h4>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Tổng đánh giá</div>
+                        <h4 class="fw-bold text-dark mb-0">@Model.TongDanhGia.ToString("#,##0")</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold text-dark mb-3">Top 5 truyện được đánh giá cao</h5>
+                <div class="d-flex flex-column gap-3">
+                    @foreach (var item in Model.TopRatedS)
+                    {
+                        <div class="d-flex align-items-center justify-content-between p-2 border rounded-3 bg-light bg-opacity-50">
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-warning text-dark fw-bold fs-6 me-3">@item.AvgScore.ToString("0.0")</span>
+                                <div>
+                                    <div class="fw-bold text-dark">@item.Title</div>
+                                    <small class="text-muted">@item.RatingCount đánh giá</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="fw-bold text-dark mb-3">Top 5 user nạp xu nhiều nhất</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 60px;">#</th>
+                                <th>Username</th>
+                                <th class="text-end">Tổng xu đã nạp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rankDonate = 1;
+                            }
+                            @foreach (var user in Model.TopDonate)
+                            {
+                                string medal = rankDonate switch
+                                {
+                                    1 => "🥇",
+                                    2 => "🥈",
+                                    3 => "🥉",
+                                    _ => $"#{rankDonate}"
+                                };
+                                <tr>
+                                    <td class="fw-bold text-secondary">@medal</td>
+                                    <td class="fw-bold text-dark">@user.Username</td>
+                                    <td class="text-end fw-bold text-primary">@user.TongXu.ToString("#,##0") xu</td>
+                                </tr>
+                                rankDonate++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@section Scripts{
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // =========================================================
+    // WEEKLY CHART
+    // =========================================================
+    fetch('/Admin/Home/ChartWeeklyStats')
+    .then(res => res.json())
+    .then(data => {
+
+        const labels = data.map(x => x.label);
+        const views = data.map(x => x.views);
+        const coins = data.map(x => x.coins);
+
+        const canvas = document.getElementById('weeklyChart');
+        const ctx = canvas.getContext('2d');
+
+        // =====================================================
+        // GRADIENT BLUE
+        // =====================================================
+        const gradientBlue = ctx.createLinearGradient(0, 0, 0, 400);
+
+        gradientBlue.addColorStop(0, 'rgba(37,99,235,0.9)');
+        gradientBlue.addColorStop(1, 'rgba(59,130,246,0.15)');
+
+        // =====================================================
+        // GRADIENT ORANGE
+        // =====================================================
+        const gradientOrange = ctx.createLinearGradient(0, 0, 0, 400);
+
+        gradientOrange.addColorStop(0, 'rgba(245,158,11,0.9)');
+        gradientOrange.addColorStop(1, 'rgba(251,191,36,0.15)');
+
+        // =====================================================
+        // CREATE CHART
+        // =====================================================
+        new Chart(ctx, {
+
+            type: 'bar',
+
+            data: {
+                labels: labels,
+
+                datasets: [
+
+                    // =========================================
+                    // VIEW DATASET
+                    // =========================================
+                    {
+                        label: 'Lượt Xem Hệ Thống',
+                        data: views,
+
+                        backgroundColor: gradientBlue,
+                        borderColor: '#2563eb',
+
+                        borderWidth: 1,
+                        borderRadius: 8,
+
+                        yAxisID: 'y'
+                    },
+
+                    // =========================================
+                    // COIN DATASET
+                    // =========================================
+                    {
+                        label: 'Tổng Xu Nạp',
+                        data: coins,
+
+                        backgroundColor: gradientOrange,
+                        borderColor: '#f59e0b',
+
+                        borderWidth: 1,
+                        borderRadius: 8,
+
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+
+            options: {
+
+                responsive: true,
+                maintainAspectRatio: false,
+
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+
+                plugins: {
+
+                    legend: {
+                        position: 'top',
+
+                        labels: {
+                            boxWidth: 14,
+
+                            font: {
+                                weight: '600'
+                            }
+                        }
+                    },
+
+                    tooltip: {
+
+                        padding: 12,
+                        borderRadius: 8,
+
+                        callbacks: {
+
+                            label: function (context) {
+
+                                let label = context.dataset.label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+
+                                label += new Intl.NumberFormat('vi-VN')
+                                    .format(context.parsed.y);
+
+                                return label;
+                            }
+                        }
+                    }
+                },
+
+                scales: {
+
+                    // =====================================
+                    // LEFT AXIS - VIEWS
+                    // =====================================
+                    y: {
+
+                        type: 'linear',
+                        position: 'left',
+
+                        beginAtZero: true,
+
+                        grid: {
+                            color: '#f1f5f9'
+                        },
+
+                        ticks: {
+                            callback: function (value) {
+                                return value.toLocaleString('vi-VN');
+                            }
+                        }
+                    },
+
+                    // =====================================
+                    // RIGHT AXIS - COINS
+                    // =====================================
+                    y1: {
+
+                        type: 'linear',
+                        position: 'right',
+
+                        beginAtZero: true,
+
+                        grid: {
+                            drawOnChartArea: false
+                        },
+
+                        ticks: {
+                            callback: function (value) {
+                                return value.toLocaleString('vi-VN');
+                            }
+                        }
+                    },
+
+                    // =====================================
+                    // X AXIS
+                    // =====================================
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+    })
+    .catch(err => {
+
+        console.error("Lỗi weekly chart:", err);
+
+    });
+
+
+
+
+
+    // =========================================================
+    // DONUT CHART
+    // =========================================================
+    const loading = document.getElementById('donutLoading');
+
+    if (loading) {
+        loading.classList.remove('d-none');
+    }
+
+    fetch('/Admin/Home/ChartStoryStatus')
+    .then(res => res.json())
+    .then(data => {
+
+        if (loading) {
+            loading.classList.add('d-none');
+        }
+
+        const labels = data.map(x => x.label);
+        const counts = data.map(x => x.count);
+
+        // =====================================================
+        // STATUS COLORS
+        // =====================================================
+        const colorMap = {
+
+            "Hoàn Thành": '#10b981',
+            "Đang Ra": '#f59e0b',
+            "Tạm Dừng": '#ef4444',
+            "Bản Nháp": '#94a3b8',
+            "Drop": '#6b7280'
+        };
+
+        const colors = labels.map(x =>
+            colorMap[x] || '#cbd5e1'
+        );
+
+        const ctx = document
+            .getElementById('statusDonutChart')
+            .getContext('2d');
+
+        // =====================================================
+        // CREATE DONUT CHART
+        // =====================================================
+        new Chart(ctx, {
+
+            type: 'doughnut',
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+                    data: counts,
+
+                    backgroundColor: colors,
+
+                    borderColor: '#ffffff',
+                    borderWidth: 3,
+
+                    hoverOffset: 10
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+                maintainAspectRatio: false,
+
+                cutout: '72%',
+
+                plugins: {
+
+                    legend: {
+
+                        position: 'bottom',
+
+                        labels: {
+                            boxWidth: 12,
+                            padding: 15
+                        }
+                    },
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function (context) {
+
+                                const label = context.label || '';
+
+                                const value = context.parsed || 0;
+
+                                const total = context.dataset.data
+                                    .reduce((a, b) => a + b, 0);
+
+                                const percent =
+                                    ((value * 100) / total).toFixed(1);
+
+                                return `${label}: ${value} truyện (${percent}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    })
+    .catch(err => {
+
+        console.error("Lỗi donut chart:", err);
+
+        if (loading) {
+            loading.innerHTML =
+                "<small class='text-danger'>Lỗi tải dữ liệu</small>";
+        }
+    });
+
+});
+
+</script>
+}
+
+
+<style>
+    /* Loại bỏ viền gạch dưới ở phần tử cuối cùng trong card giao dịch */
+    .last-border-0:last-child {
+    border-bottom: 0 !important;
+    }
+
+
+</style>

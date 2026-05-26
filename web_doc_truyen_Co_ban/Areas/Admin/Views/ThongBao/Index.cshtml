@@ -1,0 +1,222 @@
+﻿@model List<web_doc_truyen_Co_ban.Models.ThongBaoModel>
+@{
+    ViewData["Title"] = "Thông Báo";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    var iconMap = new Dictionary<string, (string ico, string color)>
+    {
+        ["new_user"] = ("fa-user-plus", "#27ae60"),
+        ["login"] = ("fa-sign-in", "#3498db"),
+        ["report"] = ("fa-flag", "#e74c3c"),
+        ["new_story"] = ("fa-book", "#9b59b6"),
+        ["new_chapter"] = ("fa-list", "#f39c12"),
+    };
+}
+
+<div style="padding:24px;">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+        <div>
+            <h2 style="font-size:22px;font-weight:700;color:#1a1a2e;margin:0;">
+                <i class="fa fa-bell" style="color:#534AB7;margin-right:8px;"></i>
+                Thông Báo
+            </h2>
+            <p style="font-size:13px;color:#888;margin:4px 0 0;">
+                Tổng @Model.Count thông báo &nbsp;·&nbsp;
+                Chưa đọc: <strong style="color:#e74c3c;">@Model.Count(t => !t.IsRead)</strong>
+            </p>
+        </div>
+        <button onclick="docHet()"
+                style="padding:8px 18px;background:#534AB7;color:#fff;border:none;
+            border-radius:8px;font-size:13px;cursor:pointer;display:flex;
+            align-items:center;gap:6px;">
+            <i class="fa fa-check-double"></i> Đánh dấu đọc hết
+        </button>
+    </div>
+
+    <!-- Bộ lọc -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+        @foreach (var f in new[] { ("all", "Tất cả"), ("new_user", "Đăng ký"), ("login", "Đăng nhập"), ("report", "Báo cáo"), ("new_story", "Truyện mới"), ("new_chapter", "Chương mới") })
+        {
+            <button onclick="locTheo('@f.Item1')"
+                    id="filter-@f.Item1"
+                    style="padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;
+                border:1px solid #e0e0f0;background:@(f.Item1 == "all" ? "#534AB7" : "#fff");
+                color:@(f.Item1 == "all" ? "#fff" : "#555");transition:all .2s;">
+                @f.Item2
+            </button>
+        }
+    </div>
+
+    <!-- Bảng -->
+    <div style="background:#fff;border-radius:12px;border:1px solid #e8e8f0;overflow:hidden;">
+
+        <!-- Header bảng -->
+        <div style="display:grid;grid-template-columns:48px 1fr 160px 160px 110px 100px;
+            padding:12px 20px;background:#f8f8fc;border-bottom:1px solid #e8e8f0;
+            font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;">
+            <div></div>
+            <div>Nội dung</div>
+            <div>Người gửi</div>
+            <div>Thời gian</div>
+            <div>Trạng thái</div>
+            <div>Thao tác</div>
+        </div>
+
+        <!-- Rows -->
+        <div id="tb-list">
+            @if (!Model.Any())
+            {
+                <div style="padding:48px;text-align:center;color:#aaa;font-size:14px;">
+                    <i class="fa fa-bell-slash" style="font-size:32px;margin-bottom:12px;display:block;"></i>
+                    Chưa có thông báo nào.
+                </div>
+            }
+            @foreach (var tb in Model)
+            {
+                var (ico, color) = iconMap.TryGetValue(tb.Type, out var v) ? v : ("fa-bell", "#888");
+                <div class="tb-row" data-type="@tb.Type" data-id="@tb.Id"
+                     style="display:grid;grid-template-columns:48px 1fr 160px 160px 110px 100px;
+                    padding:14px 20px;border-bottom:1px solid #f5f5f5;
+                    align-items:center;transition:background .15s;
+                    background:@(tb.IsRead ? "#fff" : "#f8f7ff");">
+
+                    <!-- Icon -->
+                    <div style="width:34px;height:34px;border-radius:50%;background:@(color)22;
+                        display:flex;align-items:center;justify-content:center;">
+                        <i class="fa @ico" style="color:@color;font-size:14px;"></i>
+                    </div>
+
+                    <!-- Nội dung -->
+                    <div>
+                        <div style="font-size:13px;color:#222;font-weight:@(tb.IsRead ? "400" : "600");">
+                            @tb.Message
+                        </div>
+                        @if (!string.IsNullOrEmpty(tb.Link))
+                        {
+                            <a href="@tb.Link" style="font-size:11px;color:#534AB7;text-decoration:none;">
+                                <i class="fa fa-external-link" style="font-size:10px;"></i> Xem chi tiết
+                            </a>
+                        }
+                    </div>
+
+                    <!-- Người gửi -->
+                    <div style="font-size:13px;color:#555;">
+                        @if (tb.Sender != null)
+                        {
+                            <div style="display:flex;align-items:center;gap:6px;">
+                                <div style="width:26px;height:26px;border-radius:50%;background:#534AB722;
+                                    display:flex;align-items:center;justify-content:center;
+                                    font-size:11px;font-weight:700;color:#534AB7;">
+                                    @tb.Sender.DisplayName?.FirstOrDefault()
+                                </div>
+                                <span>@tb.Sender.DisplayName</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <span style="color:#bbb;">Hệ thống</span>
+                        }
+                    </div>
+
+                    <!-- Thời gian -->
+                    <div style="font-size:12px;color:#888;">
+                        @tb.CreatedAt.ToString("HH:mm dd/MM/yyyy")
+                    </div>
+
+                    <!-- Trạng thái -->
+                    <div>
+                        @if (tb.IsRead)
+                        {
+                            <span style="padding:3px 10px;border-radius:20px;font-size:11px;
+                                background:#e8f5e9;color:#27ae60;font-weight:600;">
+                                Đã đọc
+                            </span>
+                        }
+                        else
+                        {
+                            <span style="padding:3px 10px;border-radius:20px;font-size:11px;
+                                background:#fff3e0;color:#f39c12;font-weight:600;">
+                                Chưa đọc
+                            </span>
+                        }
+                    </div>
+
+                    <!-- Thao tác -->
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        @if (!string.IsNullOrEmpty(tb.Link))
+                        {
+                            <a href="@tb.Link"
+                                   style="width:30px;height:30px;border-radius:6px;background:#534AB711;
+                                display:flex;align-items:center;justify-content:center;
+                                color:#534AB7;text-decoration:none;"
+                                   title="Xem">
+                                <i class="fa fa-eye" style="font-size:13px;"></i>
+                            </a>
+                        }
+                        @if (!tb.IsRead)
+                        {
+                            <button onclick="docMot('@tb.Id', this)"
+                                    style="width:30px;height:30px;border-radius:6px;background:#27ae6011;
+                                border:none;cursor:pointer;color:#27ae60;"
+                                    title="Đánh dấu đã đọc">
+                                <i class="fa fa-check" style="font-size:13px;"></i>
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // ── Lọc theo type ──────────────────────────────────────
+        function locTheo(type) {
+            document.querySelectorAll("[id^='filter-']").forEach(btn => {
+                btn.style.background = "#fff";
+                btn.style.color = "#555";
+            });
+            const active = document.getElementById("filter-" + type);
+            if (active) { active.style.background = "#534AB7"; active.style.color = "#fff"; }
+
+            document.querySelectorAll(".tb-row").forEach(row => {
+                row.style.display = (type === "all" || row.dataset.type === type)
+                    ? "grid" : "none";
+            });
+        }
+
+        // ── Đọc 1 cái ─────────────────────────────────────────
+        async function docMot(id, btn) {
+            await fetch(`/ThongBao/DanhDauDaDoc/${id}`, {
+                method: "POST",
+                headers: { "RequestVerificationToken": getToken() }
+            });
+            const row = btn.closest(".tb-row");
+            row.style.background = "#fff";
+            // Đổi badge sang "Đã đọc"
+            const badgeEl = row.querySelector("span[style*='fff3e0']");
+            if (badgeEl) {
+                badgeEl.style.background = "#e8f5e9";
+                badgeEl.style.color = "#27ae60";
+                badgeEl.textContent = "Đã đọc";
+            }
+            btn.remove();
+        }
+
+        // ── Đọc hết ───────────────────────────────────────────
+        async function docHet() {
+            await fetch("/ThongBao/DanhDauTatCaDaDoc", {
+                method: "POST",
+                headers: { "RequestVerificationToken": getToken() }
+            });
+            location.reload();
+        }
+
+        function getToken() {
+            return document.querySelector('input[name="__RequestVerificationToken"]')?.value ?? "";
+        }
+    </script>
+}

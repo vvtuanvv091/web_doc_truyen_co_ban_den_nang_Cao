@@ -1,0 +1,8 @@
+﻿@model IEnumerable<web_doc_truyen_Co_ban.Models.TagModel>
+
+<div class="d-flex flex-wrap gap-2">
+    @foreach (var tag in Model)
+    {
+        <a href="#" data-cat-id="@tag.Id" data-cat-slug="@tag.Slug">@tag.Name</a>
+    }
+</div>

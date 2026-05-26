@@ -1,0 +1,1624 @@
+﻿@model web_doc_truyen_Co_ban.Models.StoryModel
+@{
+    ViewData["Title"] = Model.Title;
+    var avgRating = (Model.Ratings != null && Model.Ratings.Any())
+        ? Math.Round(Model.Ratings.Average(r => r.Score), 1)
+        : 0.0;
+    var ratingCount  = Model.Ratings?.Count ?? 0;
+    var chapterCount = Model.Chapters?.Count ?? 0;
+    var commentCount = Model.StoryComments?.Count ?? 0;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@Model.Title - Đọc Truyện</title>
+
+  @*   <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css"> *@
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="~/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/fonts/themify-icons.css"> 
+    <link rel="stylesheet" href="~/assets/owlcarousel/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/assets/owlcarousel/css/owl.theme.css">
+    <link rel="stylesheet" href="~/assets/css/jquery-simple-mobilemenu.css">
+    <link rel="stylesheet" href="~/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/assets/css/animate.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+    :root{
+            --ink: #1a1714;
+            --ink-mid: #5a5550;
+            --ink-lt: #9a9490;
+            --paper: #faf8f5;
+            --line: #e8e4de;
+            --radius: 18px;
+    }
+    body {
+        background: var(--paper) !important;
+    }
+        }
+        /* ===== FIX layout header truyện ===== */
+        .story-header-wrap {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+        .story-cover-box {
+            flex-shrink: 0;
+            width: 150px;
+        }
+        .story-cover-box img,
+        .story-cover-placeholder {
+            width: 150px;
+            height: 210px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            display: block;
+        }
+        .story-cover-placeholder {
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #555;
+        }
+        .story-info-box {
+            flex: 1;
+            min-width: 0;
+        }
+        .story-info-box h4 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .story-badge {
+            display: inline-block;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgba(46,204,113,0.15);
+            color: #2ecc71;
+            border: 1px solid rgba(46,204,113,0.3);
+            margin-bottom: 10px;
+        }
+        .story-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+        .story-stats span i { margin-right: 4px; }
+        .story-stars {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 14px;
+            font-size: 15px;
+        }
+        .story-stars .rating-text {
+            font-size: 13px;
+            color: #999;
+            margin-left: 4px;
+        }
+        /* ===== VIP banner ===== */
+     .vip-banner {
+        background: #525fe1;
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin: 16px 0;
+        color: #fff;
+        box-shadow: 0 4px 18px rgba(91,63,212,0.25);
+    }
+
+    .vip-banner__header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 14px;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        padding-bottom: 10px;
+    }
+
+    .vip-banner__header i {
+        color: #ffd700;
+        font-size: 18px;
+    }
+
+    .vip-banner__header h5 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #fff;
+    }
+
+    .vip-banner__body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .vip-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 13.5px;
+        line-height: 1.5;
+    }
+
+    .vip-item i {
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    .vip-item .fa-check-circle { color: #69f0ae; }
+    .vip-item .fa-star          { color: #ffd700; }
+    .vip-item .fa-tag           { color: #ff8a65; }
+
+    .vip-banner__btn {
+        display: block;
+        text-align: center;
+        background: linear-gradient(90deg, #ffd700, #ffaa00);
+        color: #2d1f6e;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 1px;
+        padding: 10px 0;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: opacity 0.2s;
+    }
+
+    .vip-banner__btn:hover {
+        opacity: 0.88;
+        color: #2d1f6e;
+        text-decoration: none;
+    }
+        /* ===== Tabs fix ===== */
+        .course-details-content .nav-tabs { border-bottom: 1px solid #2a2a2a; }
+        .course-details-content .nav-tabs .nav-link {
+            font-size: 14px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        /* ===== Chapter table ===== */
+        .chap-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .chap-table thead tr { border-bottom: 1px solid #333; }
+        .chap-table thead th { padding: 10px 8px; color: #999; font-weight: 500; }
+        .chap-table tbody tr { border-bottom: 1px solid #1e1e1e; transition: background .15s; }
+        .chap-table tbody tr:hover { background: #f1f5f9; }
+        .chap-table tbody td { padding: 10px 8px; }
+        .chap-num { color: #e85d04; font-weight: 600; white-space: nowrap; }
+        .chap-date { text-align: right; color: #666; font-size: 12px; white-space: nowrap; }
+        .chap-table tbody tr {
+             transition: all 0.2s ease;
+        }
+
+        .chap-table tbody tr:hover {
+            background: #cbd5e1;
+            box-shadow: inset 4px 0 0 #2563eb;
+        }
+
+        .chap-title a {
+            color: #1e293b;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .chap-table tbody tr:hover .chap-title a {
+            color: #2563eb;
+        }
+        /* ===== Sidebar ===== */
+        .sidebar-read-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        /* ===== Info table ===== */
+        .info-tbl { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 14px; }
+        .info-tbl td { padding: 9px 0; border-bottom: 1px solid #0B104A; }
+        .info-tbl tr:last-child td { border-bottom: none; }
+        .info-lbl {width: 130px; }
+        /* ===== Tag chips ===== */
+        .tag-chip {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            margin: 2px;
+            color: #ccc;
+            text-decoration: none;
+        }
+        .tag-chip:hover { border-color: #e85d04; color: #e85d04; }
+        .sidebar-read-btn,
+        .btn-vip {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        /* Nút đọc từ đầu */
+        .sidebar-read-btn {
+            background: linear-gradient(135deg, #5B5BD6, #7A7AFF);
+            color: #fff;
+            border: 2px solid #5B5BD6;
+        }
+
+        .sidebar-read-btn:hover {
+            background: #fff;
+            color: #5B5BD6;
+            border: 2px solid #5B5BD6;
+        }
+
+        /* Nút đọc mới nhất */
+        .btn-vip {
+            background:linear-gradient(135deg, #5B5BD6, #7A7AFF);
+            color: #fff;
+            border: 2px solid #444;
+            margin-top: 8px;
+        }
+
+        .btn-vip:hover {
+            background: #fff;
+            color: #444;
+            border: 2px solid #444;
+        }
+
+        /* Icon spacing */
+        .sidebar-read-btn i,
+        .btn-vip i {
+            margin-right: 6px;
+        }
+        .event_info_price h4
+        {
+
+            padding:12px 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            border: 2px solid transparent;
+
+        }
+        .course_features h3{
+            margin-bottom:20px
+            padding:12px 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            border: 2px solid transparent;
+        }
+        .story-header-wrap {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        .story-cover-box {
+            flex-shrink: 0;
+            width: 160px;
+        }
+
+        .story-cover-box img {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+            box-shadow: 0 4px 16px rgba(0,0,0,.18);
+        }
+
+        .story-cover-placeholder {
+            width: 160px;
+            height: 220px;
+            background: #eee;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #aaa;
+        }
+
+        .story-info-box {
+            flex: 1;
+            min-width: 0;
+        }
+    .details-buttons-area {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: flex-start; /* hoặc bỏ dòng này vì đây là default */
+        margin: 0 -5px -5px;
+    }
+    .badge-vip    { background: #ffc107; color: #000; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+    .badge-lock   { background: #ff9800; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+    .badge-published { background: #28a745; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+    .badge-draft  { background: #6c757d; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+    .cmt-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 9px 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 13px;
+    color: #333;
+    text-align: left;
+    transition: background .15s;
+}
+.cmt-menu-item:hover { background: #f8fafc; }
+Thêm vào cuối <style> dark mode trong _LayoutCustomer.cshtml
+/* ══ Detail page — Story ══ */
+
+/* Sidebar "Thông tin" + "Truyện chữ" — đang bị tím Bootstrap */
+body.dark-mode .course_features {
+  background  : var(--dm-surface)  !important;
+  border-color: var(--dm-border)   !important;
+  color       : var(--dm-text)     !important;
+}
+body.dark-mode .course_features h3 {
+  background  : var(--dm-surface2) !important;
+  color       : var(--dm-text)     !important;
+}
+body.dark-mode .course_features ul li {
+  border-color: var(--dm-border)   !important;
+  color       : var(--dm-text)     !important;
+}
+/* Badge số (5, 1, 0...) bên phải sidebar */
+body.dark-mode .course_features ul li b,
+body.dark-mode .course_features ul li span {
+  background  : #2a2f4a           !important;
+  color       : var(--dm-text)     !important;
+  border-color: var(--dm-border)   !important;
+}
+
+/* Nút "Truyện chữ" header */
+body.dark-mode .event_info_price {
+  background  : var(--dm-surface)  !important;
+  border-color: var(--dm-border)   !important;
+  color       : var(--dm-text)     !important;
+}
+body.dark-mode .event_info_price h4 {
+  color: var(--dm-text) !important;
+}
+
+
+/* body.dark-mode .btn-vip {
+  background  : #1e2235           !important;
+  color       : var(--dm-text)     !important;
+  border-color: var(--dm-border)   !important;
+} */
+
+/* Tab bar (Thông tin / Chap / Bình luận) */
+body.dark-mode .course-details-content,
+body.dark-mode .section-bg {
+  background  : var(--dm-surface)  !important;
+  border-color: var(--dm-border)   !important;
+}
+body.dark-mode .nav-tabs {
+  border-color: var(--dm-border)   !important;
+  background  : var(--dm-surface2) !important;
+}
+body.dark-mode .nav-tabs .nav-link {
+  color       : var(--dm-muted)    !important;
+  border-color: transparent        !important;
+}
+body.dark-mode .nav-tabs .nav-link.active {
+  background  : var(--dm-surface)  !important;
+  color       : var(--dm-text)     !important;
+  border-color: var(--dm-border)   !important;
+}
+
+/* Tab content — nền trắng đang bị lộ */
+body.dark-mode .tab-content,
+body.dark-mode .tab-pane,
+body.dark-mode .overview {
+  background  : var(--dm-surface)  !important;
+  color       : var(--dm-text)     !important;
+}
+body.dark-mode .overview p,
+body.dark-mode .overview h5    { color: var(--dm-text)  !important; }
+body.dark-mode .info-tbl td     { color: var(--dm-text)  !important; border-color: var(--dm-border) !important; }
+body.dark-mode .info-lbl        { color: var(--dm-muted) !important; }
+
+/* Bảng chương */
+body.dark-mode .chap-table {
+  background  : var(--dm-surface)  !important;
+  color       : var(--dm-text)     !important;
+}
+body.dark-mode .chap-table thead tr {
+  background  : var(--dm-surface2) !important;
+}
+body.dark-mode .chap-table th,
+body.dark-mode .chap-table td {
+  color       : var(--dm-text)     !important;
+  border-color: var(--dm-border)   !important;
+}
+
+/* Bình luận */
+body.dark-mode #binhluan {
+  background: var(--dm-surface) !important;
+}
+body.dark-mode [id^="cmt-"] {
+  border-color: var(--dm-border) !important;
+}
+body.dark-mode [id^="cmt-"] p,
+body.dark-mode [id^="cmt-"] span { color: var(--dm-text)  !important; }
+body.dark-mode [id^="menu-"] {
+  background  : var(--dm-surface2) !important;
+  border-color: var(--dm-border)   !important;
+}
+body.dark-mode .cmt-menu-item {
+  background  : transparent        !important;
+  color       : var(--dm-text)     !important;
+}
+/* Textarea bình luận */
+body.dark-mode textarea[name="content"],
+body.dark-mode textarea[id^="edit-text-"],
+body.dark-mode textarea[id^="reply-text-"] {
+  background  : var(--dm-input-bg) !important;
+  color       : var(--dm-text)     !important;
+  border-color: var(--dm-border)   !important;
+}
+
+/* VIP Banner */
+body.dark-mode .vip-banner {
+  background  : #1a1a2e           !important;
+  border-color: #2a2f4a           !important;
+}
+body.dark-mode .vip-banner *    { color: var(--dm-text) !important; }
+
+/* Bookmark dropdown */
+body.dark-mode #bookmark-dropdown {
+  background  : var(--dm-surface2) !important;
+  border-color: var(--dm-border)   !important;
+}
+body.dark-mode #bm-list         { color: var(--dm-text) !important; }
+
+/* Story header wrap */
+body.dark-mode .single_event_single,
+body.dark-mode .story-header-wrap {
+  background  : var(--dm-surface)  !important;
+  border-color: var(--dm-border)   !important;
+}
+body.dark-mode .story-info-box h4,
+body.dark-mode .story-stats,
+body.dark-mode .story-stats span { color: var(--dm-text)  !important; }
+body.dark-mode .story-stats .text-muted { color: var(--dm-muted) !important; }
+    </style>
+</head>
+
+<body data-spy="scroll" data-offset="80">
+
+    <!-- MAIN -->
+    <section class="our_event section-padding">
+        @Html.AntiForgeryToken()
+        <div class="container-fluid px-lg-5 px-3">
+            <div class="row">
+
+                <!-- ========== CỘT TRÁI ========== -->
+                <div class="col-lg-8 col-sm-8 col-xs-12">
+
+                    <!-- HEADER TRUYỆN -->
+                    <div class="single_event_single">
+                        <div class="story-header-wrap">
+
+                            <!-- Ảnh bìa -->
+                            <div class="story-cover-box">
+                                @if (!string.IsNullOrEmpty(Model.CoverImageUrl))
+                                {
+                                    <img src="@GetImage(Model.CoverImageUrl)" alt="@Model.Title" />
+                                }
+                                else
+                                {
+                                    <div class="story-cover-placeholder">
+                                        <i class="fa fa-book"></i>
+                                    </div>
+                                }
+                            </div>
+
+
+                            <!-- Thông tin -->
+                            <div class="story-info-box single_event_text_single">
+                                <h4>@Model.Title</h4>
+
+                                <span class="story-badge">@GetStatusText(Model.Status)</span>
+
+                                <div class="story-stats">
+                                    <span><i class="fa fa-eye"></i>@(Model.TotalViews.ToString("N0"))</span>
+                                    <span><i class="fa fa-heart"></i>@Model.TotalFollows</span>
+                                    <span><i class="fa fa-book"></i>@chapterCount chương</span>
+                                    @{
+                                        var avgRating   = (decimal)Model.RatingAvg;
+                                        var ratingCount = Model.RatingCount;
+                                        var userScore   = (byte)(ViewBag.UserScore ?? 0);
+                                    }
+                                    <span>
+                                        <i class="fa fa-star" style="color:#ffa500;"></i>
+                                        <span id="avg-display">@avgRating.ToString("0.00")</span>
+                                        (<span id="count-display">@ratingCount</span> đánh giá)
+                                    </span>
+                                </div>
+
+                                <div class="story-stars" id="stars-display">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= Math.Floor((double)avgRating))
+                                            { <i class="fa fa-star" style="color:#ffa500;"></i> }
+                                        else if (avgRating > i - 1 && avgRating < i)
+                                            { <i class="fa fa-star-half-o" style="color:#ffa500;"></i> }
+                                        else
+                                            { <i class="fa fa-star-o" style="color:#ccc;"></i> }
+                                    }
+                                    <span class="rating-text" id="rating-text">
+                                        @avgRating.ToString("0.00") / 5 (@ratingCount đánh giá)
+                                    </span>
+                                </div>
+
+                                <div id="user-rating-box" data-story="@Model.Id" data-user-score="@userScore" class="mt-2">
+                                    @if (User.Identity?.IsAuthenticated == true)
+                                    {
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span class="text-muted me-1" style="font-size:.85rem;">Đánh giá của bạn:</span>
+                                            @for (byte i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star star-pick"
+                                                   data-score="@i"
+                                                   style="font-size:1.5rem; cursor:pointer; color:@(i <= userScore ? "#ffa500" : "#ccc");"></i>
+                                            }
+                                            @if (userScore > 0)
+                                            {
+                                                <span class="text-muted ms-1" style="font-size:.82rem;">(@userScore★)</span>
+                                            }
+                                        </div>
+                                        <div id="rate-msg" class="small mt-1" style="min-height:1.2em;"></div>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted small mt-1 mb-0">
+                                            <a href="/Account/Login">Đăng nhập</a> để đánh giá.
+                                        </p>
+                                    }
+                                </div>
+
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Nút hành động -->
+                                <div class="details-buttons-area" style="margin-top:0;">
+                                    @if (Model.Chapters != null && Model.Chapters.Any())
+                                    {
+                                        var firstChap    = Model.Chapters.OrderBy(c => c.ChapterNumber).First();
+                                        <a href="@Url.Action("Index","Chapter",new{id=firstChap.Id})"
+                                           class="custom-button">
+                                            <i class="fa fa-book-open"></i> Đọc truyện
+
+                                        </a>
+                                    }
+                                    @{
+                                        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                                        bool isFollowed = Model.Follows != null &&
+                                                          Model.Follows.Any(x => x.UserId.ToString() == userId);
+                                    }
+
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        @if (isFollowed)
+                                        {
+                                            <form asp-action="RemoveFollow" asp-controller="Follow" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="storyId" value="@Model.Id" />
+                                                <button type="submit" class="custom-button" style="background:#e11d48;color:white;">
+                                                    <i class="fa fa-heart-broken"></i> Bỏ theo dõi
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-action="AddFollow" asp-controller="Follow" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="storyId" value="@Model.Id" />
+                                                <button type="submit" class="custom-button">
+                                                    <i class="fa fa-heart"></i> Theo dõi
+                                                </button>
+                                            </form>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Account" asp-action="Login" class="custom-button">
+                                            <i class="fa fa-lock"></i> Đăng nhập để theo dõi
+                                        </a>
+                                    }
+                                    @* <button class="custom-button" onclick="openBaoCao('story', '@Model.Id', '@Model.Title')">
+                                        <i class="bi bi-flag"></i> Báo cáo truyện
+                                    </button> *@
+                                    <button class="custom-button" onclick="openBaoCao('story', '@Model.Id', '@Model.Title')">
+                                        <i class="bi bi-flag"></i> Báo cáo truyện
+                                    </button>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <div style="position:relative; display:inline-block;">
+                                            <button class="custom-button" id="btn-bookmark"
+                                                    onclick="toggleBookmark()"
+                                                    style="display:flex; align-items:center; gap:8px;
+                                                           
+                                                             color:#fff;
+                                                           font-size:14px; font-weight:600; cursor:pointer;">
+                                                <i class="fa fa-bookmark"></i> Bookmark
+                                                <span id="bm-count"
+                                                       border-radius:99px;
+                                                             font-size:11px; padding:1px 7px;">0</span>
+                                                <i class="fa fa-chevron-down" id="bm-chevron"
+                                                   style="font-size:11px; transition:transform 0.2s;"></i>
+                                            </button>
+
+                                            <div id="bookmark-dropdown"
+                                                 style="display:none; position:absolute; top:calc(100% + 6px); left:0;
+                                                        min-width:240px; background:#fff; border:1px solid #e2e8f0;
+                                                        border-radius:12px; z-index:999; box-shadow:0 8px 24px rgba(0,0,0,0.12);
+                                                        overflow:hidden;">
+
+                                                <div style="padding:8px 12px; font-size:11px; color:#94a3b8;
+                                                            border-bottom:1px solid #f1f5f9; font-weight:600;
+                                                            letter-spacing:0.04em;">
+                                                    CHƯƠNG ĐÃ LƯU
+                                                </div>
+
+                                                <div id="bm-list" style="max-height:260px; overflow-y:auto;">
+                                                    <div style="padding:20px; text-align:center; color:#aaa; font-size:13px;">
+                                                        Đang tải...
+                                                    </div>
+                                                </div>
+
+                                                <div style="padding:8px 10px; border-top:1px solid #f1f5f9;">
+                                                    <button onclick="removeAllBookmark()"
+                                                            style="width:100%; padding:7px; border-radius:8px;
+                                                                   background:none; border:1px dashed #e2e8f0;
+                                                                   color:#94a3b8; font-size:12px; cursor:pointer;
+                                                                   display:flex; align-items:center; justify-content:center; gap:5px;">
+                                                        <i class="fa fa-trash"></i> Xóa tất cả
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+                    <!-- END HEADER TRUYỆN -->
+
+                    <!-- VIP BANNER -->
+                    <div class="vip-banner">
+                        <div class="vip-banner__header">
+                            <i class="fa fa-crown"></i>
+                            <h5>MUA GÓI HỘI VIÊN</h5>
+                        </div>
+                        <div class="vip-banner__body">
+                            <div class="vip-item">
+                                <i class="fa fa-check-circle"></i>
+                                <span>Đăng ký <strong>miễn phí</strong>: đọc full trừ 50 chương mới nhất + 10 chương/ngày mở bằng điểm</span>
+                            </div>
+                            <div class="vip-item">
+                                <i class="fa fa-star"></i>
+                                <span>Nâng cấp <strong>VIP</strong>: đọc full tất cả truyện, nghe audio không giới hạn</span>
+                            </div>
+                            <div class="vip-item">
+                                <i class="fa fa-tag"></i>
+                                <span>Chỉ từ <strong>49.000đ</strong>, áp dụng ưu đãi bất kỳ lúc nào</span>
+                            </div>
+                        </div>
+                        <a href="#" class="vip-banner__btn">
+                            <i class="fa fa-credit-card"></i> MUA NGAY
+                        </a>
+                    </div>
+
+                    <!-- TABS -->
+                    <div class="course-details-content section-bg">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a href="#thongtin" class="nav-link active" data-bs-toggle="tab">
+                                    <i class="fa fa-info-circle"></i> Thông tin truyện
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#danhsachchap" class="nav-link" data-bs-toggle="tab">
+                                    <i class="fa fa-list"></i> Chap (@chapterCount)
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#binhluan" class="nav-link" data-bs-toggle="tab">
+                                    <i class="fa fa-comments"></i> Bình luận (@commentCount)
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="storyTabContent">
+
+                            <!-- ── TAB 1: THÔNG TIN ── -->
+                            <div class="tab-pane show fade active" id="thongtin">
+                                <div class="overview">
+                                    <h5 style="margin-bottom:12px;font-size:1rem;">Giới thiệu</h5>
+                                    <p style="line-height:1.8;">
+                                        @Html.Raw(Model.Description ?? "Chưa có mô tả.")
+                                    </p>
+
+                                    <table class="info-tbl">
+                                        <tr>
+                                            <td class="info-lbl">Thể loại</td>
+                                            <td>
+                                                @if (Model.Category != null)
+                                                {
+                                                    <a href="@Url.Action("ListByCategory","Category",new{slug=Model.Category.Slug})"
+                                                       style="color:#e85d04;">@Model.Category.Name</a>
+                                                }
+                                                else { <span style="color:#666;">—</span> }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info-lbl">Trạng thái</td>
+                                            <td>@GetStatusText(Model.Status)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info-lbl">Số chương</td>
+                                            <td>@chapterCount chương</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info-lbl">Lượt xem</td>
+                                            <td>@Model.TotalViews.ToString("N0")</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info-lbl">Ngày đăng</td>
+                                            <td>@Model.CreatedAt.ToString("dd/MM/yyyy")</td>
+                                        </tr>
+                                    </table>
+
+                                    @if (Model.Tags != null && Model.Tags.Any())
+                                    {
+                                        <div style="margin-top:14px;">
+                                            <span style="font-size:13px;margin-right:4px;">Tags:</span>
+                                            @foreach (var tag in Model.Tags)
+                                            {
+                                                <a href="/Tag/@tag.Slug" class="tag-chip">@tag.Name</a>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- ── TAB 2: DANH SÁCH CHƯƠNG ── -->
+                            <div class="tab-pane fade" id="danhsachchap">
+                                <div class="overview" style="padding:0;">
+                                    @if (Model.Chapters != null && Model.Chapters.Any())
+                                    {
+                                        <div style="max-height:540px;overflow-y:auto;">
+                                            <table class="chap-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:left">Volumn</th>
+                                                        <th style="text-align:left">Chương</th>
+                                                        <th style="text-align:left">Tên chương</th>
+                                                        <th style="text-align:right">Ngày cập nhật</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var chapter in Model.Chapters.OrderBy(c => c.ChapterNumber))
+                                                    {
+                                                        <tr>
+                                                            <td>@(chapter.VolumeTitle ?? "—")</td>
+                                                            <td>
+                                                                @* ✅ Đúng: IsLocked || Status==2 *@
+                                                                @if (chapter.IsLocked && chapter.Status == 2)
+                                                                {
+                                                                    <a href="@Url.Action("Confirm","UnlockChapter", new { id = chapter.Id })">
+                                                                        Chương @chapter.ChapterNumber
+                                                                    </a>
+                                                                    <span class="badge badge-vip">VIP</span>
+                                                                    @if (chapter.UnlockPrice > 0)
+                                                                    {
+                                                                        <span class="badge badge-lock">🔒 @chapter.UnlockPrice xu</span>
+                                                                    }
+                                                                }
+                                                                else if (chapter.Status == 1 && !chapter.IsLocked)
+                                                                {
+                                                                    <a href="@Url.Action("Index","Chapter", new { id = chapter.Id })">
+                                                                        Chương @chapter.ChapterNumber
+                                                                    </a>
+                                                                    <span class="badge badge-published">Đã đăng</span>
+                                                                }
+                                                                else if (chapter.Status == 0)
+                                                                {
+                                                                    <span style="color:#aaa">Chương @chapter.ChapterNumber</span>
+                                                                    <span class="badge badge-draft">Bản nháp</span>
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                @if (!string.IsNullOrEmpty(chapter.Title))
+                                                                {
+                                                                    @chapter.Title
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span style="color:#999">—</span>
+                                                                }
+                                                            </td>
+                                                            <td style="text-align:right; color:#888; font-size:13px;">
+                                                                @chapter.UpdatedAt.ToString("dd/MM/yyyy")
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="text-align:center;color:#666;padding:48px 0;">
+                                            <i class="fa fa-book" style="font-size:40px;display:block;margin-bottom:12px;"></i>
+                                            Chưa có chương nào.
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                           <!-- ── TAB 3: BÌNH LUẬN ── -->
+                            <div class="tab-pane fade" id="binhluan">
+                                <div style="padding: 24px 0;">
+
+                                    <!-- Header -->
+                                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+                                        <h5 style="margin:0;font-weight:700;color:#1e293b;">
+                                            💬 Bình luận 
+                                            <span style="background:#6c63ff;color:#fff;border-radius:20px;
+                                                         padding:2px 10px;font-size:13px;margin-left:6px;">
+                                                @Model.StoryComments.Count
+                                            </span>
+                                        </h5>
+                                    </div>
+                                    @* //xem lại nha code ai render *@
+                                    <!-- Danh sách bình luận -->
+                                    @if (Model.StoryComments != null && Model.StoryComments.Any())
+                                    {
+                                        @foreach (var cmt in Model.StoryComments
+                                            .Where(c => c.ParentId == null && c.Status == 0)
+                                            .OrderByDescending(c => c.CreatedAt)
+                                            .Take(20))
+                                        {
+                                            var isOwner = userId != null && cmt.UserId.ToString() == userId;
+
+                                            <div style="display:flex;gap:12px;padding:16px 0;
+                                                        border-bottom:1px solid #f1f5f9;" id="cmt-@cmt.Id">
+
+                                                <!-- Avatar -->
+                                                @if (!string.IsNullOrEmpty(cmt.User?.AvatarUrl))
+                                                {
+                                                    <img src="@cmt.User.AvatarUrl"
+                                                         style="width:42px;height:42px;border-radius:50%;
+                                                                object-fit:cover;flex-shrink:0;" />
+                                                }
+                                                else
+                                                {
+                                                    <div style="width:42px;height:42px;border-radius:50%;
+                                                                background:linear-gradient(135deg,#6c63ff,#a78bfa);
+                                                                display:flex;align-items:center;justify-content:center;
+                                                                color:#fff;font-weight:700;font-size:16px;flex-shrink:0;">
+                                                        @((cmt.User?.DisplayName ?? "?").Substring(0,1).ToUpper())
+                                                    </div>
+                                                }
+
+                                                <!-- Nội dung -->
+                                                <div style="flex:1;min-width:0;">
+                                                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+                                                        <div style="display:flex;align-items:center;gap:8px;">
+                                                            <span style="font-weight:700;font-size:14px;color:#1e293b;">
+                                                                @(cmt.User?.DisplayName ?? "Ẩn danh")
+                                                            </span>
+                                                            <span style="font-size:11px;color:#94a3b8;">
+                                                                @cmt.CreatedAt.ToString("HH:mm · dd/MM/yyyy")
+                                                            </span>
+                                                        </div>
+
+                                                        <!-- 3 chấm menu -->
+                                                        @if (User.Identity.IsAuthenticated)
+                                                        {
+                                                            <div style="position:relative;" class="cmt-menu-wrap">
+                                                                <button onclick="toggleCmtMenu('@cmt.Id')"
+                                                                        style="background:none;border:none;cursor:pointer;
+                                                                               color:#94a3b8;padding:4px 8px;border-radius:6px;
+                                                                               font-size:16px;line-height:1;"
+                                                                        title="Tùy chọn">
+                                                                    ···
+                                                                </button>
+                                                                <div id="menu-@cmt.Id"
+                                                                     style="display:none;position:absolute;right:0;top:100%;
+                                                                            background:#fff;border:1px solid #e2e8f0;
+                                                                            border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.1);
+                                                                            z-index:99;min-width:150px;overflow:hidden;">
+
+                                                                    <!-- Trả lời — ai cũng thấy -->
+                                                                    <button onclick="openReply('@cmt.Id', '@(cmt.User?.DisplayName ?? "Ẩn danh")')"
+                                                                            class="cmt-menu-item">
+                                                                        <i class="fa fa-reply"></i> Trả lời
+                                                                    </button>
+
+                                                                    @if (isOwner)
+                                                                    {
+                                                                        <!-- Sửa -->
+                                                                        <button onclick="openEdit('@cmt.Id', `@Html.Raw(cmt.Content.Replace("`","\\`"))`)"
+                                                                                class="cmt-menu-item">
+                                                                            <i class="fa fa-pencil"></i> Chỉnh sửa
+                                                                        </button>
+                                                                        <!-- Xóa -->
+                                                                        <button onclick="xoaBinhLuan('@cmt.Id')"
+                                                                                class="cmt-menu-item" style="color:#e74c3c;">
+                                                                            <i class="fa fa-trash"></i> Xóa
+                                                                        </button>
+                                                                        <button onclick="openBaoCao('comment','@cmt.Id','Bình luận của @(cmt.User?.DisplayName ?? "Ẩn danh")')"
+                                                                                class="cmt-menu-item" style="color:#e74c3c;">
+                                                                            <i class="fa fa-flag"></i> Báo cáo
+                                                                        </button>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <button onclick="openBaoCao('comment','@cmt.Id','Bình luận của @(cmt.User?.DisplayName ?? "Ẩn danh")')"
+                                                                                class="cmt-menu-item" style="color:#e74c3c;">
+                                                                            <i class="fa fa-flag"></i> Báo cáo
+                                                                        </button>
+                                                                    }
+                                                                    </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+
+                                                    <!-- Nội dung bình luận (có thể edit) -->
+                                                    <p id="content-@cmt.Id"
+                                                       style="margin:6px 0 10px;font-size:14px;color:#334155;
+                                                              line-height:1.6;word-break:break-word;">
+                                                        @cmt.Content
+                                                    </p>
+
+                                                    <!-- Form sửa (ẩn mặc định) -->
+                                                    <div id="edit-@cmt.Id" style="display:none;margin-bottom:10px;">
+                                                        <textarea id="edit-text-@cmt.Id" rows="2"
+                                                                  style="width:100%;padding:8px 12px;border:1px solid #e2e8f0;
+                                                                         border-radius:8px;font-size:14px;resize:vertical;
+                                                                         font-family:inherit;box-sizing:border-box;"></textarea>
+                                                        <div style="display:flex;gap:8px;margin-top:6px;justify-content:flex-end;">
+                                                            <button onclick="cancelEdit('@cmt.Id')"
+                                                                    style="padding:6px 14px;border:1px solid #ddd;border-radius:8px;
+                                                                           background:none;cursor:pointer;font-size:13px;color:#666;">
+                                                                Hủy
+                                                            </button>
+                                                            <button onclick="luuSua('@cmt.Id')"
+                                                                    style="padding:6px 14px;border:none;border-radius:8px;
+                                                                           background:#525fe1;color:#fff;cursor:pointer;font-size:13px;">
+                                                                Lưu
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Form reply (ẩn mặc định) -->
+                                                    <div id="reply-@cmt.Id" style="display:none;margin:8px 0 10px;">
+                                                        <div style="font-size:12px;color:#94a3b8;margin-bottom:4px;">
+                                                            Đang trả lời <strong id="reply-name-@cmt.Id"></strong>
+                                                        </div>
+                                                        <textarea id="reply-text-@cmt.Id" rows="2"
+                                                                  placeholder="Viết trả lời..."
+                                                                  style="width:100%;padding:8px 12px;border:1px solid #e2e8f0;
+                                                                         border-radius:8px;font-size:14px;resize:vertical;
+                                                                         font-family:inherit;box-sizing:border-box;"></textarea>
+                                                        <div style="display:flex;gap:8px;margin-top:6px;justify-content:flex-end;">
+                                                            <button onclick="cancelReply('@cmt.Id')"
+                                                                    style="padding:6px 14px;border:1px solid #ddd;border-radius:8px;
+                                                                           background:none;cursor:pointer;font-size:13px;color:#666;">
+                                                                Hủy
+                                                            </button>
+                                                            <button onclick="guiReply('@cmt.Id')"
+                                                                    style="padding:6px 14px;border:none;border-radius:8px;
+                                                                           background:#525fe1;color:#fff;cursor:pointer;font-size:13px;">
+                                                                Gửi
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Like -->
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        <form method="post" asp-action="LikeComment" asp-controller="Story"
+                                                              style="display:inline;">
+                                                            @Html.AntiForgeryToken()
+                                                            <input type="hidden" name="commentId" value="@cmt.Id" />
+                                                            <input type="hidden" name="storyId" value="@Model.Id" />
+                                                            <button type="submit"
+                                                                    style="border:1px solid #fecdd3;background:#fff5f5;
+                                                                           color:#e74c3c;font-size:12px;padding:4px 12px;
+                                                                           border-radius:20px;cursor:pointer;
+                                                                           display:inline-flex;align-items:center;gap:4px;">
+                                                                <i class="fa fa-heart"></i>
+                                                                <span>@cmt.LikeCount</span>
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="border:1px solid #fecdd3;background:#fff5f5;
+                                                                     color:#e74c3c;font-size:12px;padding:4px 12px;
+                                                                     border-radius:20px;display:inline-flex;align-items:center;gap:4px;">
+                                                            <i class="fa fa-heart"></i> @cmt.LikeCount
+                                                        </span>
+                                                    }
+                                                    <div id="replies-@cmt.Id" style="margin-top:10px;">
+                                                        @foreach (var reply in Model.StoryComments
+                                                            .Where(r => r.ParentId == cmt.Id && r.Status == 0)
+                                                            .OrderBy(r => r.CreatedAt))
+                                                        {
+                                                            <div style="display:flex;gap:10px;padding:10px 0;
+                                                                        padding-left:16px;border-left:3px solid #e2e8f0;"
+                                                                 id="cmt-@reply.Id">
+                                                                <!-- Avatar reply -->
+                                                                @if (!string.IsNullOrEmpty(reply.User?.AvatarUrl))
+                                                                {
+                                                                    <img src="@reply.User.AvatarUrl"
+                                                                         style="width:32px;height:32px;border-radius:50%;
+                                                                                object-fit:cover;flex-shrink:0;" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div style="width:32px;height:32px;border-radius:50%;
+                                                                                background:linear-gradient(135deg,#6c63ff,#a78bfa);
+                                                                                display:flex;align-items:center;justify-content:center;
+                                                                                color:#fff;font-weight:700;font-size:13px;flex-shrink:0;">
+                                                                        @((reply.User?.DisplayName ?? "?").Substring(0,1).ToUpper())
+                                                                    </div>
+                                                                }
+                                                                <!-- Nội dung reply -->
+                                                                <div style="flex:1;">
+                                                                    <span style="font-weight:700;font-size:13px;color:#1e293b;">
+                                                                        @(reply.User?.DisplayName ?? "Ẩn danh")
+                                                                    </span>
+                                                                    <span style="font-size:11px;color:#94a3b8;margin-left:6px;">
+                                                                        @reply.CreatedAt.ToString("HH:mm · dd/MM/yyyy")
+                                                                    </span>
+                                                                    <p id="content-@reply.Id"
+                                                                       style="margin:4px 0 0;font-size:14px;color:#334155;
+                                                                              line-height:1.6;word-break:break-word;">
+                                                                        @reply.Content
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        <div style="text-align:center;padding:40px 0;color:#94a3b8;">
+                                            <i class="fa fa-comments" style="font-size:40px;display:block;
+                                                                              margin-bottom:12px;color:#cbd5e1;"></i>
+                                            <p style="font-size:14px;">Chưa có bình luận. Hãy là người đầu tiên!</p>
+                                        </div>
+                                    }
+
+                                    <!-- Form thêm bình luận -->
+                                    <div style="margin-top:28px;">
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <h6 style="font-weight:700;color:#1e293b;margin-bottom:14px;">
+                                                ✍️ Thêm bình luận
+                                            </h6>
+                                            <form method="post" asp-action="AddComment" asp-controller="Story">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="storyId" value="@Model.Id" />
+
+                                                <textarea name="content" rows="3"
+                                                          placeholder="Viết bình luận của bạn..."
+                                                          maxlength="2000" required
+                                                          style="width:100%;padding:12px 16px;border:1px solid #e2e8f0;
+                                                                 border-radius:12px;font-size:14px;resize:vertical;
+                                                                 font-family:inherit;outline:none;
+                                                                 transition:border-color .2s;
+                                                                 background:#f8fafc;color:#1e293b;"
+                                                          onfocus="this.style.borderColor='#6c63ff';this.style.background='#fff'"
+                                                          onblur="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc'">
+                                                </textarea>
+
+                                                <div style="text-align:right;margin-top:10px;">
+                                                    <button type="submit"
+                                                            style=" background: #525fe1;;
+                                                                   color:#fff;border:none;padding:10px 24px;
+                                                                   border-radius:10px;font-size:14px;font-weight:600;
+                                                                   cursor:pointer;display:inline-flex;align-items:center;
+                                                                   gap:8px;transition:opacity .2s;"
+                                                            onmouseover="this.style.opacity='.85'"
+                                                            onmouseout="this.style.opacity='1'">
+                                                        <i class="fa fa-paper-plane"></i> Gửi bình luận
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <div style="text-align:center;padding:20px;background:#f8fafc;
+                                                        border-radius:12px;border:1px dashed #e2e8f0;">
+                                                <i class="fa fa-lock" style="color:#94a3b8;font-size:20px;
+                                                                              display:block;margin-bottom:8px;"></i>
+                                                <p style="margin:0;font-size:14px;color:#64748b;">
+                                                    Bạn cần 
+                                                    <a asp-action="Login" asp-controller="Account"
+                                                       style="color:#6c63ff;font-weight:600;">đăng nhập</a>
+                                                    để bình luận.
+                                                </p>
+                                            </div>
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- END TABS -->
+
+                </div>
+                <!-- END CỘT TRÁI -->
+
+                <!-- ========== CỘT PHẢI (SIDEBAR) ========== -->
+                <div class="col-lg-4 col-sm-4 col-xs-12">
+
+                    <!-- Thông tin nhanh -->
+                    <div class="course_features">
+                        <h3>Thông tin</h3>
+                        <ul>
+                            <li><i class="fa fa-list"></i> Số chương <b>@chapterCount</b></li>
+                            <li><i class="fa fa-eye"></i> Lượt xem <b>@Model.TotalViews.ToString("N0")</b></li>
+                            <li><i class="fa fa-heart"></i> Theo dõi <b>@Model.TotalFollows</b></li>
+                            <li><i class="fa fa-star"></i> Đánh giá <b>@avgRating / 5</b></li>
+                            <li><i class="fa fa-tag"></i> Thể loại <b>@(Model.Category?.Name ?? "—")</b></li>
+                            <li><i class="fa fa-calendar"></i> Ngày đăng <b>@Model.CreatedAt.ToString("dd/MM/yy")</b></li>
+                        </ul>
+                    </div>
+
+                    <!-- Nút đọc -->
+                    <div class="event_info_price">
+                        <h4><i class="fa fa-book-open" ></i> Truyện chữ</h4>
+                    </div>
+                    <div class="event_info_register">
+                        @if (Model.Chapters != null && Model.Chapters.Any())
+                        {
+                            var firstChap    = Model.Chapters.OrderBy(c => c.ChapterNumber).First();
+                            var lastChap     = Model.Chapters.OrderBy(c => c.ChapterNumber).Last();
+                            var continueId   = ViewBag.ContinueChapterId as Guid?;
+                            var continueNum  = ViewBag.ContinueChapterNumber;
+
+                            @* ── Nút thông minh: Đọc tiếp nếu đã đọc, Đọc từ đầu nếu chưa ── *@
+                            @if (continueId.HasValue)
+                            {
+                                <a class="sidebar-read-btn"
+                                   href="@Url.Action("Index","Chapter",new{id=continueId.Value})">
+                                    <i class="fa fa-forward"></i> Đọc tiếp - Chương @continueNum
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="sidebar-read-btn"
+                                   href="@Url.Action("Index","Chapter",new{id=firstChap.Id})">
+                                    <i class="fa fa-play"></i> Đọc từ đầu
+                                </a>
+                            }
+
+                            @* ── Nút đọc mới nhất luôn hiện ── *@
+                            <a class="btn-vip"
+                               href="@Url.Action("Index","Chapter",new{id=lastChap.Id})">
+                                <i class="fa fa-fast-forward"></i> Đọc mới nhất
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="btn_one sidebar-read-btn" style="opacity:0.5;cursor:default;">
+                                Chưa có chương
+                            </span>
+                        }
+                    </div>
+
+                    <!-- Truyện liên quan -->
+                    @if (ViewBag.RelatedStories != null)
+                    {
+                        <div class="related_course">
+                            <h3>Truyện liên quan</h3>
+                            @foreach (var rel in (IEnumerable<web_doc_truyen_Co_ban.Models.StoryModel>)ViewBag.RelatedStories)
+                            {
+                                <div class="single_rc">
+                                    <div class="rc_img">
+                                        <img src="@(string.IsNullOrEmpty(rel.CoverImageUrl) ? "/assets/img/rc-1.png" : rel.CoverImageUrl)"
+                                             alt="@rel.Title" />
+                                    </div>
+                                    @for (int s = 1; s <= 5; s++)
+                                    {
+                                        <i class="fa fa-star" style="color:@(s <= 4 ? "#ffa500" : "#555");"></i>
+                                    }
+                                    <h4>
+                                        <a href="@Url.Action("Detail","Story",new{id=rel.Id})">@rel.Title</a>
+                                    </h4>
+                                    <span>@(rel.Category?.Name ?? "")</span>
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    <!-- Thể loại -->
+                    @if (ViewBag.Categories != null)
+                    {
+                        <div class="sidebar-post">
+                            <div class="sidebar_title"><h4>THỂ LOẠI</h4></div>
+                            <div class="single_category">
+                                <ul>
+                                    @foreach (var cat in (IEnumerable<web_doc_truyen_Co_ban.Models.CategoryModel>)ViewBag.Categories)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("ListByCategory","Category",new{slug=cat.Slug})">
+                                                @cat.Name <sup>@cat.StoryCount</sup>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <!-- END CỘT PHẢI -->
+
+            </div>
+        </div>
+    </section>
+
+     @await Html.PartialAsync("_PopupReport")
+    <script src="~/assets/js/jquery-1.12.4.min.js"></script>
+    <script src="~/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/modernizr-2.8.3.min.js"></script>
+    <script src="~/assets/js/jquery-simple-mobilemenu.js"></script>
+    <script src="~/assets/owlcarousel/js/owl.carousel.min.js"></script>
+    <script src="~/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/assets/js/jquery.inview.min.js"></script>
+    <script src="~/assets/js/scrolltopcontrol.js"></script>
+    <script src="~/assets/js/wow.min.js"></script>
+    <script src="~/assets/js/scripts.js"></script>
+
+
+@functions {
+    public string GetImage(string? url)
+    {
+        if (string.IsNullOrEmpty(url))
+            return Url.Content("~/img/cat1.jpg");
+
+        // ảnh online
+        if (url.StartsWith("http"))
+            return url;
+
+        // nếu đã là path tuyệt đối
+        if (url.StartsWith("/"))
+            return url;
+
+        // file local trong wwwroot/img
+        return Url.Content("~/img/" + url);
+    }
+
+
+        public string GetStatusText(byte status) => status switch
+        {
+            0 => "Bản nháp",
+            1 => "Đang ra",
+            2 => "Hoàn thành",
+            3 => "Tạm dừng",
+            4 => "Drop",
+            _ => "Không xác định"
+        };
+
+        public string GetStatusColor(byte status) => status switch
+        {
+            2 => "text-success",
+            3 => "text-warning",
+            4 => "text-danger",
+            _ => "text-primary"
+        };
+}
+
+
+
+</body>
+</html>
+
+@section Scripts {
+    <script>
+    // ===== BÌNH LUẬN =====
+        function getToken() {
+            return document.querySelector('input[name="__RequestVerificationToken"]')?.value ?? '';
+        }
+
+        function toggleCmtMenu(id) {
+            document.querySelectorAll('[id^="menu-"]').forEach(m => {
+                if (m.id !== 'menu-' + id) m.style.display = 'none';
+            });
+            const m = document.getElementById('menu-' + id);
+            m.style.display = m.style.display === 'block' ? 'none' : 'block';
+        }
+
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.cmt-menu-wrap'))
+                document.querySelectorAll('[id^="menu-"]').forEach(m => m.style.display = 'none');
+        });
+
+        function openReply(id, name) {
+            document.getElementById('menu-' + id).style.display = 'none';
+            document.getElementById('reply-name-' + id).textContent = name;
+            document.getElementById('reply-' + id).style.display = 'block';
+            document.getElementById('reply-text-' + id).focus();
+        }
+        function cancelReply(id) {
+            document.getElementById('reply-' + id).style.display = 'none';
+            document.getElementById('reply-text-' + id).value = '';
+        }
+        async function guiReply(parentId) {
+            const content = document.getElementById('reply-text-' + parentId).value.trim();
+            if (!content) return;
+            const res = await fetch('/Story/AddComment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    storyId: '@Model.Id',
+                    content,
+                    parentId,
+                    __RequestVerificationToken: getToken()
+                })
+            });
+            if (res.ok) location.reload();
+        }
+
+        function openEdit(id, content) {
+            document.getElementById('menu-' + id).style.display = 'none';
+            document.getElementById('content-' + id).style.display = 'none';
+            document.getElementById('edit-text-' + id).value = content;
+            document.getElementById('edit-' + id).style.display = 'block';
+        }
+        function cancelEdit(id) {
+            document.getElementById('edit-' + id).style.display = 'none';
+            document.getElementById('content-' + id).style.display = 'block';
+        }
+        async function luuSua(id) {
+            const content = document.getElementById('edit-text-' + id).value.trim();
+            if (!content) return;
+            const res = await fetch('/Story/EditComment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    commentId: id,
+                    content,
+                    __RequestVerificationToken: getToken()
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('content-' + id).textContent = content;
+                cancelEdit(id);
+            }
+        }
+
+        async function xoaBinhLuan(id) {
+            if (!confirm('Xóa bình luận này?')) return;
+            const res = await fetch('/Story/DeleteComment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    commentId: id,
+                    __RequestVerificationToken: getToken()
+                })
+            });
+            const data = await res.json();
+            if (data.success) document.getElementById('cmt-' + id).remove();
+        }
+
+    (function () {
+
+   
+        var box = document.getElementById('user-rating-box');
+        if (!box) return;
+
+        var storyId   = box.dataset.story;
+        var userScore = parseInt(box.dataset.userScore) || 0;
+        var stars     = box.querySelectorAll('.star-pick');
+        var msgEl     = document.getElementById('rate-msg');
+
+        if (!stars.length) return;
+
+        function highlight(upTo) {
+            stars.forEach(function(s) {
+                s.style.color = parseInt(s.dataset.score) <= upTo ? '#ffa500' : '#ccc';
+            });
+        }
+
+        stars.forEach(function(star) {
+            star.addEventListener('mouseenter', function() { highlight(parseInt(this.dataset.score)); });
+            star.addEventListener('mouseleave', function() { highlight(userScore); });
+            star.addEventListener('click',      function() { sendRating(parseInt(this.dataset.score)); });
+        });
+
+        function getToken() {
+            var el = document.querySelector('input[name="__RequestVerificationToken"]');
+            return el ? el.value : '';
+        }
+
+        function sendRating(score) {
+            if (msgEl) msgEl.innerHTML = '<span class="text-muted">Đang gửi...</span>';
+
+            fetch('/Story/Rate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'storyId=' + storyId
+                    + '&score=' + score
+                    + '&__RequestVerificationToken=' + encodeURIComponent(getToken())
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    userScore = data.userScore;
+                    highlight(userScore);
+                    box.dataset.userScore = userScore;
+
+                    var avg = parseFloat(data.avgRating).toFixed(2);
+                    var e1 = document.getElementById('avg-display');
+                    var e2 = document.getElementById('count-display');
+                    var e3 = document.getElementById('rating-text');
+                    if (e1) e1.textContent = avg;
+                    if (e2) e2.textContent = data.ratingCount;
+                    if (e3) e3.textContent = avg + ' / 5 (' + data.ratingCount + ' đánh giá)';
+
+                    refreshStaticStars(data.avgRating);
+                    if (msgEl) msgEl.innerHTML = '<span class="text-success"><i class="fa fa-check"></i> Đã lưu ' + userScore + '★</span>';
+                } else {
+                    if (msgEl) msgEl.innerHTML = '<span class="text-danger">' + (data.message || 'Lỗi.') + '</span>';
+                }
+                setTimeout(function() { if (msgEl) msgEl.innerHTML = ''; }, 3000);
+            })
+            .catch(function() {
+                if (msgEl) msgEl.innerHTML = '<span class="text-danger">Lỗi kết nối.</span>';
+            });
+        }
+
+        function refreshStaticStars(avg) {
+            var container = document.getElementById('stars-display');
+            if (!container) return;
+            var span = container.querySelector('span');
+            container.querySelectorAll('i').forEach(function(el) { el.remove(); });
+            for (var i = 1; i <= 5; i++) {
+                var icon = document.createElement('i');
+                if      (i <= Math.floor(avg))           { icon.className = 'fa fa-star';        icon.style.color = '#ffa500'; }
+                else if (avg > i-1 && avg < i)           { icon.className = 'fa fa-star-half-o'; icon.style.color = '#ffa500'; }
+                else                                     { icon.className = 'fa fa-star-o';      icon.style.color = '#ccc'; }
+                container.insertBefore(icon, span);
+            }
+        }
+    })();
+
+    //thêm  xổ danh sách phần bôkmark
+    const STORY_ID = '@Model.Id';
+    let bmOpen = false;
+
+    async function toggleBookmark() {
+        bmOpen = !bmOpen;
+        document.getElementById('bookmark-dropdown').style.display = bmOpen ? 'block' : 'none';
+        document.getElementById('bm-chevron').style.transform = bmOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+        if (bmOpen) await loadBookmarks();
+    }
+
+    async function loadBookmarks() {
+        const listEl = document.getElementById('bm-list');
+        listEl.innerHTML = '<div style="padding:20px;text-align:center;color:#aaa;font-size:13px;">Đang tải...</div>';
+        try {
+            const res  = await fetch(`/BookMark/GetByStory?storyId=${STORY_ID}`);
+            const data = await res.json();
+
+            document.getElementById('bm-count').textContent = data.length;
+
+            if (!data.length) {
+                listEl.innerHTML = '<div style="padding:20px;text-align:center;color:#aaa;font-size:13px;">Chưa có bookmark nào.</div>';
+                return;
+            }
+
+            listEl.innerHTML = data.map(b => `
+                <div style="display:flex;align-items:center;justify-content:space-between;
+                            padding:9px 12px;border-bottom:1px solid #f1f5f9;cursor:pointer;"
+                     onclick="window.location.href='/Chapter/Index/${b.chapterId}'">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <i class="fa fa-bookmark" style="color:#534AB7;font-size:13px;"></i>
+                        <div>
+                            <div style="font-size:13px;font-weight:600;color:#1e293b;">
+                                Chương ${parseFloat(b.chapterNumber).toFixed(2)}
+                            </div>
+                            <div style="font-size:11px;color:#94a3b8;">${b.updatedAt ?? ''}</div>
+                        </div>
+                    </div>
+                    <button onclick="event.stopPropagation(); removeBookmark('${b.id}')"
+                            style="background:none;border:none;cursor:pointer;
+                                   color:#94a3b8;padding:2px 6px;border-radius:4px;">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+
+        } catch {
+            listEl.innerHTML = '<div style="padding:20px;text-align:center;color:#e74c3c;font-size:13px;">Lỗi tải dữ liệu.</div>';
+        }
+    }
+
+    async function removeBookmark(id) {
+        await fetch(`/BookMark/Remove`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `bookmarkid=${id}&__RequestVerificationToken=${getToken()}`
+        });
+        await loadBookmarks();
+    }
+
+    async function removeAllBookmark() {
+        await fetch(`/BookMark/RemoveAll`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `storyId=${STORY_ID}&__RequestVerificationToken=${getToken()}`
+        });
+        await loadBookmarks();
+    }
+
+    // Đóng dropdown khi click ngoài
+    document.addEventListener('click', (e) => {
+        const wrap = document.getElementById('btn-bookmark')?.parentElement;
+        if (wrap && !wrap.contains(e.target)) {
+            bmOpen = false;
+            document.getElementById('bookmark-dropdown').style.display = 'none';
+            document.getElementById('bm-chevron').style.transform = 'rotate(0deg)';
+        }
+    });
+
+    // Load count ban đầu
+    fetch(`/BookMark/GetByStory?storyId=${STORY_ID}`)
+        .then(r => r.json())
+        .then(d => document.getElementById('bm-count').textContent = d.length)
+        .catch(() => {});
+
+    function getToken() {
+        return document.querySelector('input[name="__RequestVerificationToken"]')?.value ?? '';
+    }
+
+
+
+    //chọn load luyuw trang
+
+    </script>
+}

@@ -1,0 +1,1135 @@
+﻿@model List<web_doc_truyen_Co_ban.Models.StoryModel>
+@{
+    ViewData["Title"] = "Trang Chủ";
+    var hotStories      = ViewBag.HotStories      as List<web_doc_truyen_Co_ban.Models.StoryModel>         ?? new();
+    var newStories      = ViewBag.NewStories       as List<web_doc_truyen_Co_ban.Models.StoryModel>         ?? new();
+    var completeStories = ViewBag.CompleteStories  as List<web_doc_truyen_Co_ban.Models.StoryModel>         ?? new();
+    var readHistory     = ViewBag.ReadHistory      as List<web_doc_truyen_Co_ban.Models.ReadingHistoryModel> ?? new();
+    var categories      = ViewBag.Categories       as List<web_doc_truyen_Co_ban.Models.CategoryModel>      ?? new();
+}
+
+@* ══════════════════════════════════════════════════════════════
+   CSS – dán vào <head> của _Layout.cshtml hoặc site.css
+   ══════════════════════════════════════════════════════════════ *@
+<style>
+/* ── Biến màu gốc (light) ── */
+:root {
+    --bg-primary   : #f2f4f8;
+    --bg-card      : #ffffff;
+    --bg-hover     : #edf0f7;
+    --accent       : #e8541a;
+    --accent2      : #c0392b;
+    --accent-light : rgba(232,84,26,.09);
+    --text-main    : #1a1c2e;
+    --text-muted   : #6b7080;
+    --text-dim     : #adb2c3;
+    --border       : #e2e6f0;
+    --border-strong: #c8cedf;
+    --gold         : #d4891a;
+    --rank1        : #e8b200;
+    --rank2        : #8a9ab5;
+    --rank3        : #b07034;
+    --tag-bg       : #eef1f8;
+    --new-badge    : #1aaa55;
+    --hot-badge    : #e74c3c;
+    --shadow-sm    : 0 1px 4px rgba(0,0,0,.06);
+    --shadow-md    : 0 4px 16px rgba(0,0,0,.09);
+    --shadow-hover : 0 8px 28px rgba(232,84,26,.15);
+    --radius       : 8px;
+    --radius-sm    : 5px;
+    --tr           : .22s cubic-bezier(.4,0,.2,1);
+                --ink: #1a1714;
+            --ink-mid: #5a5550;
+            --ink-lt: #9a9490;
+            --paper: #faf8f5;
+            --line: #e8e4de;
+}
+
+   body {
+        background: var(--paper) !important;
+    color      : var(--text-main);
+    transition : background .3s ease, color .3s ease;
+    }
+/* ── Dark mode override (layout toggle đặt data-theme="dark" vào <html>) ── */
+
+body.dark-mode {
+    /* ── Nền ── */
+    --paper        : #0f1117;   /* body background */
+    --bg-primary   : #0f1117;   /* page bg */
+    --bg-card      : #181c27;   /* card, filter-bar, sidebar — CÁI NÀY LÀ CHÍNH */
+    --bg-hover     : #252840;   /* hover state */
+
+    /* ── Viền ── */
+    --border       : #2a2f4a;
+    --border-strong: #3a3f66;
+    --line         : #2a2f4a;
+
+    /* ── Chữ ── */
+    --text-main    : #e8eaf6;   /* tiêu đề, tên truyện → trắng xanh */
+    --text-muted   : #8b90aa;   /* phụ */
+    --text-dim     : #555a7a;   /* mờ */
+    --ink          : #e8eaf6;
+    --ink-mid      : #8b90aa;
+    --ink-lt       : #555a7a;
+
+    /* ── Misc ── */
+    --tag-bg       : #252840;
+    --accent-light : rgba(232,84,26,.15);
+    --shadow-sm    : 0 1px 4px rgba(0,0,0,.4);
+    --shadow-md    : 0 4px 16px rgba(0,0,0,.5);
+    --shadow-hover : 0 8px 28px rgba(232,84,26,.25);
+}
+
+body.dark-mode .sdb-box,
+body.dark-mode .filter-bar,
+body.dark-mode .hcard,
+body.dark-mode .rank-row,
+body.dark-mode .story-card {
+    background  : var(--bg-card)  !important;
+    border-color: var(--border)   !important;
+}
+
+body.dark-mode .hcard-title,
+body.dark-mode .card-title,
+body.dark-mode .rtitle,
+body.dark-mode .sbr-title,
+body.dark-mode .sec-title,
+body.dark-mode .sdb-hd {
+    color: var(--text-main) !important;
+}
+
+body.dark-mode .hcard-time,
+body.dark-mode .card-meta,
+body.dark-mode .rmeta,
+body.dark-mode .sbr-sub,
+body.dark-mode .text-muted {
+    color: var(--text-muted) !important;
+}
+
+body.dark-mode .genre-scrl,
+body.dark-mode .sbr-list {
+    background: var(--bg-card) !important;
+}
+
+body.dark-mode .gitem {
+    background  : rgba(255,255,255,.04) !important;
+    border-color: var(--border) !important;
+    color       : var(--text-main) !important;
+}
+
+body.dark-mode .ftab {
+    color       : var(--text-muted) !important;
+    border-color: var(--border) !important;
+}
+body.dark-mode .ftab:not(.active):hover {
+    color: var(--accent) !important;
+}
+/* ════════════════════════════
+   HERO SLIDER
+════════════════════════════ */
+.hero-banner {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    padding: 36px 0 44px;
+    user-select: none;
+    background: var(--paper);
+}
+.hero-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 540px;
+    perspective: 1400px;
+}
+.hero-slide {
+    position: absolute;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    transition:
+        width   .65s cubic-bezier(.4,0,.2,1),
+        height  .65s cubic-bezier(.4,0,.2,1),
+        left    .65s cubic-bezier(.4,0,.2,1),
+        transform .65s cubic-bezier(.4,0,.2,1),
+        opacity .5s ease,
+        filter  .5s ease,
+        box-shadow .5s ease;
+    will-change: transform, left, width, height;
+}
+.hero-slide.pos-active {
+    width:520px; height:520px;
+    left:50%; transform:translateX(-50%) scale(1) translateZ(0);
+    z-index:10; opacity:1; filter:brightness(1);
+    box-shadow: 0 24px 64px rgba(0,0,0,.45);
+}
+.hero-slide.pos-prev {
+    width:370px; height:430px;
+    left:calc(50% - 385px); transform:translateX(-50%) translateZ(-50px) rotateY(5deg);
+    z-index:5; opacity:.82; filter:brightness(.65);
+    box-shadow:0 12px 40px rgba(0,0,0,.4);
+}
+.hero-slide.pos-next {
+    width:370px; height:430px;
+    left:calc(50% + 385px); transform:translateX(-50%) translateZ(-50px) rotateY(-5deg);
+    z-index:5; opacity:.82; filter:brightness(.65);
+    box-shadow:0 12px 40px rgba(0,0,0,.4);
+}
+.hero-slide.pos-prev2 {
+    width:260px; height:350px;
+    left:calc(50% - 650px); transform:translateX(-50%) rotateY(9deg);
+    z-index:2; opacity:.38; filter:brightness(.45); box-shadow:none;
+}
+.hero-slide.pos-next2 {
+    width:260px; height:350px;
+    left:calc(50% + 650px); transform:translateX(-50%) rotateY(-9deg);
+    z-index:2; opacity:.38; filter:brightness(.45); box-shadow:none;
+}
+.hero-slide.pos-hidden {
+    opacity:0; pointer-events:none;
+    left:50%; transform:translateX(-50%) scale(.75); z-index:0;
+}
+
+/* Slide inner elements */
+.hero-badge {
+    position:absolute; top:12px; left:12px;
+    background:#e53935; color:#fff;
+    font-size:10.5px; font-weight:700;
+    padding:3px 8px; border-radius:4px;
+    letter-spacing:.4px; z-index:3;
+    opacity:0; transition:opacity .4s .15s;
+}
+.hero-slide.pos-active .hero-badge,
+.hero-slide.pos-prev   .hero-badge,
+.hero-slide.pos-next   .hero-badge { opacity:1; }
+
+.hero-caption {
+    position:absolute; bottom:0; left:0; right:0;
+    padding:48px 22px 20px;
+    background:linear-gradient(to top, rgba(0,0,0,.88) 0%, transparent 100%);
+    color:#fff;
+    transform:translateY(10px); opacity:0;
+    transition:opacity .5s .1s, transform .5s .1s;
+}
+.hero-slide.pos-active .hero-caption { opacity:1; transform:translateY(0); }
+.hero-caption h3 {
+    font-size:40px; font-weight:800; line-height:1.3;
+    margin-bottom:6px;
+    font-family:'Noto Serif JP','Segoe UI',sans-serif;
+    color:white; text-shadow:0 2px 8px rgba(0,0,0,.6);
+
+}
+.hero-caption .htags { font-size:11.5px; color:rgba(255,255,255,.68); }
+.hero-caption .htags span { margin-right:8px; }
+
+/* Arrows */
+.hero-arrow {
+    position:absolute; top:50%; transform:translateY(-50%);
+    z-index:20; background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.2);
+    backdrop-filter:blur(10px);
+    color:#fff; width:44px; height:44px;
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:20px;
+    transition:background .2s, transform .2s;
+}
+.hero-arrow:hover { background:rgba(255,255,255,.25); transform:translateY(-50%) scale(1.1); }
+.hero-arrow.prev { left:20px; }
+.hero-arrow.next { right:20px; }
+
+/* Dots */
+.hero-dots {
+    position:absolute; bottom:12px; left:50%; transform:translateX(-50%);
+    display:flex; gap:6px; z-index:20;
+}
+.hero-dot {
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(255,255,255,.3); cursor:pointer;
+    border:none; padding:0;
+    transition:background .3s, transform .3s;
+}
+.hero-dot.active { background:#fff; transform:scale(1.35); }
+
+/* Progress bar */
+.hero-progress {
+    position:absolute; bottom:0; left:0;
+    height:3px;
+    background:linear-gradient(90deg,#e8541a,#ff7043);
+    width:0%; transition:width linear; z-index:20;
+    border-radius:0 2px 2px 0;
+}
+
+@@media(max-width:900px){
+    .hero-track{height:400px;}
+    .hero-slide.pos-active{width:300px;height:360px;}
+    .hero-slide.pos-prev,.hero-slide.pos-next{width:210px;height:290px;}
+    .hero-slide.pos-prev{left:calc(50% - 245px);}
+    .hero-slide.pos-next{left:calc(50% + 245px);}
+    .hero-slide.pos-prev2,.hero-slide.pos-next2{opacity:0;pointer-events:none;}
+}
+@@media(max-width:540px){
+    .hero-track{height:320px;}
+    .hero-slide.pos-active{width:220px;height:280px;}
+    .hero-slide.pos-prev,.hero-slide.pos-next{width:140px;height:210px;}
+    .hero-slide.pos-prev{left:calc(50% - 195px);}
+    .hero-slide.pos-next{left:calc(50% + 195px);}
+    .hero-caption h3{font-size:14px;}
+}
+
+/* ════════════════════════════
+   PAGE WRAPPER
+════════════════════════════ */
+.page-wrap{
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 20px; /* optional */
+}
+.page-grid {
+    display:grid;
+    grid-template-columns:1fr 400px;
+    gap:22px;
+    align-items:start;
+}
+
+/* ════════════════════════════
+   FILTER BAR
+════════════════════════════ */
+.filter-bar {
+    display:flex; gap:8px; flex-wrap:wrap;
+    margin-bottom:22px;
+    padding:12px 16px;
+    background:var(--bg-card);
+    border:1.5px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-sm);
+}
+.ftab {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:6px 15px; border-radius:20px;
+    font-size:12.5px; font-weight:500;
+    border:1.5px solid var(--border);
+    background:transparent; color:var(--text-muted);
+    text-decoration:none;
+    transition:all var(--tr); cursor:pointer;
+}
+.ftab i { font-size:12px; }
+.ftab:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-light); }
+.ftab.active { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600; }
+.ftab .cnt {
+    font-size:10px; font-weight:700;
+    padding:1px 6px; border-radius:10px;
+    background:rgba(255,255,255,.2);
+}
+.ftab:not(.active) .cnt { background:var(--tag-bg); color:var(--text-muted); }
+
+/* ════════════════════════════
+   SECTION HEADER
+════════════════════════════ */
+.sec {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:14px;
+    padding-bottom:10px;
+    border-bottom:2px solid var(--border);
+}
+.sec-l { display:flex; align-items:center; gap:8px; }
+.sec-bar { width:4px; height:20px; background:var(--accent); border-radius:3px; flex-shrink:0; }
+.sec-bar.gold { background:var(--gold); }
+.sec-bar.green { background:#27ae60; }
+.sec-title {
+    font-size:14.5px; font-weight:700;
+    color:var(--text-main);
+    display:flex; align-items:center; gap:6px;
+}
+.sec-title i { font-size:14px; }
+.sec-more {
+    font-size:11.5px; color:var(--text-muted);
+    text-decoration:none;
+    display:flex; align-items:center; gap:3px;
+    padding:4px 11px; border-radius:20px;
+    border:1.5px solid var(--border);
+    transition:all var(--tr);
+}
+.sec-more:hover { color:var(--accent); border-color:var(--accent); background:var(--accent-light); }
+
+/* ════════════════════════════
+   READING HISTORY
+════════════════════════════ */
+.history-wrap { margin-bottom:26px; }
+.history-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+.hcard {
+    display:flex; gap:10px;
+    background:var(--bg-card);
+    border:1.5px solid var(--border);
+    border-radius:var(--radius);
+    padding:10px 12px;
+    text-decoration:none;
+    box-shadow:var(--shadow-sm);
+    position:relative; overflow:hidden;
+    transition:border-color var(--tr), box-shadow var(--tr), transform var(--tr);
+}
+.hcard::after {
+    content:''; position:absolute;
+    left:0; top:0; bottom:0; width:3px;
+    background:var(--accent); opacity:0;
+    transition:opacity var(--tr);
+}
+.hcard:hover { border-color:var(--accent); box-shadow:var(--shadow-hover); transform:translateY(-2px); }
+.hcard:hover::after { opacity:1; }
+.hcard-img {
+    width:48px; height:64px;
+    border-radius:5px; object-fit:cover; flex-shrink:0;
+    background:var(--bg-hover);
+}
+.hcard-body { flex:1; min-width:0; }
+.hcard-badge {
+    display:inline-flex; align-items:center; gap:3px;
+    font-size:9.5px; font-weight:700;
+    background:var(--accent); color:#fff;
+    padding:2px 7px; border-radius:3px;
+    margin-bottom:5px; letter-spacing:.3px;
+}
+.hcard-title {
+    font-size:12px; font-weight:600;
+    color:var(--text-main); line-height:1.4;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.hcard-chap {
+    font-size:11px; color:var(--accent);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    margin-top:2px;
+}
+.hcard-time {
+    font-size:10px; color:var(--text-dim);
+    display:flex; align-items:center; gap:3px;
+    margin-top:4px;
+}
+
+/* ════════════════════════════
+   STORY GRID
+════════════════════════════ */
+.grid-wrap { margin-bottom:28px; }
+.story-grid {
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+}
+.story-card {
+    background:var(--bg-card);
+    border:1.5px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden; cursor:pointer;
+    box-shadow:var(--shadow-sm);
+    transition:transform var(--tr), border-color var(--tr), box-shadow var(--tr);
+    text-decoration:none; display:block;
+}
+.story-card:hover { transform:translateY(-5px); border-color:var(--accent); box-shadow:var(--shadow-hover); }
+.cover-wrap {
+    position:relative; width:100%; padding-top:140%; overflow:hidden;
+}
+.cover-wrap img {
+    position:absolute; inset:0;
+    width:100%; height:100%; object-fit:cover;
+    transition:transform .35s ease;
+}
+.story-card:hover .cover-wrap img { transform:scale(1.07); }
+.cover-gradient {
+    position:absolute; bottom:0; left:0; right:0; height:55%;
+    background:linear-gradient(to top,rgba(0,0,0,.88),transparent);
+    z-index:1;
+}
+.no-cover {
+    position:absolute; inset:0;
+    background:linear-gradient(135deg,#e8eaf5,#d0d4e8);
+    display:flex; align-items:center; justify-content:center;
+    font-size:30px; color:#b0b8d0;
+}
+/* Badges */
+.cbadge {
+    position:absolute; top:7px; left:7px;
+    font-size:9.5px; font-weight:700;
+    padding:2px 7px; border-radius:3px;
+    letter-spacing:.3px; z-index:3;
+}
+.cbadge-hot  { background:#e74c3c; color:#fff; }
+.cbadge-new  { background:#1aaa55; color:#fff; }
+.cbadge-full { background:#2980b9; color:#fff; }
+.cbadge-vip  { background:var(--gold); color:#000; }
+/* Chapter overlay */
+.ch-badge {
+    position:absolute; bottom:7px; right:7px;
+    font-size:9px; font-weight:600;
+    background:rgba(0,0,0,.62); color:#fff;
+    padding:2px 6px; border-radius:3px; z-index:3;
+}
+/* Card info */
+.card-info { padding:9px 10px 11px; }
+.card-title {
+    font-size:12px; font-weight:600;
+    color:var(--text-main); line-height:1.4;
+    display:-webkit-box; -webkit-line-clamp:2;
+    -webkit-box-orient:vertical; overflow:hidden;
+}
+.card-meta {
+    font-size:10.5px; color:var(--text-muted);
+    margin-top:4px; display:flex; align-items:center; gap:4px; flex-wrap:wrap;
+}
+.card-chap { font-size:10.5px; color:var(--accent); margin-top:3px; }
+
+/* ════════════════════════════
+   RANK TABLE
+════════════════════════════ */
+.rank-wrap { margin-bottom:28px; }
+.rank-list { display:flex; flex-direction:column; gap:6px; }
+.rank-row {
+    display:flex; align-items:center; gap:12px;
+    background:var(--bg-card);
+    border:1.5px solid var(--border);
+    border-radius:var(--radius);
+    padding:10px 14px;
+    text-decoration:none;
+    box-shadow:var(--shadow-sm);
+    transition:border-color var(--tr), box-shadow var(--tr), transform var(--tr);
+}
+.rank-row:hover { border-color:var(--accent); box-shadow:var(--shadow-hover); transform:translateX(4px); }
+.rnum {
+    font-size:20px; font-weight:800;
+    width:30px; text-align:center; flex-shrink:0;
+    font-family:'Noto Serif JP',Georgia,serif;
+}
+.rnum.r1 { color:var(--rank1); }
+.rnum.r2 { color:var(--rank2); }
+.rnum.r3 { color:var(--rank3); }
+.rnum.rn { color:var(--text-dim); font-size:15px; font-weight:600; }
+.rank-row img {
+    width:44px; height:58px; object-fit:cover;
+    border-radius:5px; flex-shrink:0;
+    box-shadow:0 2px 8px rgba(0,0,0,.18);
+}
+.rank-row .no-thumb {
+    width:44px; height:58px; background:var(--bg-hover);
+    border-radius:5px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+}
+.rinfo { flex:1; min-width:0; }
+.rtitle { font-size:13px; font-weight:600; color:var(--text-main); line-height:1.3; }
+.rmeta  { font-size:10.5px; color:var(--text-muted); margin-top:3px; }
+.rviews { font-size:10.5px; color:var(--accent); margin-top:2px; display:flex; align-items:center; gap:4px; }
+.rstars { color:var(--gold); font-size:11px; flex-shrink:0; }
+
+/* ════════════════════════════
+   SIDEBAR
+════════════════════════════ */
+.sdb { position:sticky; top:16px; display:flex; flex-direction:column; gap:14px; }
+.sdb-box {
+    background:var(--bg-card);
+    border:1.5px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow-sm);
+}
+.sdb-hd {
+    display:flex; align-items:center; gap:8px;
+    padding:11px 14px;
+    border-bottom:1.5px solid var(--border);
+    font-size:13px; font-weight:700; color:var(--text-main);
+}
+.sdb-hd-bar { width:3px; height:16px; background:var(--accent); border-radius:2px; flex-shrink:0; }
+.sdb-hd-bar.gold { background:var(--gold); }
+.sdb-hd i { font-size:13px; }
+
+/* Genre list */
+/* .genre-scrl {
+    max-height:370px; overflow-y:auto;
+    scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+} */
+.genre-scrl{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+    padding:12px;
+
+    max-height:370px;
+    overflow-y:auto;
+
+    scrollbar-width:thin;
+    scrollbar-color:var(--border) transparent;
+}
+.genre-scrl::-webkit-scrollbar { width:3px; }
+.genre-scrl::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+/* .gitem {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:9px 14px;
+    font-size:12.5px; color:var(--text-main);
+    text-decoration:none;
+    border-bottom:1px solid var(--border);
+    transition:background var(--tr), color var(--tr), padding-left var(--tr);
+} */
+.gitem{
+    height:42px;
+    padding:0 10px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--border);
+    border-radius:10px;
+
+    font-size:13px;
+    text-decoration:none;
+    color:var(--text-main);
+
+    overflow:hidden;
+}
+
+.gitem:last-child { border-bottom:none; }
+.gitem:first-child { font-weight:600; }
+.gitem:hover { background:var(--accent-light); color:var(--accent); padding-left:18px; }
+/* .gitem-l { display:flex; align-items:center; gap:7px; } */
+.gitem-l{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+
+    width:100%;
+    text-align:center;
+}
+/* .gcnt {
+    font-size:10px; color:var(--text-muted);
+    background:var(--tag-bg); padding:1px 7px; border-radius:10px;
+} */
+.gitem i{
+    display:none;
+}
+
+/* số lượng */
+.gcnt{
+    display:none;
+}
+/* .gitem i { color:var(--text-dim); font-size:11px; transition:color var(--tr); } */
+.gitem:hover i { color:var(--accent); }
+
+/* Sidebar rank */
+.sbr-list { display:flex; flex-direction:column; }
+.sbr-item {
+    display:flex; align-items:center; gap:10px;
+    padding:9px 14px;
+    text-decoration:none;
+    border-bottom:1px solid var(--border);
+    transition:background var(--tr);
+}
+.sbr-item:last-child { border-bottom:none; }
+.sbr-item:hover { background:var(--accent-light); }
+.sbr-num {
+    font-size:15px; font-weight:800;
+    width:22px; text-align:center; flex-shrink:0;
+}
+.sbr-num.r1 { color:var(--rank1); }
+.sbr-num.r2 { color:var(--rank2); }
+.sbr-num.r3 { color:var(--rank3); }
+.sbr-num.rn { color:var(--text-dim); font-size:12px; font-weight:600; }
+.sbr-img {
+    width:38px; height:50px; object-fit:cover;
+    border-radius:4px; flex-shrink:0;
+    background:var(--bg-hover);
+    box-shadow:0 1px 4px rgba(0,0,0,.12);
+}
+.sbr-info { flex:1; min-width:0; }
+.sbr-title {
+    font-size:11.5px; font-weight:600; color:var(--text-main);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.4;
+}
+.sbr-sub { font-size:10.5px; color:var(--text-muted); margin-top:2px; display:flex; align-items:center; gap:3px; }
+
+/* ════════════════════════════
+   RESPONSIVE
+════════════════════════════ */
+@@media(max-width:1100px){
+    .page-grid { grid-template-columns:1fr 240px; }
+    .story-grid { grid-template-columns:repeat(4,1fr); }
+}
+@@media(max-width:860px){
+    .page-grid { grid-template-columns:1fr; }
+    .sdb { display:none; }
+    .story-grid { grid-template-columns:repeat(4,1fr); }
+    .history-grid { grid-template-columns:repeat(2,1fr); }
+}
+@@media(max-width:560px){
+    .story-grid { grid-template-columns:repeat(3,1fr); }
+    .history-grid { grid-template-columns:1fr; }
+}
+</style>
+
+@* ══════════════════════════════════════════════════════════════
+   HERO BANNER
+══════════════════════════════════════════════════════════════ *@
+<div class="hero-banner" id="heroBanner">
+  <div class="hero-track" id="heroTrack">
+
+    <div class="hero-slide" data-index="0"
+         style="background-image:url('@Url.Content("~/assets/img/avatar-Arya-nhin-nghieng-che-mat-day-ve-bi-an-quyen-ru.webp")')">
+      <div class="hero-badge">18+</div>
+      <div class="hero-caption">
+        <h3>Arya </h3>
+        <div class="htags"><span>#Chiến Đấu</span><span>#Nữ Chủ</span><span>#Tiên Hiệp</span></div>
+      </div>
+    </div>
+
+    <div class="hero-slide" data-index="1"
+         style="background-image:url('@Url.Content("~/assets/img/hinh-nen-Arya-anime-cam-ly-nuoc-uong-trong-rat-tu-nhien.webp")')">
+      <div class="hero-caption">
+        <h3>Ánh Mắt Không Màu</h3>
+        <div class="htags"><span>#Huyền Huyễn</span><span>#Ngôn Tình</span><span>#Nữ Chủ</span></div>
+      </div>
+    </div>
+
+    <div class="hero-slide" data-index="2"
+         style="background-image:url('@Url.Content("~/assets/img/avatar-Arya-quay-dau-nhin-lai-giua-khung-canh-buoi-chieu-ta.webp")')">
+      <div class="hero-caption">
+        <h3>Thiếu Nữ Trong Gió</h3>
+        <div class="htags"><span>#Hành Động</span><span>#Võ Hiệp</span><span>#Nam Chủ</span></div>
+      </div>
+    </div>
+
+    <div class="hero-slide" data-index="3"
+         style="background-image:url('@Url.Content("~/assets/img/avatar-Arya-mat-xanh-ruc-ro-nhin-thang-day-cuon-hut.webp")')">
+      <div class="hero-badge">Top 1</div>
+      <div class="hero-caption">
+        <h3>Ngày Hè Của Arya </h3>
+        <div class="htags"><span>#Huyền Huyễn</span><span>#Đam Mỹ</span><span>#Cung Đấu</span></div>
+      </div>
+    </div>
+
+    <div class="hero-slide" data-index="4"
+         style="background-image:url('@Url.Content("~/assets/img/avatar-Arya-ha-mieng-het-lon-bieu-cam-cuc-ky-vui-nhon.webp")')">
+      <div class="hero-caption">
+        <h3>Học Viện Ánh Sao</h3>
+        <div class="htags"><span>#Hành Động</span><span>#Tu Tiên</span><span>#Trọng Sinh</span></div>
+      </div>
+    </div>
+
+    <div class="hero-slide" data-index="5"
+         style="background-image:url('@Url.Content("~/assets/img/avatar-Arya-mac-dong-phuc-hoc-sinh-that-no-do-thanh-lich.webp")')">
+      <div class="hero-caption">
+        <h3>Toàn Chức Pháp Sư</h3>
+        <div class="htags"><span>#Fantasy</span><span>#Phép Thuật</span><span>#Nữ Chủ</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="hero-arrow prev" id="heroPrevBtn" aria-label="Slide trước">&#8249;</button>
+  <button class="hero-arrow next" id="heroNextBtn" aria-label="Slide tiếp">&#8250;</button>
+  <div class="hero-dots" id="heroDots"></div>
+  <div class="hero-progress" id="heroProgress"></div>
+</div>
+
+@* ══════════════════════════════════════════════════════════════
+   MAIN CONTENT
+══════════════════════════════════════════════════════════════ *@
+<div class="page-wrap">
+<div class="page-grid">
+
+  @* ─── LEFT: Main Content ─── *@
+  <div>
+
+    @* Filter Bar *@
+    <div class="filter-bar">
+      <a href="/Home/StatusStory" class="ftab active">
+        <i class="fa fa-th-large"></i> Tất cả <span class="cnt">@ViewBag.Count_All</span>
+      </a>
+      <a href="/Home/StatusStory?status=1" class="ftab">
+        <i class="fa fa-book-open"></i> Đang Ra <span class="cnt">@ViewBag.Count_Ongoing</span>
+      </a>
+      <a href="/Home/StatusStory?status=2" class="ftab">
+        <i class="fa fa-check-circle"></i> Hoàn Thành <span class="cnt">@ViewBag.Count_Done</span>
+      </a>
+      <a href="/Home/StatusStory?status=3" class="ftab">
+        <i class="fa fa-pause-circle"></i> Tạm Dừng <span class="cnt">@ViewBag.Count_Pause</span>
+      </a>
+      <a href="/Home/StatusStory?status=4" class="ftab">
+        <i class="fa fa-times-circle"></i> Drop <span class="cnt">@ViewBag.Count_Drop</span>
+      </a>
+    </div>
+
+    @* Đọc Gần Đây *@
+    @if (readHistory.Any())
+    {
+      <div class="history-wrap">
+        <div class="sec">
+          <div class="sec-l">
+            <span class="sec-bar"></span>
+            <span class="sec-title"><i class="fa fa-history" style="color:var(--accent);"></i> Đọc Gần Đây</span>
+          </div>
+          <a href="#" class="sec-more"><i class="fa fa-angle-right"></i> Xem tất cả</a>
+        </div>
+        <div class="history-grid">
+          @foreach (var h in readHistory.Take(4))
+          {
+            <a href="/Story/Detail/@h.StoryId" class="hcard">
+              @if (!string.IsNullOrEmpty(h.Story?.CoverImageUrl))
+              { <img class="hcard-img" src="@GetImage(h.Story.CoverImageUrl)" alt="@h.Story.Title" loading="lazy" /> }
+              else
+              { <div class="hcard-img" style="display:flex;align-items:center;justify-content:center;"><i class="fa fa-book" style="color:var(--border);font-size:18px;"></i></div> }
+              <div class="hcard-body">
+                <div class="hcard-badge"><i class="fa fa-play"></i> Tiếp tục</div>
+                <div class="hcard-title">@h.Story?.Title</div>
+                <div class="hcard-chap">@h.Chapter?.Title</div>
+                <div class="hcard-time"><i class="fa fa-clock"></i> @h.LastReadAt.ToString("dd/MM HH:mm")</div>
+              </div>
+            </a>
+          }
+        </div>
+      </div>
+    }
+
+    @* Truyện Nổi Bật *@
+    <div class="grid-wrap">
+      <div class="sec">
+        <div class="sec-l">
+          <span class="sec-bar"></span>
+          <span class="sec-title"><i class="fa fa-fire" style="color:#e74c3c;"></i> Truyện Nổi Bật</span>
+        </div>
+        <a href="/Home/StatusStory" class="sec-more"><i class="fa fa-angle-right"></i> Xem thêm</a>
+      </div>
+      <div class="story-grid">
+        @foreach (var s in hotStories.Take(10))
+        {
+          <a href="/Story/Detail/@s.Id" class="story-card">
+            <div class="cover-wrap">
+              @if (!string.IsNullOrEmpty(s.CoverImageUrl))
+              { <img src="@GetImage(s.CoverImageUrl)" alt="@s.Title"  referrerpolicy="no-referrer"
+                 loading="lazy" /> }
+              else { <div class="no-cover"><i class="fa fa-book"></i></div> }
+              <div class="cover-gradient"></div>
+              <span class="cbadge cbadge-hot">HOT</span>
+              <span class="ch-badge">@(s.Chapters?.Count ?? 0) ch.</span>
+            </div>
+            <div class="card-info">
+              <div class="card-title">@s.Title</div>
+              <div class="card-meta">
+                <i class="fa fa-eye"></i> @s.TotalViews.ToString("N0")
+                @if (s.Category != null) { <span>· @s.Category.Name</span> }
+              </div>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+
+    @* Truyện Mới Cập Nhật *@
+    <div class="grid-wrap">
+      <div class="sec">
+        <div class="sec-l">
+          <span class="sec-bar gold"></span>
+          <span class="sec-title"><i class="fa fa-bolt" style="color:var(--gold);"></i> Truyện Mới Cập Nhật</span>
+        </div>
+        <a href="/Home/StatusStory?status=1" class="sec-more"><i class="fa fa-angle-right"></i> Xem thêm</a>
+      </div>
+      <div class="story-grid">
+        @foreach (var s in newStories.Take(10))
+        {
+          <a href="/Story/Detail/@s.Id" class="story-card">
+            <div class="cover-wrap">
+              @if (!string.IsNullOrEmpty(s.CoverImageUrl))
+              { <img src="@GetImage(s.CoverImageUrl)" alt="@s.Title" loading="lazy" /> }
+              else { <div class="no-cover"><i class="fa fa-book"></i></div> }
+              <div class="cover-gradient"></div>
+              <span class="cbadge cbadge-new">MỚI</span>
+              <span class="ch-badge">@s.UpdatedAt.ToString("dd/MM")</span>
+            </div>
+            <div class="card-info">
+              <div class="card-title">@s.Title</div>
+              <div class="card-meta">
+                <i class="fa fa-calendar-alt"></i> @s.UpdatedAt.ToString("dd/MM/yy")
+                @if (s.Category != null) { <span>· @s.Category.Name</span> }
+              </div>
+              <div class="card-chap">@(s.Chapters?.Count ?? 0) chương</div>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+
+    @* Truyện Hoàn Thành *@
+    <div class="grid-wrap">
+      <div class="sec">
+        <div class="sec-l">
+          <span class="sec-bar green"></span>
+          <span class="sec-title"><i class="fa fa-check-circle" style="color:#27ae60;"></i> Truyện Đã Hoàn Thành</span>
+        </div>
+        <a href="/Home/StatusStory?status=2" class="sec-more"><i class="fa fa-angle-right"></i> Xem thêm</a>
+      </div>
+      <div class="story-grid">
+        @foreach (var s in completeStories.Take(10))
+        {
+          <a href="/Story/Detail/@s.Id" class="story-card">
+            <div class="cover-wrap">
+              @if (!string.IsNullOrEmpty(s.CoverImageUrl))
+              { <img src="@GetImage(s.CoverImageUrl)" alt="@s.Title" loading="lazy" /> }
+              else { <div class="no-cover"><i class="fa fa-book"></i></div> }
+              <div class="cover-gradient"></div>
+              <span class="cbadge cbadge-full">FULL</span>
+              <span class="ch-badge">@(s.Chapters?.Count ?? 0) ch.</span>
+            </div>
+            <div class="card-info">
+              <div class="card-title">@s.Title</div>
+              <div class="card-meta">
+                <i class="fa fa-eye"></i> @s.TotalViews.ToString("N0")
+              </div>
+              <div class="card-chap">@(s.Chapters?.Count ?? 0) chương</div>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+
+    @* Bảng Xếp Hạng *@
+    <div class="rank-wrap">
+      <div class="sec">
+        <div class="sec-l">
+          <span class="sec-bar gold"></span>
+          <span class="sec-title"><i class="fa fa-trophy" style="color:var(--gold);"></i> Bảng Xếp Hạng</span>
+        </div>
+        <a href="/Home/StatusStory" class="sec-more"><i class="fa fa-angle-right"></i> Tất cả</a>
+      </div>
+      <div class="rank-list">
+        @for (int i = 0; i < Math.Min(hotStories.Count, 10); i++)
+        {
+          var s        = hotStories[i];
+          string rc    = i == 0 ? "r1" : i == 1 ? "r2" : i == 2 ? "r3" : "rn";
+          int    rc2   = s.Ratings?.Count ?? 0;
+          double ravg  = rc2 > 0 ? (double)s.RatingSum / rc2 : 0;
+          <a href="/Story/Detail/@s.Id" class="rank-row">
+            <div class="rnum @rc">@(i+1)</div>
+            @if (!string.IsNullOrEmpty(s.CoverImageUrl))
+            { <img src="@GetImage(s.CoverImageUrl)" alt="@s.Title" loading="lazy" /> }
+            else
+            { <div class="no-thumb"><i class="fa fa-book" style="color:var(--border);"></i></div> }
+            <div class="rinfo">
+              <div class="rtitle">@s.Title</div>
+              <div class="rmeta">
+                @if (s.Category != null) { <span>@s.Category.Name ·</span> }
+                @(s.Chapters?.Count ?? 0) chương
+              </div>
+              <div class="rviews"><i class="fa fa-eye"></i> @s.TotalViews.ToString("N0") lượt xem</div>
+            </div>
+            <div class="rstars">
+              @for (int st = 1; st <= 5; st++)
+              {
+                if      (ravg >= st)       { <i class="fa fa-star"></i> }
+                else if (ravg >= st - 0.5) { <i class="fa fa-star-half-alt"></i> }
+                else                       { <i class="fa fa-star" style="opacity:.22;"></i> }
+              }
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+
+  </div>@* /left *@
+
+  @* ─── RIGHT: Sidebar ─── *@
+  <aside class="sdb">
+
+    @* Thể Loại *@
+    <div class="sdb-box">
+      <div class="sdb-hd">
+        <span class="sdb-hd-bar"></span>
+        <i class="fa fa-tags"></i> Thể Loại
+      </div>
+      <div class="genre-scrl">
+        <a href="/Home/StatusStory" class="gitem">
+          <span class="gitem-l"><i class="fa fa-list"></i> Tất cả thể loại</span>
+          <span class="gcnt">@ViewBag.Count_All</span>
+        </a>
+        @foreach (var cat in categories)
+        {
+          <a href="/Story/ByCategory/@cat.Id" class="gitem">
+            <span class="gitem-l"><i class="fa fa-angle-right"></i> @cat.Name</span>
+            <i class="fa fa-chevron-right"></i>
+          </a>
+        }
+      </div>
+    </div>
+
+    @* Top Nổi Bật *@
+    <div class="sdb-box">
+      <div class="sdb-hd">
+        <span class="sdb-hd-bar"></span>
+        <i class="fa fa-fire" style="color:#e74c3c;"></i> Top Nổi Bật
+      </div>
+      <div class="sbr-list">
+        @for (int i = 0; i < Math.Min(hotStories.Count, 5); i++)
+        {
+          var s  = hotStories[i];
+          string rc = i == 0 ? "r1" : i == 1 ? "r2" : i == 2 ? "r3" : "rn";
+          <a href="/Story/Detail/@s.Id" class="sbr-item">
+            <div class="sbr-num @rc">@(i+1)</div>
+            @if (!string.IsNullOrEmpty(s.CoverImageUrl))
+            { <img class="sbr-img" src="@GetImage(s.CoverImageUrl)" alt="@s.Title" loading="lazy" /> }
+            else
+            { <div class="sbr-img" style="display:flex;align-items:center;justify-content:center;"><i class="fa fa-book" style="color:var(--border);font-size:13px;"></i></div> }
+            <div class="sbr-info">
+              <div class="sbr-title">@s.Title</div>
+              <div class="sbr-sub"><i class="fa fa-eye"></i> @s.TotalViews.ToString("N0")</div>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+
+    @* Mới Cập Nhật *@
+    <div class="sdb-box">
+      <div class="sdb-hd">
+        <span class="sdb-hd-bar gold"></span>
+        <i class="fa fa-clock" style="color:var(--gold);"></i> Mới Cập Nhật
+      </div>
+      <div class="sbr-list">
+        @for (int i = 0; i < Math.Min(newStories.Count,5); i++)
+        {
+          var s = newStories[i];
+          <a href="/Story/Detail/@s.Id" class="sbr-item">
+            <div class="sbr-num rn">@(i+1)</div>
+            @if (!string.IsNullOrEmpty(s.CoverImageUrl))
+            { <img class="sbr-img" src="@GetImage(s.CoverImageUrl)" alt="@s.Title" loading="lazy" /> }
+            else
+            { <div class="sbr-img" style="display:flex;align-items:center;justify-content:center;"><i class="fa fa-book" style="color:var(--border);font-size:13px;"></i></div> }
+            <div class="sbr-info">
+              <div class="sbr-title">@s.Title</div>
+              <div class="sbr-sub"><i class="fa fa-calendar-alt"></i> @s.UpdatedAt.ToString("dd/MM/yyyy")</div>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+
+  </aside>
+
+</div>@* /page-grid *@
+</div>@* /page-wrap *@
+
+@* ══════════════════════════════════════════════════════════════
+   SCRIPT – Hero Slider
+══════════════════════════════════════════════════════════════ *@
+<script>
+(function(){
+  var INTERVAL = 4500;
+  var slides   = Array.from(document.querySelectorAll('#heroTrack .hero-slide'));
+  var dotsWrap = document.getElementById('heroDots');
+  var prog     = document.getElementById('heroProgress');
+  var total    = slides.length;
+  var cur      = 0, timer = null;
+
+  /* Tạo dots */
+  slides.forEach(function(_,i){
+    var d = document.createElement('button');
+    d.className = 'hero-dot' + (i===0?' active':'');
+    d.setAttribute('aria-label','Slide '+(i+1));
+    d.addEventListener('click', function(){ goTo(i); });
+    dotsWrap.appendChild(d);
+  });
+
+  function pos(idx){
+    var diff = ((idx-cur)%total+total)%total;
+    if(diff===0)         return 'pos-active';
+    if(diff===1)         return 'pos-next';
+    if(diff===total-1)   return 'pos-prev';
+    if(diff===2)         return 'pos-next2';
+    if(diff===total-2)   return 'pos-prev2';
+    return 'pos-hidden';
+  }
+
+  function render(){
+    slides.forEach(function(sl,i){ sl.className='hero-slide '+pos(i); });
+    dotsWrap.querySelectorAll('.hero-dot').forEach(function(d,i){
+      d.classList.toggle('active', i===cur);
+    });
+  }
+
+  function startProg(){
+    prog.style.transition='none'; prog.style.width='0%';
+    void prog.offsetWidth;
+    prog.style.transition='width '+INTERVAL+'ms linear';
+    prog.style.width='100%';
+  }
+
+  function startAuto(){
+    clearInterval(timer);
+    startProg();
+    timer=setInterval(function(){
+      cur=(cur+1)%total; render(); startProg();
+    },INTERVAL);
+  }
+
+  function goTo(idx){
+    cur=((idx%total)+total)%total;
+    render(); startAuto();
+  }
+
+  document.getElementById('heroPrevBtn').addEventListener('click',function(){ goTo(cur-1); });
+  document.getElementById('heroNextBtn').addEventListener('click',function(){ goTo(cur+1); });
+
+  slides.forEach(function(sl,i){
+    sl.addEventListener('click',function(){
+      if(!sl.classList.contains('pos-active')) goTo(i);
+    });
+  });
+
+  /* Swipe */
+  var tx=null, banner=document.getElementById('heroBanner');
+  banner.addEventListener('touchstart',function(e){ tx=e.touches[0].clientX; },{passive:true});
+  banner.addEventListener('touchend',function(e){
+    if(tx===null) return;
+    var dx=e.changedTouches[0].clientX-tx;
+    if(Math.abs(dx)>40) goTo(dx<0?cur+1:cur-1);
+    tx=null;
+  });
+
+  /* Pause hover */
+  banner.addEventListener('mouseenter',function(){ clearInterval(timer); prog.style.transition='none'; });
+  banner.addEventListener('mouseleave',function(){ startAuto(); });
+
+  render(); startAuto();
+})();
+</script>
+
+@* @functions {
+    public string GetImage(string? url)
+    {
+        if (string.IsNullOrEmpty(url)) return Url.Content("~/img/cat1.jpg");
+        if (url.StartsWith("http")) return url;
+        if (url.StartsWith("/")) return url;  // ✅ path tuyệt đối → giữ nguyên
+        return Url.Content("~/img/" + url);         // chỉ ghép nếu là tên file thuần
+    }
+} *@
+@functions {
+    public string GetImage(string? url)
+    {
+        if (string.IsNullOrEmpty(url))
+            return Url.Content("~/img/cat1.jpg");
+
+        // ảnh online
+        if (url.StartsWith("http"))
+            return url;
+
+        // nếu đã là path tuyệt đối
+        if (url.StartsWith("/"))
+            return url;
+
+        // file local trong wwwroot/img
+        return Url.Content("~/img/" + url);
+    }
+}

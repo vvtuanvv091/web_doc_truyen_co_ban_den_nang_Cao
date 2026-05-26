@@ -1,0 +1,391 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFramework = net10.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.RootNamespace = web_doc_truyen_Co_ban
+build_property.RootNamespace = web_doc_truyen_Co_ban
+build_property.ProjectDir = D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/BookMark/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQm9va01hcmtcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Category/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0ZWdvcnlcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Category/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0ZWdvcnlcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Category/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0ZWdvcnlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/ChapterComment/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2hhcHRlckNvbW1lbnRcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/ChapterComment/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2hhcHRlckNvbW1lbnRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Chapter/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2hhcHRlclxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Chapter/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2hhcHRlclxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Chapter/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2hhcHRlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/ErrorLog/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRXJyb3JMb2dcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Follow/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRm9sbG93XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Import/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW1wb3J0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Import/Preview.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW1wb3J0XFByZXZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Import/SearchResults.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW1wb3J0XFNlYXJjaFJlc3VsdHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Profile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHJvZmlsZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/ReadHistory/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUmVhZEhpc3RvcnlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Roles/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUm9sZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Roles/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUm9sZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/Components/Categories/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcmllc1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/Components/Tags/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXENvbXBvbmVudHNcVGFnc1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXFJlZ2lzdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/_AdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/_Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/_LoginLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9Mb2dpbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/_SlidebarPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9TbGlkZWJhclBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/StoryComment/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RvcnlDb21tZW50XENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/StoryComment/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RvcnlDb21tZW50XERldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/StoryComment/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RvcnlDb21tZW50XEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/StoryComment/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RvcnlDb21tZW50XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/StoryRating/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RvcnlSYXRpbmdcRGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/StoryRating/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RvcnlSYXRpbmdcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Story/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RvcnlcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Story/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RvcnlcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Story/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RvcnlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Tag/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGFnXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Tag/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGFnXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/Tag/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGFnXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/ThaoLuanDanhMuc/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGhhb0x1YW5EYW5oTXVjXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/ThaoLuanDanhMuc/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGhhb0x1YW5EYW5oTXVjXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/ThongBao/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGhvbmdCYW9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/UserSession/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVXNlclNlc3Npb25cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/User/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVXNlclxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/Views/User/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVXNlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Admin/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/BaiViet/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFpVmlldFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/BaiViet/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFpVmlldFxEZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/BaiViet/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFpVmlldFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Category/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Chapter/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhcHRlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Follow/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9sbG93XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/MembershipPlan/Error_TTHV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFBsYW5cRXJyb3JfVFRIVi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/MembershipPlan/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFBsYW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/MembershipPlan/Payment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFBsYW5cUGF5bWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/MembershipPlan/Success.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFBsYW5cU3VjY2Vzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Profile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Rating/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF0aW5nXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/ReadingHistory/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVhZGluZ0hpc3RvcnlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Report/LichSuBaoCao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XExpY2hTdUJhb0Nhby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/Components/Categories/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcmllc1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/Components/Categories/Menu_Categories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcmllc1xNZW51X0NhdGVnb3JpZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/Components/Tags/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVGFnc1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/_Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/_Layout_Customer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRfQ3VzdG9tZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/_PopupReport.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Qb3B1cFJlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/_SlidebarPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TbGlkZWJhclBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Story/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvcnlcRGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Story/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvcnlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Story/StatusStory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvcnlcU3RhdHVzU3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Tag/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFnXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/ThongBao/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhvbmdCYW9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/UnlockChapter/Confirm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVW5sb2NrQ2hhcHRlclxDb25maXJtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/tai_lieu_bi_mat/web_doc_truyen_Co_ban/web_doc_truyen_Co_ban/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-dtib3a6u06

@@ -1,0 +1,278 @@
+﻿@model List<web_doc_truyen_Co_ban.Models.ReportModel>
+@{
+    ViewData["Title"] = "Lịch Sử Báo Cáo";
+}
+
+<style>
+    .bc-wrap {
+        max-width: 960px;
+        margin: 32px auto;
+        padding: 0 16px;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .bc-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+    }
+
+    .bc-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a2e;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .bc-title i { color: #534AB7; }
+
+    .bc-count {
+        font-size: 13px;
+        color: #888;
+        margin-top: 2px;
+    }
+
+    .bc-table-wrap {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid #e8e8f0;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(83,74,183,.06);
+    }
+
+    .bc-thead {
+        display: grid;
+        grid-template-columns: 110px 1fr 200px 130px 110px;
+        padding: 12px 20px;
+        background: #f8f8fc;
+        border-bottom: 1px solid #e8e8f0;
+        font-size: 11px;
+        font-weight: 700;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+    }
+
+    .bc-row {
+        display: grid;
+        grid-template-columns: 110px 1fr 200px 130px 110px;
+        padding: 15px 20px;
+        border-bottom: 1px solid #f4f4f8;
+        align-items: center;
+        transition: background .15s;
+    }
+
+    .bc-row:last-child { border-bottom: none; }
+    .bc-row:hover { background: #faf9ff; }
+
+    /* Loại badge */
+    .type-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+    .type-comment  { background: #ede9ff; color: #534AB7; }
+    .type-story    { background: #e8f4fd; color: #2980b9; }
+    .type-chapter  { background: #fff3e0; color: #e67e22; }
+    .type-user     { background: #fdecea; color: #e74c3c; }
+
+    /* Status badge */
+    .status-badge {
+        display: inline-block;
+        padding: 3px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+    .s-pending  { background: #fff8e1; color: #f39c12; }
+    .s-approved { background: #e8f5e9; color: #27ae60; }
+    .s-rejected { background: #fdecea; color: #e74c3c; }
+
+    .bc-reason {
+        font-size: 13px;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 340px;
+    }
+
+    .bc-time {
+        font-size: 12px;
+        color: #aaa;
+    }
+
+    .bc-empty {
+        padding: 60px 20px;
+        text-align: center;
+        color: #bbb;
+    }
+
+    .bc-empty i {
+        font-size: 36px;
+        display: block;
+        margin-bottom: 12px;
+        color: #ddd;
+    }
+
+    .bc-empty p { font-size: 14px; margin: 0; }
+
+    /* Filter tabs */
+    .bc-filters {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+
+    .bc-filter-btn {
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        cursor: pointer;
+        border: 1px solid #e0e0f0;
+        background: #fff;
+        color: #666;
+        transition: all .2s;
+    }
+
+    .bc-filter-btn.active {
+        background: #534AB7;
+        color: #fff;
+        border-color: #534AB7;
+    }
+
+    @@media (max-width: 700px) {
+        .bc-thead { display: none; }
+        .bc-row {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+    }
+</style>
+@* <head>
+          <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head> *@
+<div class="container-fluid px-lg-5 px-3">
+
+    <!-- Header -->
+    <div class="bc-header">
+        <div>
+            <div class="bc-title">
+                <i class="fa fa-flag"></i> Lịch Sử Báo Cáo
+            </div>
+            <div class="bc-count">
+                Tổng @Model.Count báo cáo &nbsp;·&nbsp;
+                Đang chờ: <strong style="color:#f39c12;">@Model.Count(r => r.Status == "pending")</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="bc-filters">
+        <button class="bc-filter-btn active" onclick="filter('all', this)">Tất cả</button>
+        <button class="bc-filter-btn" onclick="filter('pending', this)">Đang chờ</button>
+        <button class="bc-filter-btn" onclick="filter('approved', this)">Đã duyệt</button>
+        <button class="bc-filter-btn" onclick="filter('rejected', this)">Bị từ chối</button>
+    </div>
+
+    <!-- Table -->
+    <div class="bc-table-wrap">
+        <div class="bc-thead">
+            <div>Loại</div>
+            <div>Lý do</div>
+            <div>Ngày gửi</div>
+            <div>Xử lý lúc</div>
+            <div>Trạng thái</div>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="bc-empty">
+                <i class="fa fa-inbox"></i>
+                <p>Bạn chưa gửi báo cáo nào.</p>
+            </div>
+        }
+
+        @foreach (var r in Model)
+        {
+            var typeLabel = r.TargetType switch {
+                "comment" => ("fa-comment",  "comment",  "Bình luận"),
+                "story"   => ("fa-book",     "story",    "Truyện"),
+                "chapter" => ("fa-list",     "chapter",  "Chương"),
+                "user"    => ("fa-user",     "user",     "Người dùng"),
+                _         => ("fa-flag",     "story",    r.TargetType)
+            };
+
+            var (statusClass, statusText) = r.Status switch {
+                "approved" => ("s-approved", "Đã duyệt"),
+                "rejected" => ("s-rejected", "Từ chối"),
+                _          => ("s-pending",  "Đang chờ")
+            };
+
+            <div class="bc-row" data-status="@r.Status">
+                <!-- Loại -->
+                <div>
+                    <span class="type-badge type-@typeLabel.Item2">
+                        <i class="fa @typeLabel.Item1" style="font-size:11px;"></i>
+                        @typeLabel.Item3
+                    </span>
+                </div>
+
+                <!-- Lý do -->
+                <div class="bc-reason" title="@r.Reason">@r.Reason</div>
+
+                <!-- Ngày gửi -->
+                <div class="bc-time">
+                    <i class="fa fa-clock-o" style="margin-right:4px;"></i>
+                    @r.CreatedAt.ToLocalTime().ToString("HH:mm dd/MM/yyyy")
+                </div>
+
+                <!-- Xử lý lúc -->
+                <div class="bc-time">
+                    @if (r.ProcessedAt.HasValue)
+                    {
+                        <span>
+                            <i class="fa fa-check-circle" style="margin-right:4px;color:#27ae60;"></i>
+                            @r.ProcessedAt.Value.ToLocalTime().ToString("HH:mm dd/MM/yyyy")
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:#ddd;">—</span>
+                    }
+                </div>
+
+                <!-- Trạng thái -->
+                <div>
+                    <span class="status-badge @statusClass">@statusText</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function filter(status, btn) {
+        document.querySelectorAll('.bc-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        document.querySelectorAll('.bc-row').forEach(row => {
+            row.style.display = (status === 'all' || row.dataset.status === status)
+                ? 'grid' : 'none';
+        });
+    }
+</script>
+}

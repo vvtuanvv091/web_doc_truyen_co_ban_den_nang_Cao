@@ -1,0 +1,1282 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <meta name="description" content="Eduleb - Education HTML Template">
+    <meta name="keywords" content="agency, business, corporate, creative, html5, modern, multipurpose, One Page, parallax, startup">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <!-- Font Awesome (CDN & Local) -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <link rel="stylesheet" href="~/assets/fonts/font-awesome.min.css">
+            <link rel="stylesheet" href="~/assets/fonts/themify-icons.css">
+
+                <!-- Plugins CSS -->
+                <link rel="stylesheet" href="~/assets/owlcarousel/css/owl.carousel.css">
+                    <link rel="stylesheet" href="~/assets/owlcarousel/css/owl.theme.css">
+                        <link rel="stylesheet" href="~/assets/css/jquery-simple-mobilemenu.css">
+                            <link rel="stylesheet" href="~/assets/css/magnific-popup.css">
+                                <link rel="stylesheet" href="~/assets/css/animate.css">
+
+                                    <!-- Main Style CSS -->
+         <link rel="stylesheet" href="~/assets/css/style.css">
+
+                                        <!-- HTML5 shim and Respond.js IE8 support -->
+                                        <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+
+
+        /* ===== MOBILE NAV ===== */
+        @@media (max-width: 991px) {
+            .col-10  { width: auto !important; }
+            .col-60  { display: none !important; }   /* ẩn menu ngang */
+            .col-30  { display: none !important; }   /* ẩn user/search */
+            
+            .mobile-toggle {
+                display: flex !important;
+                margin-left: auto;
+                align-items: center;
+                gap: 10px;
+            }
+
+            /* Drawer menu */
+            .mobile-menu {
+                display: none;
+                position: fixed;
+                top: 64px; left: 0; right: 0; bottom: 0;
+                background: #fff;
+                z-index: 9999;
+                overflow-y: auto;
+                padding: 16px 0;
+                border-top: 1px solid #eee;
+            }
+            .mobile-menu.open { display: block; }
+
+            .mobile-menu ul { list-style: none; margin: 0; padding: 0; }
+            .mobile-menu ul li a {
+                display: block; padding: 13px 20px;
+                font-size: 15px; color: #0b104a;
+                border-bottom: 1px solid #f5f5f5;
+                text-decoration: none; font-weight: 500;
+            }
+            .mobile-menu ul li a:hover { background: #f8f8fc; color: #525fe1; }
+
+            /* Sub menu mobile */
+            .mobile-menu .sub-menu { padding-left: 16px; background: #f9f9ff; }
+            .mobile-menu .sub-menu a { font-size: 14px; color: #555; }
+
+            /* User + login buttons mobile */
+            .mobile-user-row {
+                display: flex; align-items: center; gap: 10px;
+                padding: 14px 20px; border-top: 2px solid #f0f0f0; margin-top: 8px;
+            }
+            .mobile-user-row a {
+                flex: 1; text-align: center; padding: 9px;
+                border-radius: 8px; font-size: 14px; font-weight: 600;
+                text-decoration: none;
+            }
+            .mobile-login  { background: #f0f0ff; color: #525fe1; }
+            .mobile-signup { background: #525fe1; color: #fff; }
+        }
+
+        .mobile-toggle { display: none; }  /* ẩn trên desktop */
+            /* Ẩn submenu cấp 3 cho đến khi hover đúng vào item cha */
+            .menu-item-has-children .menu-item-has-children > ul {
+                display: none;
+                position: absolute;
+                left: 100%;
+                top: 0;
+            }
+
+            .menu-item-has-children .menu-item-has-children:hover > ul {
+                display: block;
+            }
+            .col-10 {
+                width: 10%;
+            }
+
+            .col-60 {
+                width: 60%;
+            }
+
+            .col-30 {
+                width: 30%;
+            }
+
+           /*  web dodooir sangtoi app full */
+          
+        /* ══════════════════════════════════
+           DARK MODE — toàn bộ site
+        ══════════════════════════════════ */
+
+        /* Biến light (mặc định) */
+        :root {
+          --dm-bg       : #faf8f5;
+          --dm-surface  : #ffffff;
+          --dm-surface2 : #f4f4f8;
+          --dm-border   : #e2e6f0;
+          --dm-text     : #1a1c2e;
+          --dm-muted    : #6b7080;
+          --dm-dim      : #adb2c3;
+          --dm-input-bg : #f8f8fc;
+          --dm-badge-bg : #eef1f8;
+          --dm-nav-bg   : #ffffff;
+          --dm-dropdown : #ffffff;
+          --dm-shadow   : rgba(0,0,0,.08);
+        }
+
+        /* Biến dark */
+        body.dark-mode {
+          --dm-bg       : #0f1117;
+          --dm-surface  : #181c27;
+          --dm-surface2 : #1e2235;
+          --dm-border   : #2a2f4a;
+          --dm-text     : #e8eaf6;
+          --dm-muted    : #8b90aa;
+          --dm-dim      : #555a7a;
+          --dm-input-bg : #1e2235;
+          --dm-badge-bg : #252840;
+          --dm-nav-bg   : #181c27;
+          --dm-dropdown : #1e2235;
+          --dm-shadow   : rgba(0,0,0,.4);
+
+          /* Các biến dùng trong Home CSS */
+          --paper       : #0f1117;
+          --bg-primary  : #0f1117;
+          --bg-card     : #181c27;
+          --bg-hover    : #252840;
+          --border      : #2a2f4a;
+          --border-strong:#3a3f66;
+          --text-main   : #e8eaf6;
+          --text-muted  : #8b90aa;
+          --text-dim    : #555a7a;
+          --tag-bg      : #252840;
+          --ink         : #e8eaf6;
+          --ink-mid     : #8b90aa;
+          --ink-lt      : #555a7a;
+          --line        : #2a2f4a;
+          --shadow-sm   : 0 1px 4px rgba(0,0,0,.4);
+          --shadow-md   : 0 4px 16px rgba(0,0,0,.5);
+          --shadow-hover: 0 8px 28px rgba(232,84,26,.25);
+          --accent-light: rgba(232,84,26,.15);
+        }
+
+        /* ── Base ── */
+        body {
+          background : var(--dm-bg)   !important;
+          color      : var(--dm-text) !important;
+          transition : background .3s ease, color .3s ease;
+        }
+
+        /* ── Navbar ── */
+        body.dark-mode #navigation,
+        body.dark-mode .site-navigation {
+          background : var(--dm-nav-bg)  !important;
+          border-color:var(--dm-border)  !important;
+        }
+        body.dark-mode #navigation a,
+        body.dark-mode #main-menu a {
+          color: var(--dm-text) !important;
+        }
+        body.dark-mode #main-menu ul {
+          background: var(--dm-surface) !important;
+          border-color:var(--dm-border) !important;
+        }
+
+        /* ── Input search navbar ── */
+        body.dark-mode #nb-search-input {
+          background  : var(--dm-input-bg) !important;
+          color       : var(--dm-text)     !important;
+          border-color: var(--dm-border)   !important;
+        }
+        body.dark-mode #nb-search-input::placeholder { color: var(--dm-muted) !important; }
+        body.dark-mode #search-results {
+          background  : var(--dm-dropdown) !important;
+          border-color: var(--dm-border)   !important;
+          color       : var(--dm-text)     !important;
+        }
+
+        /* ── Dropdown thông báo & user ── */
+        body.dark-mode #dropdown-thongbao,
+        body.dark-mode .nb-user-dropdown {
+          background  : var(--dm-dropdown) !important;
+          border-color: var(--dm-border)   !important;
+        }
+        body.dark-mode #dropdown-thongbao *,
+        body.dark-mode .nb-user-dropdown a { color: var(--dm-text) !important; }
+        body.dark-mode .nb-user-btn {
+          border-color: var(--dm-border) !important;
+          color       : var(--dm-text)  !important;
+        }
+        body.dark-mode .nb-user-btn span { color: var(--dm-text) !important; }
+        body.dark-mode #btn-bell {
+          border-color: var(--dm-border) !important;
+          color       : var(--dm-muted) !important;
+        }
+
+        /* ── Mobile menu ── */
+        body.dark-mode .mobile-menu {
+          background  : var(--dm-surface) !important;
+          border-color: var(--dm-border)  !important;
+        }
+        body.dark-mode .mobile-menu ul li a { color: var(--dm-text) !important; }
+        body.dark-mode .mobile-menu ul li a:hover { background: var(--dm-surface2) !important; }
+
+        /* ── Bootstrap utility overrides ── */
+        body.dark-mode .text-dark            { color: var(--dm-text)     !important; }
+        body.dark-mode .text-muted           { color: var(--dm-muted)    !important; }
+        body.dark-mode .bg-light,
+        body.dark-mode .bg-white,
+        body.dark-mode .bg-faded            { background: var(--dm-surface) !important; }
+        body.dark-mode .border,
+        body.dark-mode .border-secondary,
+        body.dark-mode .border-top,
+        body.dark-mode .border-bottom       { border-color: var(--dm-border) !important; }
+        body.dark-mode .badge.bg-light       {
+          background: var(--dm-badge-bg) !important;
+          color     : var(--dm-muted)    !important;
+        }
+        body.dark-mode .card,
+        /* body.dark-mode .rounded, */
+        body.dark-mode .shadow-sm {
+          background  : var(--dm-surface) !important;
+          border-color: var(--dm-border)  !important;
+        }
+
+        /* ── Input / Select / Textarea toàn site ── */
+        body.dark-mode input:not([type=submit]):not([type=button]):not([type=checkbox]):not([type=radio]),
+        body.dark-mode select,
+        body.dark-mode textarea,
+        body.dark-mode .form-control,
+        body.dark-mode .input-group-text {
+          background  : var(--dm-input-bg) !important;
+          color       : var(--dm-text)     !important;
+          border-color: var(--dm-border)   !important;
+        }
+        body.dark-mode input::placeholder,
+        body.dark-mode textarea::placeholder { color: var(--dm-muted) !important; }
+
+        /* ── Home page cards ── */
+        body.dark-mode .hcard,
+        body.dark-mode .story-card,
+        body.dark-mode .rank-row,
+        body.dark-mode .filter-bar,
+        body.dark-mode .sdb-box,
+        body.dark-mode .sbr-item {
+          background  : var(--dm-surface) !important;
+          border-color: var(--dm-border)  !important;
+        }
+        body.dark-mode .hcard-title,
+        body.dark-mode .card-title,
+        body.dark-mode .rtitle,
+        body.dark-mode .sbr-title,
+        body.dark-mode .sec-title,
+        body.dark-mode .sdb-hd              { color: var(--dm-text)  !important; }
+        body.dark-mode .hcard-time,
+        body.dark-mode .card-meta,
+        body.dark-mode .rmeta,
+        body.dark-mode .sbr-sub             { color: var(--dm-muted) !important; }
+        body.dark-mode .gitem {
+          background  : rgba(255,255,255,.04) !important;
+          border-color: var(--dm-border)      !important;
+          color       : var(--dm-text)        !important;
+        }
+        body.dark-mode .ftab:not(.active) {
+          color       : var(--dm-muted) !important;
+          border-color: var(--dm-border) !important;
+        }
+
+        /* ── Category page (style_2.css) ── */
+        body.dark-mode .product-item-inner,
+        body.dark-mode .product-item-add {
+          background  : var(--dm-surface) !important;
+          border-color: var(--dm-border)  !important;
+        }
+        body.dark-mode .product-item-inner h6,
+        body.dark-mode .product-item-inner a.text-dark,
+        body.dark-mode .product-item-inner .fw-bold { color: var(--dm-text) !important; }
+
+        /* ── Footer ── */
+        body.dark-mode footer,
+        body.dark-mode .footer,
+        body.dark-mode [class*="footer"] {
+          background  : var(--dm-surface) !important;
+          border-color: var(--dm-border)  !important;
+          color       : var(--dm-muted)   !important;
+        }
+        body.dark-mode footer a,
+        body.dark-mode .footer a             { color: var(--dm-muted) ; }
+        body.dark-mode .footer a .tnt-logo{
+            margin-right: 5px; font-weight:800; font-size:18px;
+                            color:#525fe1 !important; letter-spacing:1px; font-family:'Jost',sans-serif;
+        }
+
+        /* //lịch sử trang */
+        /* ══ Lịch sử đọc (ReadingHistory) ══ */
+
+        /* Header bar "Lịch sử đọc" */
+        body.dark-mode .history-section > .container-fluid > div:first-child {
+          background  : var(--dm-surface)  !important;
+          border-color: var(--dm-border)   !important;
+          box-shadow  : none                   !important;
+        }
+        body.dark-mode .history-section h4 {
+          color: var(--dm-text) !important;
+        }
+
+        /* Từng row lịch sử */
+        body.dark-mode .history-section [style*="background:#fff"] {
+          background  : var(--dm-surface)  !important;
+          border-color: var(--dm-border)   !important;
+          box-shadow  : none                   !important;
+        }
+
+        /* Tên truyện */
+        body.dark-mode .history-section a[style*="color:#1a1a1a"] {
+          color: var(--dm-text) !important;
+        }
+
+        /* "Đang đọc: Chương X" */
+        body.dark-mode .history-section span[style*="color:#555"] {
+          color: var(--dm-muted) !important;
+        }
+        body.dark-mode .history-section span[style*="color:#888"] {
+          color: var(--dm-dim) !important;
+        }
+        body.dark-mode .history-section strong {
+          color: var(--dm-text) !important;
+        }
+
+        /* Timestamp "Đọc lần cuối" */
+        body.dark-mode .history-section div[style*="color:#aaa"] {
+          color: var(--dm-dim) !important;
+        }
+
+        /* Badge thể loại tím */
+        body.dark-mode .history-section span[style*="background:#f0eeff"] {
+          background: #252840 !important;
+          color     : #a78bfa !important;
+        }
+
+        /* Nút "Đọc tiếp" — giữ màu accent, không đổi */
+        body.dark-mode .history-section a[style*="background:#6c63ff"] {
+          background: #e8541a !important; /* đổi sang accent cam của site */
+          color     : #fff     !important;
+        }
+
+        /* Nút "Xóa" từng item */
+        body.dark-mode .history-section button[style*="color:#aaa"] {
+          background  : transparent       !important;
+          border-color: var(--dm-border)  !important;
+          color       : var(--dm-dim)     !important;
+        }
+
+        /* Nút "Xóa tất cả" */
+        body.dark-mode .history-section button[style*="color:#e74c3c"] {
+          background  : transparent !important;
+          border-color: #e74c3c    !important;
+          color       : #e74c3c    !important;
+        }
+
+        /* Ảnh placeholder khi không có cover */
+        body.dark-mode .history-section div[style*="background:#f0f0f0"] {
+          background: var(--dm-surface2) !important;
+        }
+
+        /* Trạng thái trống */
+        body.dark-mode .history-section div[style*="color:#888"] {
+          color: var(--dm-muted) !important;
+        }
+        body.dark-mode .history-section a[style*="color:#6c63ff"] {
+          color: #a78bfa !important;
+        }
+
+        /* trang doc truyên */
+        body.dark-mode span,p{
+            color: var(--dm-text) !important;
+        }
+/* ══ Rating page fix ══ */
+
+    /* Row nền tối */
+    body.dark-mode .table tbody tr {
+      background: var(--dm-surface) !important;
+    }
+    body.dark-mode .table-hover tbody tr:hover {
+      background: var(--dm-surface2) !important;
+    }
+
+    /* Chữ tên truyện đang bị mờ */
+    body.dark-mode .table td a,
+    body.dark-mode .table td a.text-dark,
+    body.dark-mode .table td .fw-semibold,
+    body.dark-mode .table td {
+      color: var(--dm-text) !important;
+    }
+
+    /* thead */
+    body.dark-mode .table thead tr,
+    body.dark-mode .table-light {
+      background: var(--dm-surface2) !important;
+    }
+    body.dark-mode .table thead th {
+      color       : var(--dm-muted)   !important;
+      border-color: var(--dm-border)  !important;
+    }
+
+    /* Badge thể loại — đang tím Bootstrap */
+    body.dark-mode .badge.bg-primary,
+    body.dark-mode .table .badge {
+      background: #2a2f4a !important;
+      color     : #a78bfa !important;
+      border    : none    !important;
+    }
+
+    /* Badge số "3" màu warning giữ vàng */
+    body.dark-mode .badge.bg-warning {
+      background: #b8860b  !important;
+      color     : #fff     !important;
+    }
+    /* ══ Fix cứng Bootstrap bg-white trong card-header ══ */
+    body.dark-mode .card-header.bg-white,
+    body.dark-mode .card-header[class*="bg-white"] {
+      background: var(--dm-surface2) !important;
+      color      : var(--dm-text)    !important;
+      border-color: var(--dm-border) !important;
+    }
+
+    /* Table toàn bộ */
+    body.dark-mode .table,
+    body.dark-mode .table > :not(caption) > * > * {
+      background-color: var(--dm-surface)  !important;
+      color           : var(--dm-text)     !important;
+      border-color    : var(--dm-border)   !important;
+    }
+
+    body.dark-mode .table-light > tr,
+    body.dark-mode .table > thead.table-light > tr > th,
+    body.dark-mode thead.table-light {
+      background-color: var(--dm-surface2) !important;
+      color           : var(--dm-muted)    !important;
+    }
+
+    body.dark-mode .table-hover > tbody > tr:hover > * {
+      background-color: var(--dm-surface2) !important;
+      color           : var(--dm-text)     !important;
+    }
+
+    /* Link trong table */
+    body.dark-mode .table a { color: var(--dm-text) !important; }
+
+    body.dark-mode span .fa.fa-star.fa-xs{
+        color: #b8860b  !important;
+    }
+    body.dark-mode .bc-title {
+      color: var(--dm-text) !important;
+    }
+
+    body.dark-mode .bc-title i {
+      color: #a78bfa !important;
+    }
+
+    body.dark-mode .bc-count {
+      color: var(--dm-muted) !important;
+    }
+
+    body.dark-mode .bc-filter-btn {
+      background: var(--dm-surface) !important;
+      color: var(--dm-muted) !important;
+      border-color: var(--dm-border) !important;
+    }
+
+    body.dark-mode .bc-filter-btn.active {
+      background: #534AB7 !important;
+      color: #fff !important;
+      border-color: #534AB7 !important;
+    }
+    body.dark-mode .bc-table-wrap {
+      background: var(--dm-surface) !important;
+      border-color: var(--dm-border) !important;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .25) !important;
+    }
+
+    body.dark-mode .bc-thead {
+      background: var(--dm-surface2) !important;
+      border-color: var(--dm-border) !important;
+      color: var(--dm-muted) !important;
+    }
+    body.dark-mode .bc-row {
+      border-color: var(--dm-border) !important;
+    }
+
+    body.dark-mode .bc-row:hover {
+      background: var(--dm-surface2) !important;
+    }
+
+    body.dark-mode .bc-reason {
+      color: var(--dm-text) !important;
+    }
+    body.dark-mode .bc-time {
+      color: var(--dm-muted) !important;
+    }
+    body.dark-mode .type-comment {
+      background: #2a2545 !important;
+      color: #a78bfa !important;
+    }
+
+    body.dark-mode .type-story {
+      background: #0d2233 !important;
+      color: #5dade2 !important;
+    }
+
+    body.dark-mode .type-chapter {
+      background: #2b1f0a !important;
+      color: #f0a500 !important;
+    }
+
+    body.dark-mode .type-user {
+      background: #2b0f0f !important;
+      color: #e57373 !important;
+    }
+
+    body.dark-mode .s-pending {
+      background: #2b2000 !important;
+      color: #f0c040 !important;
+    }
+
+    body.dark-mode .s-approved {
+      background: #0d2b17 !important;
+      color: #4caf7d !important;
+    }
+
+    body.dark-mode .s-rejected {
+      background: #2b0f0f !important;
+      color: #e57373 !important;
+    }
+    body.dark-mode .bc-empty {
+      color: var(--dm-muted) !important;
+    }
+    body.dark-mode .bc-empty i {
+      color: var(--dm-border) !important;
+    }
+    body.dark-mode .pw{
+        color: var(--dm-border) !important;
+        background:#0f1117 !important;
+    }
+   /*  trang hô fso */
+
+
+    </style>
+</head>
+
+<body data-spy="scroll" data-offset="80">
+    <!-- START PRELOADER -->
+    @* <div class="preloaders">
+        <span class="loader"></span>
+    </div> *@
+	@* <div class="preloaders">
+		<div class="preloader-anime">
+			<img src="~/assets/img/HandWaveHelloGIF.gif" alt="loading" class="anime-img">
+			<div class="loading-text">Loading...</div>
+		</div>
+	</div> *@
+    <!-- END PRELOADER> ccuar navaigationid="navbar-main" -->
+    <div id="navigation" class="navbar-light bg-faded site-navigation navigation2" >
+        <div class="container-fluid">
+            <div class="row align-items-center" style="height:64px;">
+                <div class="col-10 align-self-center">
+
+                    <div style="position:relative; width:100%;">
+                        <a asp-controller="Home"
+                               asp-action="Index"
+                               class="tnt-logo"
+                               style="margin-right: 5px; font-weight:800; font-size:18px;
+                            color:#525fe1 !important; letter-spacing:1px; font-family:'Jost',sans-serif;">
+                            HiNovels
+                        </a>
+@*                         <!-- Input search -->
+                        <input id="nb-search-input"
+                               type="text"
+                               placeholder="Search titles, authors..."
+                               autocomplete="off"
+                               style="
+                        width:100%;
+                        height:38px;
+                        padding:0 42px 0 16px;
+                        font-size:13px;
+                        border:1.5px solid #e0e0f0;
+                        border-radius:24px;
+                        outline:none;
+                        background:#f8f8fc;
+                        color:#0b104a;
+                        font-family:inherit;
+                        transition:.25s;
+                        box-sizing:border-box;"
+                               onfocus="this.style.borderColor='#525fe1';this.style.boxShadow='0 0 0 3px rgba(82,95,225,.12)';this.style.background='#fff'"
+                               onblur="this.style.borderColor='#e0e0f0';this.style.boxShadow='none';this.style.background='#f8f8fc'">
+
+                        <!-- Icon search -->
+                        <button type="button"
+                                style="position:absolute;right:12px;top:50%;transform:translateY(-50%);
+                            border:none;background:none;color:#666;font-size:14px;cursor:pointer;">
+                            <i class="fa fa-search"></i>
+                        </button>
+
+                        <!-- Kết quả search -->
+                        <div id="search-results"
+                             style="display:none;position:absolute;top:46px;left:0;
+                            width:320px;
+                            background:#fff;border:1px solid #e9e9f2;border-radius:16px;
+                            box-shadow:0 12px 32px rgba(0,0,0,.12);z-index:9999;
+                            max-height:420px;overflow-y:auto;padding:8px;">
+                        </div> *@
+
+                    </div>
+                </div>
+                <!-- Hamburger (chỉ hiện mobile) -->
+                <div class="mobile-toggle">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        var _mAvatar = Context.Session.GetString("AvatarUrl");
+                        @if (!string.IsNullOrEmpty(_mAvatar))
+                        {
+                            <img src="@_mAvatar" style="width:30px;height:30px;border-radius:50%;object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <div style="width:30px;height:30px;border-radius:50%;background:#525fe1;
+                                        display:flex;align-items:center;justify-content:center;
+                                        color:#fff;font-size:12px;font-weight:700;">
+                                @(User.Identity.Name?.Length > 0 ? User.Identity.Name[0].ToString().ToUpper() : "U")
+                            </div>
+                        }
+                    }
+                    <button id="hamburger" style="background:none;border:none;cursor:pointer;padding:4px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="#0b104a" stroke-width="2.5" stroke-linecap="round">
+                            <line x1="3" y1="6"  x2="21" y2="6"/>
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                @* end mobile *@
+                <div class="col-60 d-flex" style="padding-left: 0;">
+                    <nav id="main-menu">
+                        <ul>
+
+                            <li class="menu-item-has-children">
+                                <a asp-action="Index" asp-controller="Home">Trang chủ</a>
+                                @* <ul>
+                                    <li><a asp-action="Index" asp-controller="Home">Trang chủ</a></li>
+                                    <li><a href="#">Truyện mới cập nhật</a></li>
+                                    <li><a href="#">Truyện hot</a></li>
+                                </ul> *@
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a asp-controller="Category" asp-action="ListByCategory">Danh mục truyện</a>
+                                <ul>
+                                    <li>@await Component.InvokeAsync("Categories", new { viewName = "Menu_Categories" })</li>
+                                    
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">Tính năng</a>
+                                <ul>
+                                    <li><a asp-action="Index" asp-controller="ReadingHistory">Lịch sử đọc</a></li>
+                                    <li><a asp-action="Index" asp-controller="Follow">Truyện đang theo dõi</a></li>
+                                    <li><a asp-action="Index" asp-controller="Rating">Bảng xếp hạng</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a  asp-action="StatusStory" asp-controller="Story">
+                                            Trạng Thái
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a  asp-action="StatusStory" asp-controller="Story">
+                                                    Tất Cả
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-action="StatusStory" asp-controller="Story"
+                                                       asp-route-status="1">
+                                                    Đang Ra
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-action="StatusStory" asp-controller="Story"
+                                                       asp-route-status="2">
+                                                    Hoàn Thành
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-action="StatusStory" asp-controller="Story"
+                                                       asp-route-status="3">
+                                                    Tạm Dừng
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a  asp-action="StatusStory" asp-controller="Story"
+                                                       asp-route-status="4">
+                                                    Drop
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a  asp-action="StatusStory" asp-controller="Story"
+                                                       asp-route-status="0">
+                                                    Bản Nháp
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">Diễn đàn</a>
+                                <ul>
+                                    <li><a asp-action="Index" asp-controller="BaiViet">Thảo luận</a></li>
+                                    <li><a href="#">Tin tức truyện</a></li>
+                                    <li><a asp-action="LichSuBaoCao" asp-controller="Report">Liên hệ / Báo lỗi Của Tôi</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children"><a asp-action="Index" asp-controller="MembershipPlan">Hội viên</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                
+
+                <div class="col-30 d-none d-xl-flex align-items-center justify-content-end"
+                     style="gap:8px;">
+                    <!-- Search -->
+                    <div style="position:relative; flex:1; max-width:200px;">
+                        <input id="nb-search-input" type="text"
+                               placeholder="Tìm truyện..."
+                               autocomplete="off"
+                               style="width:100%; height:34px; padding:0 34px 0 12px;
+                        font-size:13px; border:1.5px solid #e0e0f0;
+                        border-radius:20px; outline:none;
+                        background:#f8f8fc; color:#0b104a;
+                        font-family:inherit; box-sizing:border-box; transition:.25s;"
+                               onfocus="this.style.borderColor='#525fe1';this.style.background='#fff'"
+                               onblur="this.style.borderColor='#e0e0f0';this.style.background='#f8f8fc'">
+                        <i class="fa fa-search"
+                           style="position:absolute; right:11px; top:50%;
+                        transform:translateY(-50%); color:#aaa; font-size:12px;
+                        pointer-events:none;"></i>
+                        <!-- Kết quả -->
+                        <div id="search-results"
+                             style="display:none; position:absolute; top:42px; right:0;
+                            width:320px; background:#fff; border:1px solid #e9e9f2;
+                            border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.10);
+                            z-index:9999; max-height:400px; overflow-y:auto; padding:6px;">
+                        </div>
+                    </div>
+
+                    <button id="themeToggle" title="Chế độ sáng/tối"
+                            style="width:48px;height:26px;border-radius:13px;border:none;
+                            cursor:pointer;position:relative;transition:.3s;">
+                        <span id="themeKnob"
+                              style="width:20px;height:20px;border-radius:50%;
+                        position:absolute;top:3px;left:3px;transition:.3s;
+                        display:flex;align-items:center;justify-content:center;font-size:11px;">
+                              @* nới đảy context vào js *@
+                        </span>
+                    </button>
+
+                    <!-- Wrapper chuông -->
+                    <div style="position:relative;display:inline-block;" id="bell-wrapper">
+
+                        <!-- Nút chuông -->
+                        <button id="btn-bell"
+                                style="width:36px;height:36px;border-radius:50%;border:1px solid #e0e0f0;
+                            background:none;cursor:pointer;position:relative;display:flex;
+                            align-items:center;justify-content:center;color:#555;">
+                            <i class="fa fa-bell" style="font-size:15px;"></i>
+
+                            <!-- Badge: ẩn mặc định, JS sẽ hiện khi > 0 -->
+                            <span id="badge-thongbao"
+                                  style="display:none;position:absolute;top:2px;right:2px;
+                                min-width:16px;height:16px;padding:0 4px;
+                                border-radius:8px;background:#e74c3c;border:2px solid #fff;
+                                font-size:10px;font-weight:700;color:#fff;
+                                line-height:12px;text-align:center;">
+                            </span>
+                        </button>
+
+                        <!-- Dropdown thông báo -->
+                        <div id="dropdown-thongbao"
+                             style="display:none;position:absolute;top:44px;right:0;width:320px;
+                            background:#fff;border:1px solid #e0e0f0;border-radius:10px;
+                            box-shadow:0 4px 20px rgba(0,0,0,.12);z-index:9999;overflow:hidden;">
+
+                            <!-- Header dropdown -->
+                            <div style="display:flex;align-items:center;justify-content:space-between;
+                                padding:12px 16px;border-bottom:1px solid #f0f0f0;">
+                                <span style="font-weight:700;font-size:14px;color:#222;">Thông báo</span>
+                                <button id="btn-doc-het"
+                                        style="font-size:12px;color:#6c63ff;background:none;
+                                    border:none;cursor:pointer;padding:0;">
+                                    Đánh dấu đã đọc hết
+                                </button>
+                            </div>
+
+                            <!-- Danh sách thông báo (JS render vào đây) -->
+                            <div id="list-thongbao"
+                                 style="max-height:360px;overflow-y:auto;">
+                                <div style="padding:24px;text-align:center;color:#aaa;font-size:13px;">
+                                    Đang tải...
+                                </div>
+                            </div>
+
+                            <!-- Footer -->
+                            <div style="padding:10px;text-align:center;border-top:1px solid #f0f0f0;">
+                                <a href="/ThongBao/Index"
+                                       style="font-size:13px;color:#6c63ff;text-decoration:none;">
+                                    Xem tất cả thông báo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="nb-user-wrap" style="position:relative;">
+                            <button class="nb-user-btn"
+                                    style="display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;
+                                border-radius:20px;border:1px solid #e0e0f0;background:none;
+                                cursor:pointer;transition:.2s;">
+
+                                @{
+                                    var _navAvatar = Context.Session.GetString("AvatarUrl");
+                                }
+                                @if (!string.IsNullOrEmpty(_navAvatar))
+                                {
+                                    <img src="@_navAvatar"
+                                         style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;" />
+                                }
+                                else
+                                {
+                                    <div style="width:28px;height:28px;border-radius:50%;
+                                        
+                                        background: #525fe1;
+                                        display:flex;align-items:center;justify-content:center;
+                                        color:#fff;font-size:11px;font-weight:700;">
+                                        @(User.Identity.Name?.Length > 0 ? User.Identity.Name[0].ToString().ToUpper() : "U")
+                                    </div>
+                                }
+
+                                <span style="font-size:13px;font-weight:600;color:#0b104a;
+                                    max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                    @User.Identity.Name
+                                </span>
+                                <i class="fa fa-chevron-down" style="font-size:10px;color:#888;"></i>
+                            </button>
+                            <div class="nb-user-dropdown"
+                                 style="position:absolute;top:calc(100% + 10px);right:0;
+                                background:#fff;border:1px solid #ebebf5;border-radius:10px;
+                                padding:6px;min-width:190px;opacity:0;visibility:hidden;
+                                transition:.2s;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.08);">
+
+                                    @{
+                                        var avatarUrl = Context.Session.GetString("AvatarUrl");
+                                        var displayName = Context.Session.GetString("DisplayName");
+                                    }
+
+                                <div style="padding:8px 10px 10px;border-bottom:1px solid #f0f0f8;margin-bottom:4px;display:flex;align-items:center;gap:10px;">
+                                    @if (!string.IsNullOrEmpty(avatarUrl))
+                                    {
+                                        <img src="@avatarUrl" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;" />
+                                    }
+                                    else
+                                    {
+                                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a855f7);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;flex-shrink:0;">
+                                            @(User.Identity?.Name?.Length > 0 ? User.Identity.Name[0].ToString().ToUpper() : "U")
+                                        </div>
+                                    }
+                                    <div>
+                                        <div style="font-size:13px;font-weight:600;color:#0b104a;">@User.Identity.Name</div>
+                                        <div style="font-size:11px;color:#888;">@displayName</div>
+                                    </div>
+                                </div>
+                                <a asp-action="Index" asp-controller="Profile"
+                                       style="display:flex;align-items:center;gap:8px;padding:8px 10px;
+                                    border-radius:6px;font-size:13px;color:#333;text-decoration:none;transition:.15s;">
+                                    <i class="fa fa-user" style="font-size:13px;color:#525fe1;width:16px;"></i> Hồ sơ
+                                </a>
+                                <a asp-action="Index" asp-controller="ReadingHistory"
+                                       style="display:flex;align-items:center;gap:8px;padding:8px 10px;
+                                    border-radius:6px;font-size:13px;color:#333;text-decoration:none;transition:.15s;">
+                                    <i class="fa fa-history" style="font-size:13px;color:#525fe1;width:16px;"></i> Lịch sử đọc
+                                </a>
+                                <a asp-action="Index" asp-controller="Follow"
+                                       style="display:flex;align-items:center;gap:8px;padding:8px 10px;
+                                    border-radius:6px;font-size:13px;color:#333;text-decoration:none;transition:.15s;">
+                                    <i class="fa fa-heart" style="font-size:13px;color:#525fe1;width:16px;"></i> Theo dõi
+                                </a>
+                                <a href="#"
+                                       style="display:flex;align-items:center;gap:8px;padding:8px 10px;
+                                    border-radius:6px;font-size:13px;color:#333;text-decoration:none;transition:.15s;">
+                                    <i class="fa fa-cog" style="font-size:13px;color:#525fe1;width:16px;"></i> Cài đặt
+                                </a>
+                                <div style="height:1px;background:#f0f0f8;margin:4px 0;"></div>
+                                <a asp-action="LogoutGet" asp-controller="Account"
+                                       style="display:flex;align-items:center;gap:8px;padding:8px 10px;
+                                    border-radius:6px;font-size:13px;color:#e74c3c;text-decoration:none;transition:.15s;">
+                                    <i class="fa fa-sign-out" style="font-size:13px;width:16px;"></i> Đăng xuất
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-action="Login" asp-controller="Account" class="header-btn">Đăng nhập</a>
+                        <a asp-action="Register" asp-controller="Account" class="btn_one">Đăng ký</a>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+     </div>
+
+     <!-- MOBILE MENU DRAWER -->
+    <div class="mobile-menu" id="mobileMenu"style="display:none">
+        <ul>
+            <li><a asp-action="Index" asp-controller="Home">🏠 Trang chủ</a></li>
+            <li>
+                <a href="#">📚 Danh mục truyện</a>
+                <ul class="sub-menu">
+                    @await Component.InvokeAsync("Categories", new { viewName = "Menu_Categories" })
+                </ul>
+            </li>
+            <li><a asp-action="Index" asp-controller="ReadingHistory">📖 Lịch sử đọc</a></li>
+            <li><a asp-action="Index" asp-controller="Follow">❤️ Truyện theo dõi</a></li>
+            <li><a asp-action="Index" asp-controller="Rating">🏆 Bảng xếp hạng</a></li>
+            <li><a asp-action="Index" asp-controller="BaiViet">💬 Thảo luận</a></li>
+            <li><a asp-action="Index" asp-controller="MembershipPlan">⭐ Hội viên</a></li>
+        </ul>
+
+        <div class="mobile-user-row">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-action="Index" asp-controller="Profile" class="mobile-login">Hồ sơ</a>
+                <a asp-action="LogoutGet" asp-controller="Account"
+                   style="flex:1;text-align:center;padding:9px;border-radius:8px;
+                          font-size:14px;font-weight:600;background:#fee2e2;color:#e74c3c;
+                          text-decoration:none;">
+                    Đăng xuất
+                </a>
+            }
+            else
+            {
+                <a asp-action="Login"    asp-controller="Account" class="mobile-login">Đăng nhập</a>
+                <a asp-action="Register" asp-controller="Account" class="mobile-signup">Đăng ký</a>
+            }
+        </div>
+    </div>
+
+     @RenderBody()
+        
+	@await Html.PartialAsync("_Footer")
+
+		<!-- END FOOTER COPYRIGHT -->	
+	
+	<!-- Latest jQuery -->
+                                        <script src="~/assets/js/jquery-1.12.4.min.js"></script>
+	<!-- Latest compiled and minified Bootstrap -->
+                                        <script src="~/assets/bootstrap/js/bootstrap.min.js"></script>
+	<!-- modernizer JS -->		
+                                        <script src="~/assets/js/modernizr-2.8.3.min.js"></script>
+	<!-- jquery-simple-mobilemenu.min -->
+                                        <script src="~/assets/js/jquery-simple-mobilemenu.js"></script>
+	<!-- owl-carousel min js  -->
+                                        <script src="~/assets/owlcarousel/js/owl.carousel.min.js"></script>
+	<!-- magnific-popup js -->                           <script src="~/assets/js/jquery.magnific-popup.min.js"></script>
+	<!-- countTo js -->
+                                        <script src="~/assets/js/jquery.inview.min.js"></script>
+	<!-- scrolltopcontrol js -->
+                                        <script src="~/assets/js/scrolltopcontrol.js"></script>
+	<!-- WOW - Reveal Animations When You Scroll -->
+                                        <script src="~/assets/js/wow.min.js"></script>
+	<!-- scripts js -->
+		<script src="~/assets/js/scripts.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+
+
+    @* mobile *@
+    <script>
+        var hamburger   = document.getElementById('hamburger');
+        var mobileMenu  = document.getElementById('mobileMenu');
+        var isOpen      = false;
+
+        hamburger.addEventListener('click', function () {
+            isOpen = !isOpen;
+            mobileMenu.classList.toggle('open', isOpen);
+            // Đổi icon
+            hamburger.innerHTML = isOpen
+                ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0b104a" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+                : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0b104a" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
+        });
+
+        // Đóng khi bấm ra ngoài
+        document.addEventListener('click', function (e) {
+            if (isOpen && !mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                isOpen = false;
+                mobileMenu.classList.remove('open');
+            }
+        });
+    </script>
+
+
+    <script>
+            // Dropdown user toggle
+            const userBtn = document.querySelector('.nb-user-btn');
+            const userDrop = document.querySelector('.nb-user-dropdown');
+            if (userBtn && userDrop) {
+                userBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isOpen = userDrop.style.opacity === '1';
+                    userDrop.style.opacity = isOpen ? '0' : '1';
+                    userDrop.style.visibility = isOpen ? 'hidden' : 'visible';
+                });
+                document.addEventListener('click', () => {
+                    if (userDrop) {
+                        userDrop.style.opacity = '0';
+                        userDrop.style.visibility = 'hidden';
+                    }
+                });
+            }
+    </script>
+    <script>
+                    (function () {
+                const btnBell   = document.getElementById("btn-bell");
+                const dropdown  = document.getElementById("dropdown-thongbao");
+                const badge     = document.getElementById("badge-thongbao");
+                const listEl    = document.getElementById("list-thongbao");
+                const btnDocHet = document.getElementById("btn-doc-het");
+
+                const userId = "@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value";
+                if (!userId) return;
+
+                // ── Icon map cho USER ──────────────────────────────────
+                const iconMap = {
+                    reply       : { ico: "fa-comment",  color: "#6c63ff" },
+                    new_chapter : { ico: "fa-book",     color: "#27ae60" },
+                    like        : { ico: "fa-heart",    color: "#e74c3c" },
+                    follow      : { ico: "fa-user-plus",color: "#f39c12" },
+                };
+
+                // ── Badge ──────────────────────────────────────────────
+                function capNhatBadge(count) {
+                    if (count > 0) {
+                        badge.textContent = count > 99 ? "99+" : count;
+                        badge.style.display = "inline-block";
+                    } else {
+                        badge.style.display = "none";
+                    }
+                }
+
+                // ── Fetch lại số chính xác từ server ──────────────────
+                function refreshBadge() {
+                    fetch("/ThongBao/SoThongBaoChuaDoc")
+                        .then(r => r.json())
+                        .then(d => capNhatBadge(d.count));
+                }
+
+                // ── Toast góc phải ─────────────────────────────────────
+                function hienToast(type, message) {
+                    const color = (iconMap[type] ?? { color: "#6c63ff" }).color;
+                    const toast = document.createElement("div");
+                    toast.style.cssText = `
+                        position:fixed;bottom:24px;right:24px;
+                        background:#fff;border-left:4px solid ${color};
+                        border-radius:8px;padding:12px 16px;
+                        box-shadow:0 4px 16px rgba(0,0,0,.12);
+                        font-size:13px;color:#222;max-width:300px;
+                        z-index:99999;animation:tbSlideIn .3s ease;
+                    `;
+                    toast.textContent = message;
+                    document.body.appendChild(toast);
+                    setTimeout(() => toast.remove(), 4000);
+                }
+
+                // ── Render 1 item ──────────────────────────────────────
+                function renderItem(tb) {
+                    const { ico, color } = iconMap[tb.type] ?? { ico: "fa-bell", color: "#888" };
+                    const div = document.createElement("div");
+                    div.style.cssText = `
+                        display:flex;align-items:flex-start;gap:10px;padding:12px 16px;
+                        cursor:pointer;transition:background .15s;
+                        background:${tb.isRead ? "#fff" : "#f5f4ff"};
+                        border-bottom:1px solid #f5f5f5;
+                    `;
+                    div.innerHTML = `
+                        <div style="width:34px;height:34px;border-radius:50%;
+                                    background:${color}22;flex-shrink:0;
+                                    display:flex;align-items:center;justify-content:center;">
+                            <i class="fa ${ico}" style="color:${color};font-size:14px;"></i>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="font-size:13px;color:#222;line-height:1.4;
+                                        word-break:break-word;">${tb.message}</div>
+                            <div style="font-size:11px;color:#aaa;margin-top:4px;">${tb.time}</div>
+                        </div>
+                        ${!tb.isRead
+                            ? `<span style="width:8px;height:8px;border-radius:50%;
+                                           background:#6c63ff;flex-shrink:0;margin-top:4px;"></span>`
+                            : ""}
+                    `;
+                    div.addEventListener("click", async () => {
+                        await fetch(`/ThongBao/DanhDauDaDoc/${tb.id}`, {
+                            method: "POST",
+                            headers: { "RequestVerificationToken": getToken() }
+                        });
+                        if (tb.link) window.location.href = tb.link;
+                    });
+                    return div;
+                }
+
+                // ── Load danh sách ─────────────────────────────────────
+                async function loadThongBao() {
+                    listEl.innerHTML = `<div style="padding:24px;text-align:center;color:#aaa;font-size:13px;">Đang tải...</div>`;
+                    try {
+                        const res  = await fetch("/ThongBao/DanhSach");
+                        const data = await res.json();
+                        listEl.innerHTML = "";
+                        if (!data.length) {
+                            listEl.innerHTML = `<div style="padding:24px;text-align:center;color:#aaa;font-size:13px;">Chưa có thông báo nào.</div>`;
+                            return;
+                        }
+                        data.forEach(tb => listEl.appendChild(renderItem(tb)));
+                    } catch {
+                        listEl.innerHTML = `<div style="padding:24px;text-align:center;color:#e74c3c;font-size:13px;">Lỗi tải thông báo.</div>`;
+                    }
+                }
+
+                // ── Toggle dropdown ────────────────────────────────────
+                btnBell.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const isOpen = dropdown.style.display === "block";
+                    dropdown.style.display = isOpen ? "none" : "block";
+                    if (!isOpen) loadThongBao();
+                });
+
+                document.addEventListener("click", (e) => {
+                    if (!document.getElementById("bell-wrapper").contains(e.target))
+                        dropdown.style.display = "none";
+                });
+
+                // ── Đọc hết ───────────────────────────────────────────
+                btnDocHet.addEventListener("click", async () => {
+                    await fetch("/ThongBao/DanhDauTatCaDaDoc", {
+                        method: "POST",
+                        headers: { "RequestVerificationToken": getToken() }
+                    });
+                    capNhatBadge(0);
+                    loadThongBao();
+                });
+
+                function getToken() {
+                    return document.querySelector('input[name="__RequestVerificationToken"]')?.value ?? "";
+                }
+
+                // ── SignalR ────────────────────────────────────────────
+                (async () => {
+                    // Badge ban đầu
+                    refreshBadge();
+
+                    const connection = new signalR.HubConnectionBuilder()
+                        .withUrl("/notificationHub")
+                        .withAutomaticReconnect()
+                        .build();
+
+                    connection.on("NhanThongBaoMoi", (data) => {
+                        // ✅ Fetch lại từ server thay vì tin vào data.soMoi
+                        refreshBadge();
+                        if (dropdown.style.display === "block") loadThongBao();
+                        hienToast(data.type, data.message);
+                    });
+
+                    connection.on("CapNhatSoThongBao", (soMoi) => {
+                        capNhatBadge(soMoi);
+                    });
+
+                    await connection.start();
+                    await connection.invoke("JoinUserGroup", userId);
+                })();
+            })();
+        ///đang lỗi role userBtn tạm fll 
+            (function () {
+                const btn  = document.getElementById('themeToggle');
+                const knob = document.getElementById('themeKnob');
+                if (!btn || !knob) return;
+                    const sun  = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656"/>
+                                    <path d="M6.343 17.657l-1.414 1.414"/><path d="M6.343 6.343l-1.414 -1.414"/>
+                                    <path d="M17.657 6.343l1.414 -1.414"/><path d="M17.657 17.657l1.414 1.414"/>
+                                    <path d="M4 12h-2"/><path d="M12 4v-2"/><path d="M20 12h2"/><path d="M12 20v2"/>
+                                </svg>`;
+                    const moon =`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-moon-stars">
+	                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	                                <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+	                                <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
+	                                <path d="M19 11h2m-1 -1v2" />
+                                </svg>`
+                function applyTheme(dark) {
+                    document.body.classList.toggle('dark-mode', dark);
+                     btn.style.background  = dark ? '#3b3b5c' : '#e0e0ee';
+                    knob.style.left       = dark ? '25px'    : '3px';
+                    knob.style.background = dark ? '#1e2235' : '#fff';
+                    // knob.textContent      = dark ? sun      : moon;
+                    knob.innerHTML      = dark ? sun      : moon;
+                    localStorage.setItem('theme', dark ? 'dark' : 'light');
+                }
+
+                const saved      = localStorage.getItem('theme');
+                const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                applyTheme(saved ? saved === 'dark' : preferDark);
+
+                btn.addEventListener('click', () => {
+                    applyTheme(!document.body.classList.contains('dark-mode'));
+                });
+            })();
+    </script>
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+    <script>
+        document.getElementById("nb-search-input")
+        .addEventListener("keydown", function (e) {
+
+        if (e.key === "Enter") {
+
+        let keyword = this.value.trim();
+
+        if (keyword !== "") {
+
+        window.location.href =
+        "/Category/Index?keyword=" +
+        encodeURIComponent(keyword);
+
+        }
+
+        }
+
+        });
+    </script>
+</body>
+</html>

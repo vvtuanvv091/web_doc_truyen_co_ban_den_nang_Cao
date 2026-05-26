@@ -1,0 +1,470 @@
+﻿@model web_doc_truyen_Co_ban.Models.UsersModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { background: #f0f2f5; font-family: 'Segoe UI', sans-serif; }
+
+        .pw { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+
+        /* COVER */
+        .cover {
+            height: 180px;
+            background: linear-gradient(135deg, #185FA5 0%, #5DCAA5 100%);
+            border-radius: 14px;
+            position: relative;
+        }
+
+        /* AVATAR */
+        .avatar-ring {
+            position: absolute;
+            bottom: -44px;
+            left: 32px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            background: #e9ecef;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avatar-ring img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-ring .bi {
+            font-size: 36px;
+            color: #adb5bd;
+        }
+
+        /* HEADER CARD */
+        .header-card {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 14px;
+            padding: 58px 32px 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .user-name  { font-size: 20px; font-weight: 600; color: #212529; }
+        .user-email { font-size: 13px; color: #6c757d; margin-top: 3px; }
+        .badge-role {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            background: #e7f3ff;
+            color: #185FA5;
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-top: 6px;
+        }
+        .btn-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            padding: 7px 16px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background: #fff;
+            color: #495057;
+            cursor: pointer;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .btn-edit:hover { background: #f8f9fa; }
+
+        /* STAT GRID */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .stat-box {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+        }
+        .stat-num { font-size: 24px; font-weight: 600; color: #212529; }
+        .stat-lbl { font-size: 12px; color: #6c757d; margin-top: 2px; }
+
+        /* TABS */
+        .tab-bar {
+            display: flex;
+            gap: 4px;
+            margin-top: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            padding: 4px;
+        }
+        .tab-btn {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            padding: 8px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all .15s;
+        }
+        .tab-btn.active {
+            background: #fff;
+            color: #212529;
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(0,0,0,.06);
+        }
+        .tab-btn:hover:not(.active) { color: #212529; }
+
+        /* PANES */
+        .pane { display: none; }
+        .pane.active { display: block; }
+
+        /* CARDS */
+        .card {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+        .card-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            color: #adb5bd;
+            margin-bottom: 16px;
+        }
+
+        /* FORM */
+        .f-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+        .f-label { font-size: 12px; color: #6c757d; }
+        .f-input {
+            font-size: 14px;
+            padding: 8px 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background: #fff;
+            color: #212529;
+            outline: none;
+            width: 100%;
+            transition: border-color .15s;
+        }
+        .f-input:focus { border-color: #185FA5; box-shadow: 0 0 0 3px rgba(24,95,165,.12); }
+        textarea.f-input { resize: vertical; min-height: 76px; }
+
+        /* BUTTONS */
+        .btn-save {
+            font-size: 13px;
+            padding: 8px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #185FA5;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .btn-save:hover { background: #1250880 }
+        .btn-danger {
+            font-size: 13px;
+            padding: 8px 18px;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            background: transparent;
+            color: #dc3545;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .btn-danger:hover { background: #fff5f5; }
+
+        /* UPLOAD ZONE */
+        .upload-zone {
+            border: 1.5px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 28px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: background .15s;
+        }
+        .upload-zone:hover { background: #fff; }
+        .upload-zone .bi { font-size: 30px; color: #adb5bd; }
+        #previewImg {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+            margin: 0 auto 10px;
+        }
+
+        /* STORY ROWS */
+        .story-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 0;
+            border-bottom: 1px solid #f1f3f5;
+        }
+        .story-row:last-of-type { border-bottom: none; }
+        .story-ico {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: #6c757d;
+        }
+       .story-ico img {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: #6c757d;
+        }
+        .story-name { font-size: 14px; font-weight: 600; color: #212529; }
+        .story-sub  { font-size: 12px; color: #6c757d; margin-top: 1px; }
+        .story-time { font-size: 11px; color: #adb5bd; white-space: nowrap; }
+
+        /* ALERTS */
+        .alert-success-custom {
+            background: #d1fae5; color: #065f46;
+            border-radius: 10px; padding: 12px 16px;
+            font-size: 13px; margin-top: 12px;
+        }
+        .alert-danger-custom {
+            background: #fee2e2; color: #991b1b;
+            border-radius: 10px; padding: 12px 16px;
+            font-size: 13px; margin-top: 12px;
+        }
+
+        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        @@media (max-width: 620px) {
+            .grid2            { grid-template-columns: 1fr; }
+            .header-card      { padding: 56px 16px 16px; }
+            .stat-grid        { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="pw">
+
+    <!-- ── COVER ── -->
+    <div class="cover">
+        <div class="avatar-ring">
+            @if (!string.IsNullOrEmpty(Model.AvatarUrl))
+            {
+                <img src="@Model.AvatarUrl" id="avatarPreview" alt="Avatar" />
+            }
+            else
+            {
+                <i class="bi bi-person" id="avatarPreview"></i>
+            }
+        </div>
+    </div>
+
+    <!-- ── HEADER CARD ── -->
+    <div class="header-card">
+        <div>
+            <div class="user-name">@Model.DisplayName</div>
+            <div class="user-email"><i class="bi bi-envelope" style="margin-right:4px"></i>@Model.Email</div>
+            <div class="badge-role"><i class="bi bi-bookmark-fill" style="font-size:10px"></i>@(Model.Role?.Name??"Quản Trị Viên")</div>
+        </div>
+        <button class="btn-edit" onclick="switchTab('info')">
+            <i class="bi bi-pencil"></i> Chỉnh sửa hồ sơ
+        </button>
+    </div>
+
+    <!-- ── ALERTS ── -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success-custom"><i class="bi bi-check-circle me-1"></i>@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-danger-custom"><i class="bi bi-exclamation-circle me-1"></i>@TempData["Error"]</div>
+    }
+
+    <!-- ── STATS ── -->
+    <div class="stat-grid">
+        <div class="stat-box">
+            <div class="stat-num">@Model.Username</div>
+            <div class="stat-lbl">Tên Người Dùng</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">@(Model.Role?.Name ?? "Quản Trị Viên")</div>
+            <div class="stat-lbl">Vai Trò</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">@Model.CreatedAt.ToString("dd/MM/yyyy")</div>
+            <div class="stat-lbl">Ngày tham gia</div>
+        </div>
+    </div>
+
+    <!-- ── TAB BAR ── -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('info')">
+            <i class="bi bi-person me-1"></i>Thông tin
+        </button>
+        <button class="tab-btn" onclick="switchTab('security')">
+            <i class="bi bi-shield-lock me-1"></i>Bảo mật
+        </button>
+    </div>
+
+    <!-- ══════════════════════════════════ -->
+    <!--  PANE: THÔNG TIN                  -->
+    <!-- ══════════════════════════════════ -->
+    <div class="pane active" id="pane-info">
+        <div class="grid2">
+
+            <!-- Thông tin cá nhân -->
+            <div class="card">
+                <div class="card-title">Thông tin cá nhân</div>
+                <form asp-action="UpdateInfo" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="f-row">
+                        <label class="f-label">Tên hiển thị</label>
+                        <input type="text" name="displayName" class="f-input"
+                               value="@Model.DisplayName"
+                               maxlength="100" required />
+                    </div>
+                    <div class="f-row">
+                        <label class="f-label">Giới thiệu</label>
+                        <textarea name="bio" class="f-input">@Model.Bio</textarea>
+                    </div>
+                    <button type="submit" class="btn-save">
+                        <i class="bi bi-check2 me-1"></i>Lưu thay đổi
+                    </button>
+                </form>
+            </div>
+
+            <!-- Upload avatar -->
+            <div class="card">
+                <div class="card-title">Ảnh đại diện</div>
+                <form asp-action="UpdateAvatar" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <label class="upload-zone" for="avatarInput">
+                        <img id="previewImg" alt="Preview" />
+                        <i class="bi bi-cloud-upload"></i>
+                        <div style="font-size:13px;color:#6c757d;margin-top:8px">Kéo thả hoặc bấm để chọn ảnh</div>
+                        <div style="font-size:11px;color:#adb5bd;margin-top:4px">JPG, PNG, WEBP — tối đa 30MB</div>
+                    </label>
+                    <input type="file" name="avatar" id="avatarInput"
+                           accept=".jpg,.jpeg,.png,.webp" style="display:none" />
+                    <button type="submit" class="btn-save" style="width:100%;margin-top:12px">
+                        <i class="bi bi-upload me-1"></i>Upload ảnh
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- ══════════════════════════════════ -->
+    <!--  PANE: BẢO MẬT                    -->
+    <!-- ══════════════════════════════════ -->
+    <div class="pane" id="pane-security">
+        <div class="card" style="max-width:480px">
+            <div class="card-title">Đổi mật khẩu</div>
+            <form asp-action="ChangePassword" method="post">
+                @Html.AntiForgeryToken()
+                <div class="f-row">
+                    <label class="f-label">Mật khẩu hiện tại</label>
+                    <input type="password" name="currentPassword"
+                           class="f-input" placeholder="••••••••" required />
+                </div>
+                <div class="f-row">
+                    <label class="f-label">Mật khẩu mới</label>
+                    <input type="password" name="newPassword"
+                           class="f-input" placeholder="Tối thiểu 6 ký tự"
+                           minlength="6" required />
+                </div>
+                <div class="f-row" style="margin-bottom:18px">
+                    <label class="f-label">Xác nhận mật khẩu mới</label>
+                    <input type="password" name="confirmPassword"
+                           class="f-input" placeholder="Nhập lại mật khẩu mới" required />
+                </div>
+                <button type="submit" class="btn-danger">
+                    <i class="bi bi-lock me-1"></i>Đổi mật khẩu
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div><!-- /pw -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+    // ── Tab switching ──
+    const TAB_IDS = ['info','security'];
+    function switchTab(id) {
+        document.querySelectorAll('.tab-btn').forEach((btn, i) =>
+            btn.classList.toggle('active', TAB_IDS[i] === id));
+        document.querySelectorAll('.pane').forEach(p =>
+            p.classList.toggle('active', p.id === 'pane-' + id));
+    }
+
+    // ── Avatar preview ──
+    document.getElementById('avatarInput')?.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+            const prev = document.getElementById('previewImg');
+            prev.src = ev.target.result;
+            prev.style.display = 'block';
+            // Cập nhật ảnh trên header luôn
+            const hdr = document.getElementById('avatarPreview');
+            if (hdr && hdr.tagName === 'IMG') hdr.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+    @functions {
+        public string GetImage(string? url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return Url.Content("~/img/cat1.jpg");
+
+            // ảnh online
+            if (url.StartsWith("http"))
+                return url;
+
+            // nếu đã là path tuyệt đối
+            if (url.StartsWith("/"))
+                return url;
+
+            // file local trong wwwroot/img
+            return Url.Content("~/img/" + url);
+        }
+    }
+
+    // ── Tự động mở tab có lỗi / success ──
+    // Nếu server redirect về với TempData, giữ nguyên tab info (default)
+</script>
+</body>
+</html>

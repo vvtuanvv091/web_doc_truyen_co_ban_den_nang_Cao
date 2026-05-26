@@ -1,0 +1,259 @@
+﻿@* Views/Shared/_PopupBaoCao.cshtml *@
+<!-- CSS -->
+<style>
+    .bc-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.45);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+    .bc-modal {
+        background: #fff;
+        border-radius: 14px;
+        width: 100%;
+        max-width: 420px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    }
+    .bc-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .bc-icon {
+        width: 32px; height: 32px;
+        border-radius: 8px;
+        background: #FAECE7;
+        display: flex; align-items: center; justify-content: center;
+        color: #993C1D; font-size: 15px;
+    }
+    .bc-title { font-size: 15px; font-weight: 600; margin: 0; }
+    .bc-close {
+        background: none; border: none; cursor: pointer;
+        color: #888; font-size: 16px; padding: 4px 6px;
+        border-radius: 6px;
+    }
+    .bc-close:hover { background: #f5f5f5; }
+    .bc-target-badge {
+        margin: 14px 18px 0;
+        padding: 8px 12px;
+        background: #f8f8f8;
+        border-radius: 8px;
+        display: flex; align-items: center; gap: 8px;
+        font-size: 13px; color: #666;
+    }
+    .bc-target-badge span { color: #222; font-weight: 500; }
+    .bc-body { padding: 14px 18px; }
+    .bc-label { font-size: 13px; color: #666; margin-bottom: 8px; display: block; }
+    .bc-reasons { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .bc-reason {
+        display: flex; align-items: center; gap: 10px;
+        padding: 9px 12px;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px; cursor: pointer;
+        font-size: 13px; color: #333;
+        background: #fff; text-align: left; width: 100%;
+        transition: all 0.15s;
+    }
+    .bc-reason:hover { background: #fafafa; border-color: #ccc; }
+    .bc-reason.selected { border-color: #D85A30; background: #FAECE7; color: #993C1D; }
+    .bc-textarea {
+        width: 100%; resize: vertical; min-height: 70px;
+        font-size: 13px; padding: 8px 10px;
+        border: 1px solid #e5e5e5; border-radius: 8px;
+        font-family: inherit; margin-bottom: 14px;
+        box-sizing: border-box;
+    }
+    .bc-textarea:focus { outline: none; border-color: #D85A30; }
+    .bc-footer { display: flex; gap: 8px; }
+    .bc-btn-cancel {
+        flex: 1; padding: 9px; border: 1px solid #ddd;
+        border-radius: 8px; background: none; cursor: pointer;
+        font-size: 13px; color: #666;
+    }
+    .bc-btn-cancel:hover { background: #f5f5f5; }
+    .bc-btn-send {
+        flex: 2; padding: 9px; border: none;
+        border-radius: 8px; background: #D85A30;
+        color: #fff; cursor: pointer; font-size: 13px; font-weight: 500;
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .bc-btn-send:hover { background: #993C1D; }
+    .bc-btn-send:disabled { background: #e0e0e0; color: #aaa; cursor: not-allowed; }
+    .bc-success { padding: 28px 18px; text-align: center; }
+    .bc-success .bi-check-circle-fill { font-size: 40px; color: #0F6E56; }
+    .bc-success-title { font-size: 15px; font-weight: 600; margin: 10px 0 4px; }
+    .bc-success-sub { font-size: 13px; color: #888; margin: 0; }
+</style>
+<!-- Overlay -->
+<div class="bc-overlay" id="bcOverlay" style="display:none;">
+    <div class="bc-modal">
+
+        <!-- Header -->
+        <div class="bc-header">
+            <div class="d-flex align-items-center gap-2">
+                <div class="bc-icon">
+                    <i class="bi bi-flag-fill"></i>
+                </div>
+                <span class="bc-title" id="bcTitle">Báo cáo</span>
+            </div>
+            <button class="bc-close" onclick="closeBaoCao()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <!-- Target badge -->
+        <div class="bc-target-badge">
+            <i class="bi bi-book" id="bcTargetIcon"></i>
+            <span id="bcTargetName">...</span>
+        </div>
+
+        <!-- Body -->
+        <div class="bc-body" id="bcBody">
+            <label class="bc-label">Chọn lý do báo cáo</label>
+            <div class="bc-reasons" id="bcReasonList"></div>
+
+            <label class="bc-label mt-2">Mô tả thêm <span style="color:var(--bs-secondary)">(không bắt buộc)</span></label>
+            <textarea class="bc-textarea" id="bcNote"
+                      placeholder="Mô tả chi tiết vấn đề..."></textarea>
+
+            <div class="bc-footer">
+                <button class="bc-btn-cancel" onclick="closeBaoCao()">Hủy</button>
+                <button class="bc-btn-send" id="bcBtnSend" disabled onclick="guiBaoCao()">
+                    <i class="bi bi-send"></i> Gửi báo cáo
+                </button>
+            </div>
+        </div>
+
+        <!-- Success -->
+        <div class="bc-success" id="bcSuccess" style="display:none;">
+            <i class="bi bi-check-circle-fill"></i>
+            <p class="bc-success-title">Đã gửi báo cáo!</p>
+            <p class="bc-success-sub">Cảm ơn bạn. Chúng tôi sẽ xem xét sớm nhất.</p>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- JS -->
+<script>
+    const _bcReasons = {
+        story: [
+            { icon: 'bi-eye-slash', text: 'Nội dung khiêu dâm / 18+' },
+            { icon: 'bi-c-circle', text: 'Vi phạm bản quyền' },
+            { icon: 'bi-emoji-angry', text: 'Nội dung bạo lực, thù ghét' },
+            { icon: 'bi-files', text: 'Trùng lặp / spam' },
+            { icon: 'bi-info-circle', text: 'Thông tin sai lệch' },
+        ],
+        chapter: [
+            { icon: 'bi-file-earmark-x', text: 'Nội dung chương bị lỗi / thiếu' },
+            { icon: 'bi-eye-slash', text: 'Nội dung không phù hợp' },
+            { icon: 'bi-c-circle', text: 'Vi phạm bản quyền' },
+            { icon: 'bi-files', text: 'Chương trùng lặp' },
+        ],
+        comment: [
+            { icon: 'bi-emoji-angry', text: 'Ngôn từ thô tục, xúc phạm' },
+            { icon: 'bi-person-x', text: 'Quấy rối / đe dọa người khác' },
+            { icon: 'bi-megaphone', text: 'Spam / quảng cáo' },
+            { icon: 'bi-exclamation-triangle', text: 'Thông tin sai lệch' },
+        ],
+    };
+
+    const _bcTitles = {
+        story:  { title: 'Báo cáo truyện',    icon: 'bi-book' },
+        chapter:  { title: 'Báo cáo chương',    icon: 'bi-file-text' },
+        comment: { title: 'Báo cáo bình luận', icon: 'bi-chat-left-text' },
+    };
+
+    let _bcTargetType = '';
+    let _bcTargetId = '';
+    let _bcSelectedReason = '';
+
+    function openBaoCao(targetType, targetId, targetName) {
+        _bcTargetType = targetType;
+        _bcTargetId = targetId;
+        _bcSelectedReason = '';
+
+        const cfg = _bcTitles[targetType];
+        document.getElementById('bcTitle').textContent = cfg.title;
+        document.getElementById('bcTargetIcon').className = 'bi ' + cfg.icon;
+        document.getElementById('bcTargetName').textContent = targetName;
+
+        const list = document.getElementById('bcReasonList');
+        list.innerHTML = '';
+        _bcReasons[targetType].forEach(r => {
+            const btn = document.createElement('button');
+            btn.className = 'bc-reason';
+            btn.innerHTML = `<i class="bi ${r.icon}"></i>${r.text}`;
+            btn.onclick = () => {
+                list.querySelectorAll('.bc-reason').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                _bcSelectedReason = r.text;
+                document.getElementById('bcBtnSend').disabled = false;
+            };
+            list.appendChild(btn);
+        });
+
+        document.getElementById('bcNote').value = '';
+        document.getElementById('bcBtnSend').disabled = true;
+        document.getElementById('bcBody').style.display = 'block';
+        document.getElementById('bcSuccess').style.display = 'none';
+        document.getElementById('bcOverlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeBaoCao() {
+        document.getElementById('bcOverlay').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    async function guiBaoCao() {
+        const lyDo = _bcSelectedReason +
+            (document.getElementById('bcNote').value.trim()
+                ? ' — ' + document.getElementById('bcNote').value.trim() : '');
+
+        const btn = document.getElementById('bcBtnSend');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Đang gửi...';
+
+        try {
+            const res = await fetch('/Report/SendReport', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    targetType: _bcTargetType,
+                    targetId:   _bcTargetId,
+                    reason :    lyDo
+                })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                document.getElementById('bcBody').style.display = 'none';
+                document.getElementById('bcSuccess').style.display = 'block';
+                setTimeout(closeBaoCao, 2500);
+            } else {
+                alert(data.message);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-send"></i> Gửi báo cáo';
+            }
+        } catch {
+            alert('Có lỗi xảy ra, vui lòng thử lại!');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-send"></i> Gửi báo cáo';
+        }
+    }
+
+    // Đóng khi click overlay
+    document.getElementById('bcOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeBaoCao();
+    });
+</script>

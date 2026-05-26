@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Import từ MangaDex";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Import từ MangaDex</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/Admin/Home">Dashboard</a></li>
+        <li class="breadcrumb-item active">Import MangaDex</li>
+    </ol>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-search me-1"></i> Tìm truyện trên MangaDex
+        </div>
+        <div class="card-body">
+            <form method="post" action="/Admin/Import/Search">
+                @Html.AntiForgeryToken()
+                <div class="input-group">
+                    <input type="text"
+                           name="title"
+                           class="form-control form-control-lg"
+                           placeholder="Nhập tên truyện (tiếng Anh hoặc tiếng Nhật)..."
+                           value="@ViewData["SearchTitle"]"
+                           required />
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-search"></i> Tìm kiếm
+                    </button>
+                </div>
+                <div class="form-text mt-1">
+                    Ví dụ: One Piece, Naruto, Attack on Titan...
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Hướng dẫn</div>
+        <div class="card-body">
+            <ol>
+                <li>Nhập tên truyện → Nhấn <strong>Tìm kiếm</strong></li>
+                <li>Chọn đúng truyện → Nhấn <strong>Xem & Import</strong></li>
+                <li>Chọn <strong>Category</strong> và <strong>Tags</strong> phù hợp → Nhấn <strong>Import vào hệ thống</strong></li>
+                <li>Truyện sẽ được lưu với trạng thái <span class="badge bg-warning">Chưa xuất bản</span> — admin duyệt xong mới publish</li>
+            </ol>
+        </div>
+    </div>
+</div>

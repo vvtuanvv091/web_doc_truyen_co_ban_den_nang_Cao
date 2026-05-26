@@ -1,0 +1,409 @@
+﻿@model web_doc_truyen_Co_ban.Models.DashBoardModel
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - Quản Lý Web Truyện</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="../assets/css/styles.min.css" />
+</head>
+
+<body>
+    @* <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="body-wrapper">
+            <div class="body-wrapper-inner"> *@
+                <div class="container-fluid">
+
+                    <!-- ── Welcome Banner ── -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card" style="background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%); color:black;">
+                                <div class="card-body d-flex align-items-center justify-content-between py-4 px-4">
+                                    <div>
+                                        <h4 class="fw-bold mb-1" style="color:black;">Xin chào, Admin 👋</h4>
+                                        <p class="mb-3" style="color:rgba(255,255,255,0.8);">Tổng quan hệ thống web truyện hôm nay</p>
+                                        <div class="d-flex gap-4">
+                                            <div>
+                                                <div class="small" style="color:rgba(255,255,255,0.7);">TỔNG TRUYỆN</div>
+                                                <div class="fw-bold fs-4" style="color:black;">
+                                                    @Model.TongTruyen
+                                                    <span class="fs-6 text-success ms-1">↑</span>
+                                                </div>
+                                                <div style="width:120px; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; margin-top:4px;">
+                                                    <div style="width:60%; height:4px; background:#4caf50; border-radius:2px;"></div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="small" style="color:rgba(255,255,255,0.7);">TỔNG CHƯƠNG</div>
+                                                <div class="fw-bold fs-4" style="color:white;">
+                                                    @Model.TongChuong
+                                                    <span class="fs-6 text-danger ms-1">↓</span>
+                                                </div>
+                                                <div style="width:120px; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; margin-top:4px;">
+                                                    <div style="width:80%; height:4px; background:#f44336; border-radius:2px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-none d-md-block">
+                                        <i class="ti ti-books" style="font-size:100px; opacity:0.15; color:white;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── Row 1: 4 card lớn ── -->
+                    <div class="row mb-4">
+
+                        <!-- Card: Tổng User -->
+                        <div class="col-sm-6 col-xl-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <div class="text-muted small text-uppercase fw-semibold">TỔNG USER</div>
+                                            <h3 class="fw-bold mt-1 mb-0">@Model.TongUser.ToString("N0")</h3>
+                                            <div class="text-success small mt-1"><span>↑ 2%</span> <span class="text-muted">so với tháng trước</span></div>
+                                        </div>
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                             style="width:42px;height:42px;background:#e8f4fd;">
+                                            <i class="ti ti-users text-primary fs-5"></i>
+                                        </div>
+                                    </div>
+                                    <div id="chart-user"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card: Tổng Donate -->
+                        <div class="col-sm-6 col-xl-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <div class="text-muted small text-uppercase fw-semibold">TỔNG XU NẠP</div>
+                                            <h3 class="fw-bold mt-1 mb-0">@Model.TongDonate.ToString("N0")</h3>
+                                            <div class="text-success small mt-1"><span>↑ 8%</span> <span class="text-muted">so với tháng trước</span></div>
+                                        </div>
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                             style="width:42px;height:42px;background:#fff8e1;">
+                                            <i class="ti ti-coin text-warning fs-5"></i>
+                                        </div>
+                                    </div>
+                                    <div id="chart-donate"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card: Tổng Theo Dõi -->
+                        <div class="col-sm-6 col-xl-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <div class="text-muted small text-uppercase fw-semibold">THEO DÕI</div>
+                                            <h3 class="fw-bold mt-1 mb-0">@Model.TongTheoDoi.ToString("N0")</h3>
+                                            <div class="text-muted small mt-1"><span class="text-warning">→ 0%</span> <span class="text-muted">so với tháng trước</span></div>
+                                        </div>
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                             style="width:42px;height:42px;background:#fce4ec;">
+                                            <i class="ti ti-heart text-danger fs-5"></i>
+                                        </div>
+                                    </div>
+                                    <div id="chart-follow"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card: Bookmark -->
+                        <div class="col-sm-6 col-xl-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <div class="text-muted small text-uppercase fw-semibold">BOOKMARK</div>
+                                            <h3 class="fw-bold mt-1 mb-0">@Model.TongBookmark.ToString("N0")</h3>
+                                            <div class="text-success small mt-1"><span>↑ 4%</span> <span class="text-muted">so với tháng trước</span></div>
+                                            <div style="width:100%; height:4px; background:#eee; border-radius:2px; margin-top:8px;">
+                                                <div style="width:65%; height:4px; background:#1976d2; border-radius:2px;"></div>
+                                            </div>
+                                            <div class="small text-muted mt-1">Conversion rate <span class="text-primary">65%</span></div>
+                                        </div>
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                             style="width:42px;height:42px;background:#e8eaf6;">
+                                            <i class="ti ti-bookmark text-primary fs-5"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ── Row 2: 4 card nhỏ icon ── -->
+                    <div class="row mb-4">
+
+                        <div class="col-sm-6 col-xl-3 mb-3">
+                            <div class="card">
+                                <div class="card-body d-flex align-items-center gap-3 py-3">
+                                    <div class="rounded d-flex align-items-center justify-content-center"
+                                         style="width:48px;height:48px;background:#1976d2;flex-shrink:0;">
+                                        <i class="ti ti-book text-white fs-4"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-semibold fs-5">@Model.TongTruyen Truyện</div>
+                                        <div class="text-muted small">@Model.TongChuong chương đã đăng</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-xl-3 mb-3">
+                            <div class="card">
+                                <div class="card-body d-flex align-items-center gap-3 py-3">
+                                    <div class="rounded d-flex align-items-center justify-content-center"
+                                         style="width:48px;height:48px;background:#388e3c;flex-shrink:0;">
+                                        <i class="ti ti-message text-white fs-4"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-semibold fs-5">@Model.TongBinhLuan Bình Luận</div>
+                                        <div class="text-muted small">@Model.TongDanhGia đánh giá</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-xl-3 mb-3">
+                            <div class="card">
+                                <div class="card-body d-flex align-items-center gap-3 py-3">
+                                    <div class="rounded d-flex align-items-center justify-content-center"
+                                         style="width:48px;height:48px;background:#212121;flex-shrink:0;">
+                                        <i class="ti ti-star text-white fs-4"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-semibold fs-5">@Model.TongDanhGia Đánh Giá</div>
+                                        <div class="text-muted small">từ người đọc</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-xl-3 mb-3">
+                            <div class="card">
+                                <div class="card-body d-flex align-items-center gap-3 py-3">
+                                    <div class="rounded d-flex align-items-center justify-content-center"
+                                         style="width:48px;height:48px;background:#1565c0;flex-shrink:0;">
+                                        <i class="ti ti-heart text-white fs-4"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-semibold fs-5">@Model.TongTheoDoi Theo Dõi</div>
+                                        <div class="text-muted small">@Model.TongBookmark bookmark</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ── Row 3: Top truyện + Giao dịch ── -->
+                    <div class="row mb-4">
+
+                        <div class="col-lg-8 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-semibold mb-4">Top 5 Truyện Lượt Xem Cao Nhất</h5>
+                                    <table class="table align-middle mb-0" style="table-layout:fixed;width:100%;">
+                                        <thead>
+                                            <tr class="text-muted fw-semibold">
+                                                <th style="width:40px;" class="ps-0">#</th>
+                                                <th>Tên Truyện</th>
+                                                <th style="width:120px;">Trạng Thái</th>
+                                                <th style="width:100px;">Lượt Xem</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="border-top">
+                                            @for (int i = 0; i < Model.TopTruyen.Count; i++)
+                                            {
+                                                var t = Model.TopTruyen[i];
+                                                <tr>
+                                                    <td class="ps-0 fw-bold">@(i + 1)</td>
+                                                    <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                                        <span class="fw-semibold">@t.Title</span>
+                                                    </td>
+                                                    <td>
+                                                        @if (t.Status == "Hoàn Thành")
+                                                        {
+                                                            <span class="badge bg-success-subtle text-success">Hoàn Thành</span>
+                                                        }
+                                                        else if (t.Status == "Đang Ra")
+                                                        {
+
+                                                            <span class="badge bg-warning-subtle text-warning">Đang Ra</span>
+                                                        }
+                                                        else if (t.Status == "Tạm Dừng")
+                                                        {
+
+                                                            <span class="badge bg-danger-subtle text-danger">Tạm Dừng</span>
+                                                        }
+                                                        else if (t.Status == "Drop")
+                                                        {
+
+                                                            <span class="badge bg-secondary-subtle text-secondary">Drop</span>
+                                                        }
+                                                        else
+                                                        {
+
+                                                            <span class="badge bg-primary-subtle text-primary">Bản Nháp</span>
+                                                        }
+                                                    </td>
+                                                    <td class="fw-semibold">@t.TotalViews.ToString("N0")</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-semibold mb-4">Giao Dịch Gần Đây</h5>
+                                    <ul class="timeline-widget mb-0 position-relative">
+                                        @foreach (var item in Model.RecentTransactions)
+                                        {
+                                            var bc = item.Type == "Nạp Xu" ? "border-primary"
+                                                   : item.Type == "Mở Khóa Chương" ? "border-info"
+                                                   : item.Type == "Mua Hội Viên" ? "border-warning"
+                                                   : item.Type == "Hoàn Xu HV" ? "border-success"
+                                                   : "border-danger";
+                                            <li class="timeline-item d-flex position-relative overflow-hidden mb-2">
+                                                <div class="timeline-time text-muted flex-shrink-0 text-end small" style="width:42px;">
+                                                    @item.CreatedAt.ToString("HH:mm")
+                                                </div>
+                                                <div class="timeline-badge-wrap d-flex flex-column align-items-center mx-2">
+                                                    <span class="timeline-badge border-2 border @bc flex-shrink-0 my-8"></span>
+                                                    <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                                                </div>
+                                                <div class="timeline-desc fs-3 text-dark mt-n1">
+                                                    <span class="fw-semibold">@item.Username</span>
+                                                    <span class="text-muted"> — @item.Type</span>
+                                                    <br />
+                                                    <span class="text-primary fw-semibold">@item.Amount.ToString("N0") xu</span>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ── Row 4: Top donate ── -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-semibold mb-4">🏆 Top 5 User Nạp Xu Nhiều Nhất</h5>
+                                    <table class="table align-middle mb-0" style="table-layout:fixed;width:100%;">
+                                        <thead>
+                                            <tr class="text-muted fw-semibold">
+                                                <th style="width:60px;" class="ps-0">#</th>
+                                                <th>Username</th>
+                                                <th style="width:200px;">Tổng Xu Đã Nạp</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="border-top">
+                                            @for (int i = 0; i < Model.TopDonate.Count; i++)
+                                            {
+                                                var u = Model.TopDonate[i];
+                                                <tr>
+                                                    <td class="ps-0">
+                                                        @if (i == 0)
+                                                        {
+                                                            <span class="badge bg-warning text-white">#1 🥇</span>
+                                                        }
+                                                        else if (i == 1)
+                                                        {
+
+                                                            <span class="badge bg-secondary text-white">#2 🥈</span>
+                                                        }
+                                                        else if (i == 2)
+                                                        {
+
+                                                            <span class="badge bg-danger-subtle text-danger">#3 🥉</span>
+                                                        }
+                                                        else
+                                                        {
+
+                                                            <span class="fw-semibold text-muted">#@(i + 1)</span>
+                                                        }
+                                                    </td>
+                                                    <td><span class="fw-semibold">@u.Username</span></td>
+                                                    <td><span class="fw-bold text-primary">@u.TongXu.ToString("N0") xu</span></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="py-4 px-4 text-center">
+                        <p class="mb-0 fs-4 text-muted">Web Truyện Admin Panel</p>
+                    </div>
+
+                </div>
+    @*         </div>
+        </div>
+    </div> *@
+
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/sidebarmenu.js"></script>
+    <script src="../assets/js/app.min.js"></script>
+    <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
+    <script>
+        // Mini sparkline - User
+        new ApexCharts(document.querySelector("#chart-user"), {
+        series: [{ data: [31, 40, 28, 51, 42, 65, 70] }],
+        chart: { type: 'area', height: 60, sparkline: { enabled: true } },
+        stroke: { curve: 'smooth', width: 2 },
+        fill: { opacity: 0.1 },
+        colors: ['#1976d2'],
+        tooltip: { fixed: { enabled: false }, x: { show: false } }
+        }).render();
+
+        // Mini sparkline - Donate
+        new ApexCharts(document.querySelector("#chart-donate"), {
+        series: [{ data: [10, 25, 15, 40, 30, 55, 45] }],
+        chart: { type: 'area', height: 60, sparkline: { enabled: true } },
+        stroke: { curve: 'smooth', width: 2 },
+        fill: { opacity: 0.1 },
+        colors: ['#f59e0b'],
+        tooltip: { fixed: { enabled: false }, x: { show: false } }
+        }).render();
+
+        // Mini sparkline - Follow
+        new ApexCharts(document.querySelector("#chart-follow"), {
+        series: [{ data: [20, 18, 22, 19, 25, 21, 24] }],
+        chart: { type: 'area', height: 60, sparkline: { enabled: true } },
+        stroke: { curve: 'smooth', width: 2 },
+        fill: { opacity: 0.1 },
+        colors: ['#e53935'],
+        tooltip: { fixed: { enabled: false }, x: { show: false } }
+        }).render();
+    </script>
+
+</body>
+</html>

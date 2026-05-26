@@ -1,0 +1,513 @@
+﻿@model web_doc_truyen_Co_ban.Models.ChapterModel
+@{
+    ViewData["Title"] = "Mở khóa chương";
+    long userCoins = (long)ViewBag.UserCoins;
+    int freeLeft = (int)ViewBag.FreeLeft;
+    string membershipName = ViewBag.MembershipName ?? "";
+    bool hasFree = freeLeft > 0;
+    bool enoughCoins = userCoins >= Model.UnlockPrice;
+}
+
+@Html.AntiForgeryToken()
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --ink:     #1a1625;
+        --paper:   #f7f3ee;
+        --gold:    #c9952a;
+        --gold-lt: #f0d080;
+        --free:    #2a7a5a;
+        --free-lt: #d4f0e4;
+        --muted:   #7a7080;
+        --border:  rgba(0,0,0,0.08);
+        --card-bg: #ffffff;
+        --shadow:  0 8px 40px rgba(26,22,37,0.10);
+    }
+
+    .unlock-page {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 16px;
+        background: var(--paper);
+        font-family: 'Be Vietnam Pro', sans-serif;
+    }
+
+    /* ── Card ── */
+    .unlock-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        width: 100%;
+        max-width: 520px;
+        overflow: hidden;
+        animation: slideUp .4s cubic-bezier(.16,1,.3,1) both;
+    }
+
+    @@keyframes slideUp {
+        from { opacity:0; transform:translateY(24px); }
+        to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── Header banner ── */
+    .unlock-header {
+        background: linear-gradient(135deg, #1a1625 0%, #2d2240 100%);
+        padding: 32px 36px 28px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .unlock-header::before {
+        content: '';
+        position: absolute;
+        top: -40px; right: -40px;
+        width: 180px; height: 180px;
+        background: radial-gradient(circle, rgba(201,149,42,.25) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .unlock-header::after {
+        content: '🔒';
+        position: absolute;
+        right: 32px; top: 50%;
+        transform: translateY(-50%);
+        font-size: 52px;
+        opacity: .15;
+    }
+
+    .unlock-header h2 {
+        font-family: 'Playfair Display', serif;
+        color: #fff;
+        font-size: 22px;
+        margin: 0 0 8px;
+        letter-spacing: .3px;
+    }
+
+    .unlock-header .story-name {
+        color: var(--gold-lt);
+        font-size: 13px;
+        font-weight: 500;
+        margin: 0;
+        opacity: .9;
+    }
+
+    .unlock-header .chapter-name {
+        color: rgba(255,255,255,.55);
+        font-size: 12px;
+        margin: 4px 0 0;
+    }
+
+    /* ── Body ── */
+    .unlock-body {
+        padding: 28px 36px 32px;
+    }
+
+    /* ── Stats row ── */
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .stat-box {
+        background: var(--paper);
+        border-radius: 12px;
+        padding: 14px 16px;
+        border: 1.5px solid var(--border);
+    }
+
+    .stat-box .stat-label {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: .8px;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .stat-box .stat-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1;
+    }
+
+    .stat-box.cost   .stat-value { color: var(--gold); }
+    .stat-box.coins  .stat-value { color: #2563eb; }
+    .stat-box.free   .stat-value { color: var(--free); }
+    .stat-box.danger .stat-value { color: #dc2626; }
+
+    /* ── Divider ── */
+    .divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 0 0 24px;
+    }
+
+    /* ── Actions ── */
+    .action-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-free-unlock {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: var(--free-lt);
+        color: var(--free);
+        border: 1.5px solid rgba(42,122,90,.2);
+        border-radius: 12px;
+        padding: 14px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all .2s;
+        font-family: 'Be Vietnam Pro', sans-serif;
+    }
+    .btn-free-unlock:hover {
+        background: #b8e8d0;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(42,122,90,.2);
+    }
+
+    .btn-coin-unlock {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #c9952a, #e8b84b);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 14px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all .2s;
+        font-family: 'Be Vietnam Pro', sans-serif;
+        box-shadow: 0 4px 16px rgba(201,149,42,.3);
+    }
+    .btn-coin-unlock:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(201,149,42,.4);
+    }
+
+    .btn-upgrade {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #1a1625, #2d2240);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 14px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all .2s;
+    }
+    .btn-upgrade:hover { opacity:.88; color:#fff; transform:translateY(-1px); }
+
+    .btn-topup {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: #fff;
+        color: var(--ink);
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 13px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all .2s;
+    }
+    .btn-topup:hover { border-color: #999; color: var(--ink); }
+
+    .btn-back {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 13px;
+        text-decoration: none;
+        padding: 8px;
+        border-radius: 8px;
+        transition: color .2s;
+    }
+    .btn-back:hover { color: var(--ink); }
+
+    .warn-box {
+        background: #fff5f5;
+        border: 1.5px solid #fecaca;
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-size: 13px;
+        color: #dc2626;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+
+    /* ── Popup ── */
+    .popup-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(26,22,37,.55);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        animation: fadeIn .2s ease both;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity:0; }
+        to   { opacity:1; }
+    }
+
+    .popup-box {
+        background: #fff;
+        border-radius: 20px;
+        padding: 36px 32px 28px;
+        max-width: 360px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 24px 64px rgba(0,0,0,.2);
+        animation: popIn .3s cubic-bezier(.16,1,.3,1) both;
+    }
+
+    @@keyframes popIn {
+        from { opacity:0; transform:scale(.92); }
+        to   { opacity:1; transform:scale(1); }
+    }
+
+    .popup-emoji { font-size: 48px; margin-bottom: 12px; }
+
+    .popup-box h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 18px;
+        color: var(--ink);
+        margin: 0 0 8px;
+    }
+
+    .popup-box p {
+        font-size: 14px;
+        color: var(--muted);
+        margin: 0 0 24px;
+        line-height: 1.6;
+    }
+
+    .popup-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .popup-actions .btn-coin-unlock,
+    .popup-actions .btn-free-unlock { padding: 12px; font-size: 14px; }
+
+    .popup-cancel {
+        background: none;
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 14px;
+        color: var(--muted);
+        cursor: pointer;
+        font-family: 'Be Vietnam Pro', sans-serif;
+        transition: all .2s;
+    }
+    .popup-cancel:hover { border-color: #999; color: var(--ink); }
+</style>
+
+<div class="unlock-page">
+    <div class="unlock-card">
+
+        <!-- Header -->
+        <div class="unlock-header">
+            <h2>Chương này cần mở khóa</h2>
+            <p class="story-name">📖 @Model.Story?.Title</p>
+            <p class="chapter-name">
+                Chương @Model.ChapterNumber
+                @if (!string.IsNullOrEmpty(Model.Title))
+                {
+                    <span>· @Model.Title</span>
+                }
+            </p>
+        </div>
+
+        <!-- Body -->
+        <div class="unlock-body">
+
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat-box cost">
+                    <div class="stat-label">Chi phí</div>
+                    <div class="stat-value">🔓 @Model.UnlockPrice xu</div>
+                </div>
+                <div class="stat-box @(enoughCoins ? "coins" : "danger")">
+                    <div class="stat-label">Xu của bạn</div>
+                    <div class="stat-value">💰 @userCoins xu</div>
+                </div>
+                @if (hasFree)
+                {
+                    <div class="stat-box free">
+                        <div class="stat-label">Lượt free</div>
+                        <div class="stat-value">🎁 @(freeLeft == 999 ? "∞" : freeLeft.ToString())</div>
+                    </div>
+                }
+            </div>
+
+            <hr class="divider" />
+
+            <!-- Actions -->
+            <div class="action-list">
+                @if (hasFree)
+                {
+                    <button class="btn-free-unlock" onclick="showPopup('free')">
+                        🎁 Dùng lượt miễn phí
+                        <span style="font-size:12px; opacity:.7;">
+                            (@(freeLeft == 999 ? "∞" : freeLeft.ToString()) còn lại hôm nay)
+                        </span>
+                    </button>
+                }
+                else
+                {
+                        <span style="font-size:12px; opacity:.7;">
+                            Bạn đã sài hết lượt free ngày hôm nay.Chờ đến ngày mai để có thêm lượt miễn phí nhé!
+                        </span>
+                        <span style="font-size:12px; opacity:.7;">
+                            Hoặc Dùng Xu để mở ngay không phải chờ đợi!
+                        </span>
+
+                }
+
+                @if (enoughCoins)
+                {
+                    <button class="btn-coin-unlock" onclick="showPopup('coin')">
+                        💰 Dùng @Model.UnlockPrice xu để mở
+                    </button>
+                }
+
+                @if (!hasFree && !enoughCoins)
+                {
+                    <div class="warn-box">
+                        Hết lượt miễn phí & không đủ xu. Cần thêm @(Model.UnlockPrice - userCoins) xu nữa.
+                    </div>
+                    <a href="@Url.Action("Index","MembershipPlan")" class="btn-upgrade">
+                        👑 Gia hạn / Nâng cấp gói hội viên
+                    </a>
+                    <a href="@Url.Action("BuyCoin","Coin")" class="btn-topup">
+                        💳 Nạp xu ngay
+                    </a>
+                }
+
+                <a href="@Url.Action("Detail","Story", new { id = Model.StoryId })" class="btn-back">
+                    ← Quay lại trang truyện
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup xác nhận -->
+<div id="popup-overlay" class="popup-overlay" style="display:none;">
+    <div class="popup-box">
+        <div class="popup-emoji" id="popup-emoji"></div>
+        <h3 id="popup-title"></h3>
+        <p id="popup-desc"></p>
+        <div class="popup-actions">
+            <button class="popup-cancel" onclick="closePopup()">Huỷ bỏ</button>
+            <button id="btn-ok" onclick="doUnlock()"></button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var currentMode = '';
+
+    function showPopup(mode) {
+        currentMode = mode;
+        const emoji = document.getElementById('popup-emoji');
+        const title = document.getElementById('popup-title');
+        const desc  = document.getElementById('popup-desc');
+        const btnOk = document.getElementById('btn-ok');
+
+        if (mode === 'free') {
+            emoji.textContent = '🎁';
+            title.textContent = 'Dùng lượt miễn phí?';
+            desc.textContent  = 'Bạn sẽ dùng 1 lượt miễn phí hôm nay để mở khóa chương này.';
+            btnOk.textContent = 'Xác nhận';
+            btnOk.className   = 'btn-free-unlock';
+        } else {
+            emoji.textContent = '💰';
+            title.textContent = 'Xác nhận dùng xu?';
+            desc.textContent  = 'Bạn sẽ dùng @Model.UnlockPrice xu để mở khóa chương này. Sau khi xác nhận không thể hoàn xu.';
+            btnOk.textContent = 'Dùng @Model.UnlockPrice xu';
+            btnOk.className   = 'btn-coin-unlock';
+        }
+
+        document.getElementById('popup-overlay').style.display = 'flex';
+    }
+
+    function closePopup() {
+        document.getElementById('popup-overlay').style.display = 'none';
+        currentMode = '';
+    }
+
+    async function doUnlock() {
+        const btn = document.getElementById('btn-ok');
+        btn.disabled = true;
+        btn.textContent = 'Đang xử lý...';
+
+        try {
+            const token   = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            const useFree = currentMode === 'free';
+
+            const res  = await fetch('@Url.Action("DoUnlock","UnlockChapter")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': token
+                },
+                body: `chapterId=@Model.Id&useFree=${useFree}`
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                window.location.href = data.redirectUrl;
+            } else if (data.notEnough) {
+                closePopup();
+                alert(data.message);
+                window.location.href = '@Url.Action("Index","Membership")';
+            } else {
+                closePopup();
+                alert(data.message || 'Có lỗi xảy ra.');
+                btn.disabled = false;
+            }
+        } catch {
+            closePopup();
+            alert('Lỗi kết nối, vui lòng thử lại.');
+            btn.disabled = false;
+        }
+    }
+
+    // Đóng popup khi click ngoài
+    document.getElementById('popup-overlay').addEventListener('click', function(e) {
+        if (e.target === this) closePopup();
+    });
+</script>
+}
