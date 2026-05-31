@@ -1,6 +1,3 @@
 # 📚 Dự Án Web Đọc Truyện (Từ Cơ Bản Đến Nâng Cao)
 
 Trang web đọc truyện trực tuyến hỗ trợ giao diện máy tính và tối ưu hóa cho thiết bị di động.
-
-Xem lại giúp t phần Error full nó đang lỗi 
-Tiếp  m coi hỏi AI giữ code cũ tối ưu lại điện thoaijdid  
