@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using LinqToDB.Async;
@@ -72,15 +72,15 @@ namespace web_doc_truyen_Co_ban.Areas.Admin.Controllers
                 .ToList();
 
             // ── 2. Top 5 truyện được đánh giá cao nhất ──
-            var topRated = await EF.ToListAsync(
+            var topRatedRaw = await EF.ToListAsync(
                 _dbcontext.Ratings
                     .Where(r => r.Status == 0)
                     .GroupBy(r => new { r.StoryId, r.Story.Title })
-                    .Select(g => new TopRatedStoryItem
+                    .Select(g => new
                     {
                         StoryId = g.Key.StoryId,
                         Title = g.Key.Title,
-                        AvgScore = Math.Round(g.Average(x => (double)x.Score), 1),
+                        AvgScore = g.Average(x => (double)x.Score),  // bỏ Math.Round ở đây
                         RatingCount = g.Count()
                     })
                     .Where(x => x.RatingCount >= 1)
@@ -88,7 +88,13 @@ namespace web_doc_truyen_Co_ban.Areas.Admin.Controllers
                     .ThenByDescending(x => x.RatingCount)
                     .Take(5)
             );
-
+            var topRated = topRatedRaw.Select(g => new TopRatedStoryItem
+            {
+                StoryId = g.StoryId,
+                Title = g.Title,
+                AvgScore = Math.Round(g.AvgScore, 1),
+                RatingCount = g.RatingCount
+            }).ToList();
             // ── 3. Lấy các dữ liệu đếm/tổng số lượng (Tối ưu hóa viết rút gọn nhờ EF alias) ──
             var tongTruyen = await EF.CountAsync(_dbcontext.Stories);
             var tongChuong = await EF.CountAsync(_dbcontext.Chapters);
@@ -235,14 +241,14 @@ namespace web_doc_truyen_Co_ban.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ChartTopRated()
         {
-            var data = await EF.ToListAsync(
+            var raw = await EF.ToListAsync(
                 _dbcontext.Ratings
                     .Where(r => r.Status == 0)
                     .GroupBy(r => new { r.StoryId, r.Story.Title })
                     .Select(g => new
                     {
                         title = g.Key.Title,
-                        avg = Math.Round(g.Average(x => (double)x.Score), 1),
+                        avg = g.Average(x => (double)x.Score),  // bỏ Math.Round
                         count = g.Count()
                     })
                     .Where(x => x.count >= 1)
@@ -251,20 +257,23 @@ namespace web_doc_truyen_Co_ban.Areas.Admin.Controllers
                     .Take(5)
             );
 
+            // Round ở C#
+            var data = raw.Select(x => new
+            {
+                title = x.title,
+                avg = Math.Round(x.avg, 1),
+                count = x.count
+            }).ToList();
+
             return Json(data);
         }
-        // =====================================================================
         // API — BIỂU ĐỒ LƯỢT XEM & XU NẠP THEO TUẦN
-        // =====================================================================
         [HttpGet]
         public async Task<IActionResult> ChartWeeklyStats()
         {
             var today = DateTime.Today;
             var startDate = today.AddDays(-6);
-
-            // =========================================================
             // 1. LẤY DỮ LIỆU XU NẠP THEO NGÀY
-            // =========================================================
             var rechargeData = await EF.ToListAsync(
                 _dbcontext.CoinTransactions
                     .Where(x =>
@@ -277,10 +286,7 @@ namespace web_doc_truyen_Co_ban.Areas.Admin.Controllers
                         TotalCoins = g.Sum(x => x.Amount)
                     })
             );
-
-            // =========================================================
             // 2. VIEW TẠM THỜI
-            // =========================================================
             // Vì DB chưa có bảng log view theo ngày
             // nên lấy TotalViews tổng rồi random mềm cho chart đẹp hơn
 
@@ -295,9 +301,8 @@ namespace web_doc_truyen_Co_ban.Areas.Admin.Controllers
 
             Random rnd = new Random();
 
-            // =========================================================
             // 3. BUILD DATA 7 NGÀY
-            // =========================================================
+   
             var result = Enumerable.Range(0, 7).Select(i =>
             {
                 var currentDate = startDate.AddDays(i);
@@ -332,10 +337,7 @@ namespace web_doc_truyen_Co_ban.Areas.Admin.Controllers
             return Json(result);
         }
 
-
-        // =====================================================================
         // API — BIỂU ĐỒ TRẠNG THÁI TRUYỆN
-        // =====================================================================
         [HttpGet]
         public async Task<IActionResult> ChartStoryStatus()
         {
