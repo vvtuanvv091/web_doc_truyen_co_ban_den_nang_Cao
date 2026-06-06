@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("web_doc_truyen_Co_ban")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1cc50308baebb3cca794f572ef44f1efdcf82691")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+33d7c354bad006f0a7b0039de0d55d1a93335827")]
 [assembly: System.Reflection.AssemblyProductAttribute("web_doc_truyen_Co_ban")]
 [assembly: System.Reflection.AssemblyTitleAttribute("web_doc_truyen_Co_ban")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

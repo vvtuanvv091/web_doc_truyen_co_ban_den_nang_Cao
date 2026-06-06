@@ -17,6 +17,8 @@
           "Microsoft.AspNetCore.SignalR.Client": "10.0.7",
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.5",
           "Microsoft.EntityFrameworkCore.Tools": "10.0.5",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.2",
+          "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "1.1.0",
           "Portable.BouncyCastle": "1.9.0",
           "UAParser": "3.1.47",
           "linq2db": "6.2.1"
@@ -600,6 +602,17 @@
           }
         }
       },
+      "Microsoft.EntityFrameworkCore.Relational.Design/1.1.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.5"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Microsoft.EntityFrameworkCore.Relational.Design.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.21115"
+          }
+        }
+      },
       "Microsoft.EntityFrameworkCore.SqlServer/10.0.5": {
         "dependencies": {
           "Microsoft.Data.SqlClient": "6.1.1",
@@ -744,6 +757,42 @@
           "lib/net6.0/Newtonsoft.Json.dll": {
             "assemblyVersion": "13.0.0.0",
             "fileVersion": "13.0.3.27908"
+          }
+        }
+      },
+      "Npgsql/10.0.3": {
+        "runtime": {
+          "lib/net10.0/Npgsql.dll": {
+            "assemblyVersion": "10.0.3.0",
+            "fileVersion": "10.0.3.0"
+          }
+        }
+      },
+      "Npgsql.EntityFrameworkCore.PostgreSQL/10.0.2": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.5",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.5",
+          "Npgsql": "10.0.3"
+        },
+        "runtime": {
+          "lib/net10.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll": {
+            "assemblyVersion": "10.0.2.0",
+            "fileVersion": "10.0.2.0"
+          }
+        }
+      },
+      "Npgsql.EntityFrameworkCore.PostgreSQL.Design/1.1.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.5",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.5",
+          "Microsoft.EntityFrameworkCore.Relational.Design": "1.1.0",
+          "Npgsql": "10.0.3",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.2"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Npgsql.EntityFrameworkCore.PostgreSQL.Design.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
           }
         }
       },
@@ -1093,6 +1142,13 @@
       "path": "microsoft.entityframeworkcore.relational/10.0.5",
       "hashPath": "microsoft.entityframeworkcore.relational.10.0.5.nupkg.sha512"
     },
+    "Microsoft.EntityFrameworkCore.Relational.Design/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fF0sVEUkoGeJutGIzwnYsJJ9o2hxEGJRpSaCxPq63rhSwn0hBmCwf9ET4QqYqO9Pc6+ODXenAQa095CWzuM4Kg==",
+      "path": "microsoft.entityframeworkcore.relational.design/1.1.0",
+      "hashPath": "microsoft.entityframeworkcore.relational.design.1.1.0.nupkg.sha512"
+    },
     "Microsoft.EntityFrameworkCore.SqlServer/10.0.5": {
       "type": "package",
       "serviceable": true,
@@ -1197,6 +1253,27 @@
       "sha512": "sha512-HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "path": "newtonsoft.json/13.0.3",
       "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
+    },
+    "Npgsql/10.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7nb5YzXuvWWJxB0J8DiyL3we+X4FOctZrt0fIBnucOIaIevFEEwGQVZKtiu9olXdlNAK1eNgqSral6r/jlhI4w==",
+      "path": "npgsql/10.0.3",
+      "hashPath": "npgsql.10.0.3.nupkg.sha512"
+    },
+    "Npgsql.EntityFrameworkCore.PostgreSQL/10.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PsNYgPOSW41Xx19gin7y4EdZAPteWr9Cb01XkdObxOsPzi+mgBupBEN7J7+erXFsROPOILM7MlIoO9QzL8+LGQ==",
+      "path": "npgsql.entityframeworkcore.postgresql/10.0.2",
+      "hashPath": "npgsql.entityframeworkcore.postgresql.10.0.2.nupkg.sha512"
+    },
+    "Npgsql.EntityFrameworkCore.PostgreSQL.Design/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+taA6t8sRI0JTbyCZH0GobEtJYvU4aAGBf5/2/CutWHiYpO2nLfJ8SQSyWYMKakrwn1/NDM9VV85mGEAzBZ7LQ==",
+      "path": "npgsql.entityframeworkcore.postgresql.design/1.1.0",
+      "hashPath": "npgsql.entityframeworkcore.postgresql.design.1.1.0.nupkg.sha512"
     },
     "Portable.BouncyCastle/1.9.0": {
       "type": "package",

@@ -9,8 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(connectionString));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseNpgsql(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(
@@ -87,15 +89,14 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseHttpsRedirection();
 
 app.UseStaticFiles(); // THÊM DÒNG NÀY
 
 app.UseRouting();
-app.UseRouting();
+
 
 app.UseAuthentication(); // THÊM DÒNG NÀY (Identity cần Authentication trước Authorization)
-app.UseAuthorization();
+
 app.UseSession();
 app.MapStaticAssets();
 

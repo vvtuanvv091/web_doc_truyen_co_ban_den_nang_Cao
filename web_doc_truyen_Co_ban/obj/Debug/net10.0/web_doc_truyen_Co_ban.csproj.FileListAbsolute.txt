@@ -374,4 +374,8 @@ D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\obj\Debug\net10.0
 D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\obj\Debug\net10.0\web_doc_truyen_Co_ban.sourcelink.json
 D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\bin\Debug\net10.0\UAParser.dll
 D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.Google.dll
-D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\obj\Debug\net10.0\compressed\wxkttuoj0o-{0}-mah1bjfrf3-mah1bjfrf3.gz
+D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\obj\Debug\net10.0\compressed\wxkttuoj0o-{0}-n1zi9qabk7-n1zi9qabk7.gz
+D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Relational.Design.dll
+D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\bin\Debug\net10.0\Npgsql.dll
+D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\tai_lieu_bi_mat\web_doc_truyen_Co_ban\web_doc_truyen_Co_ban\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.Design.dll
