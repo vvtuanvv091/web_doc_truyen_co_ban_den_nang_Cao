@@ -1,9 +1,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
-COPY *.csproj ./
-RUN dotnet restore
+COPY web_doc_truyen_Co_ban/*.csproj web_doc_truyen_Co_ban/
+RUN dotnet restore web_doc_truyen_Co_ban/web_doc_truyen_Co_ban.csproj
 COPY . .
-RUN dotnet publish -c Release -o /app/publish --no-restore
+RUN dotnet publish web_doc_truyen_Co_ban/web_doc_truyen_Co_ban.csproj -c Release -o /app/publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
