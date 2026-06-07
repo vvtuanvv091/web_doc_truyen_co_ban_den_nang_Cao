@@ -62,4 +62,4 @@ web_doc_truyen_Co_ban/
  
 5. **Chạy ứng dụng**
   - Nhấn **F5** trong Visual Studio.
-6. Mở trình duyệt tại `https://localhost:5001`
+6. Mở trình duyệt tại `https://localhost:8080`
