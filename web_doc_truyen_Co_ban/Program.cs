@@ -95,9 +95,10 @@ app.UseStaticFiles(); // THÊM DÒNG NÀY
 app.UseRouting();
 
 
-app.UseAuthentication(); // THÊM DÒNG NÀY (Identity cần Authentication trước Authorization)
+app.UseAuthentication(); 
 
 app.UseSession();
+app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapControllers(); 
