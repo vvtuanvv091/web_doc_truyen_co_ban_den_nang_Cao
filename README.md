@@ -1,6 +1,8 @@
 # 📚 Web Đọc Truyện
 - Ứng dụng web đọc truyện được xây dựng bằng ASP.NET Core MVC.
 - Link Website: https://web-doc-truyen-co-ban-den-nang-cao.onrender.com/
+  - Users: tk:test@gmail.com mk: Admin123@
+  - Admin: tk:chatgpt02@gmail.com mk:Admin123@
 ## 🛠️ Công nghệ sử dụng
 - **Backend:** ASP.NET Core MVC (.NET)
 - **Frontend:** HTML, CSS, Bootstrap 5, JavaScript
