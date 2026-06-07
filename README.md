@@ -43,7 +43,6 @@ web_doc_truyen_Co_ban/
  
 ### Yêu cầu
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- [SQL Server](https://www.microsoft.com/en-us/sql-server)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/)
 ### Các bước cài đặt
  
@@ -58,7 +57,7 @@ web_doc_truyen_Co_ban/
    }
 
 3. **Tạo database bằng Migration**
-  - Database-Migration ...
+  - Add-Migration ...
   - Update-Database
  
 5. **Chạy ứng dụng**
