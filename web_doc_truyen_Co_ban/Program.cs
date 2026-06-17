@@ -124,6 +124,7 @@ try
 {
     using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
     SeedData.SeedingData(context);
 }
 catch (Exception ex)
