@@ -65,3 +65,4 @@ web_doc_truyen_Co_ban/
 5. **Chạy ứng dụng**
   - Nhấn **F5** trong Visual Studio.
 6. Mở trình duyệt tại `https://localhost:8080`
+ Or Mở trình duyệt tại đường link Ngrok cấp kèm hậu tố /login.html (Ví dụ: https://scrutiny-theme-theme.ngrok-free.dev/login.html) để trải nghiệm hệ thống!
